@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, Image, Pressable,TextInput  } from 'react-native'
 import React from 'react'
-import profile from '../../images/ProfileImages/posts.png'
+import profile from '../../../images/ProfileImages/posts.png'
+import editPic from '../../../images/ProfileImages/editProfile.png'
 import { Ionicons } from '@expo/vector-icons'; 
-const EditProfile = () => {
+const EditProfile = ({navigation}) => {
   return (
     <View style={styles.container}>
         <View style={styles.search}>
@@ -20,12 +21,13 @@ const EditProfile = () => {
         </View>
         <View style={styles.main}>
             <View style={styles.profile_img}>
-                <Image style={styles.pofile} source={require('../../images/ProfileImages/profile.png')}/>
+                <Image style={styles.pofile} source={require('../../../images/ProfileImages/profile.png')}/>
                 <Pressable style={styles.selectPic}>
                     <Ionicons name="images" size={24}  color="#F5F6FA" />
                 </Pressable>
             </View>
             <View style={styles.detailsView}>
+                
                 <View style={styles.inputView}>
                     <Text style={styles.label}>First Name</Text>
                     <TextInput style={styles.input}/>
@@ -38,6 +40,9 @@ const EditProfile = () => {
                     <Text style={styles.label}>Bio</Text>
                     <TextInput style={[styles.input,styles.inputMultiple]} multiline/>
                 </View>
+            </View>
+            <View style={styles.picView}>
+                <Image source={editPic} resizeMode={'contain'} style={styles.pic}/>
             </View>
         </View>
     </View>
@@ -137,11 +142,22 @@ const styles = StyleSheet.create({
     },
     inputMultiple:
     {
-        height:100,
+        height:80,
         paddingTop:15
     },
     btnText:{
         color:'#F50057',
         fontWeight:'700'
-    }
+    },
+    picView:{
+        width:'100%',
+        justifyContent:'center',
+        alignItems:'center',
+        height:200,
+        marginVertical:20
+      },
+      pic:{
+        width:'70%',
+        height:'100%',
+      },
 })

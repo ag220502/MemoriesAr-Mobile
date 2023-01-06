@@ -32,9 +32,8 @@ const ProfilePost = (data) => {
                         <Image source={data.postProfile} style={styles.pic}/>
                     </View>
                 )
-            })}
-        
-  </View>
+            })} 
+    </View>
   )
 }
 

@@ -12,35 +12,35 @@ const ChatScreen = ({navigation}) => {
             username:'Akshay',
             lastMessage:'Hello',
             time:'12:00',
-            profile_image:require('../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/HomeImages/profile.png')
         },
         {
             id:2,
             username:'Dhruv',
             lastMessage:'Hello, How Are you?',
             time:'19:00',
-            profile_image:require('../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/HomeImages/profile.png')
         },
         {
             id:3,
             username:'Akshay',
             lastMessage:'Hello',
             time:'11:00',
-            profile_image:require('../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/HomeImages/profile.png')
         },
         {
             id:4,
             username:'Dhruv',
             lastMessage:'Hello, How Are you?Hello How Are you?Hello, How Are you?',
             time:'10:00',
-            profile_image:require('../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/HomeImages/profile.png')
         },
         {
             id:5,
             username:'Akshay',
             lastMessage:'Hello',
             time:'12:00',
-            profile_image:require('../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/HomeImages/profile.png')
         },
 
     ]

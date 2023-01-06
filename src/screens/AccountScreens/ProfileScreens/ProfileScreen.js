@@ -12,12 +12,12 @@ const ProfileScreen = ({navigation}) => {
 
   const data = [
     { 
-      post:require('../../images/ProfileImages/posts.png'),
+      post:require('../../../images/ProfileImages/posts.png'),
       name:"Akshay"
     },
-    { post:require('../../images/ProfileImages/posts.png')},    
-    { post:require('../../images/ProfileImages/posts.png')},
-    { post:require('../../images/ProfileImages/posts.png')}
+    { post:require('../../../images/ProfileImages/posts.png')},    
+    { post:require('../../../images/ProfileImages/posts.png')},
+    { post:require('../../../images/ProfileImages/posts.png')}
   ]
   return (
   <View>
@@ -36,7 +36,7 @@ const ProfileScreen = ({navigation}) => {
       </View>
       <View style={styles.main}>
         <View style={styles.profile_img}>
-          <Image style={styles.pofile} source={require('../../images/ProfileImages/profile.png')}/>
+          <Image style={styles.pofile} source={require('../../../images/ProfileImages/profile.png')}/>
         </View>
         <View style={styles.profile_data}>
           <View style={styles.dataView}>
