@@ -2,7 +2,7 @@ import { Pressable, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } f
 import React,{useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
-import ChatCard from '../../components/ChatCard';
+import ChatCard from '../../../components/ChatCard';
 import { Entypo } from '@expo/vector-icons';
 
 const ChatScreen = ({navigation}) => {

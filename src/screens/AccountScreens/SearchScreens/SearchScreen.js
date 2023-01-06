@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View,SafeAreaView } from 'react-native'
 import React from 'react'
-import BottomNavBar from '../../components/BottomNavBar'
+import BottomNavBar from '../../../components/BottomNavBar'
 
 const SearchScreen = ({navigation}) => {
   return (
