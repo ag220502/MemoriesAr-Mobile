@@ -7,17 +7,17 @@ import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Post from '../../../components/ProfilePost'; 
 import Scrapbooks from '../../../components/ProfileScrapbooks';
-const OtherUserProfileScreen = () => {
+const OtherUserProfileScreen = ({navigation}) => {
   const [showPosts,setShowPosts] = useState(true);
 
   const data = [
     { 
-      post:require('../../images/ProfileImages/posts.png'),
+      post:require('../../../images/ProfileImages/posts.png'),
       name:"Akshay"
     },
-    { post:require('../../images/ProfileImages/posts.png')},    
-    { post:require('../../images/ProfileImages/posts.png')},
-    { post:require('../../images/ProfileImages/posts.png')}
+    { post:require('../../../images/ProfileImages/posts.png')},    
+    { post:require('../../../images/ProfileImages/posts.png')},
+    { post:require('../../../images/ProfileImages/posts.png')}
   ]
   return (
   <View>
@@ -36,7 +36,7 @@ const OtherUserProfileScreen = () => {
       </View>
       <View style={styles.main}>
         <View style={styles.profile_img}>
-          <Image style={styles.pofile} source={require('../../images/ProfileImages/profile.png')}/>
+          <Image style={styles.pofile} source={require('../../../images/ProfileImages/profile.png')}/>
         </View>
         <View style={styles.profile_data}>
           <View style={styles.dataView}>

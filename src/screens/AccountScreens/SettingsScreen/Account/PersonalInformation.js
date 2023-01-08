@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, Pressable,TextInput  } from 'react-nativ
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 
-const PersonalInformation = () => {
+const PersonalInformation = ({navigation}) => {
   return (
     <View style={styles.container}>
         <View style={styles.search}>

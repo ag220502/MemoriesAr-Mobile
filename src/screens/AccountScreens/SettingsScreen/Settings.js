@@ -46,6 +46,11 @@ const Settings = ({navigation}) => {
                     link:"ChangePassword"
                 },
             ]
+        },
+        {
+            name:"Log Out",
+            exception:true,
+            link:"SignIn"
         }
     ]
     const [curIndex,setCurIndex] = useState(null)
@@ -70,12 +75,19 @@ const Settings = ({navigation}) => {
                                 <Pressable 
                                     key={index}
                                     onPress={()=>{
+                                        item.exception ? navigation.navigate(item.link):
                                         setCurIndex(index)
                                     }}
                                     style={styles.nameBtn}>
                                             <Text style={styles.name}>{item.name}</Text>
                                             <Text>
-                                            {   index === curIndex ? <Entypo name="chevron-up" size={24} color="black" onPress={()=>setCurIndex(null)}/>: <Entypo name="chevron-down" size={24} color="black" />}
+                                            {  
+                                                item.exception ? "" :
+                                                index === curIndex ? 
+                                                    <Entypo name="chevron-up" size={24} color="black" onPress={()=>setCurIndex(null)}/>
+                                                    : 
+                                                    <Entypo name="chevron-down" size={24} color="black" />
+                                                }
                                             </Text>
                                             
                                 </Pressable>
@@ -94,7 +106,7 @@ const Settings = ({navigation}) => {
                                                             }}
                                                         >
                                                             <Text style={styles.subListText}>{item.name}</Text>
-                                                            <Entypo name="chevron-right" size={24} color="black" />
+                                                                <Entypo name="chevron-right" size={24} color="black" />
                                                         </Pressable>
                                                         )}}
                                         />        

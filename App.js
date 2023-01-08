@@ -29,6 +29,7 @@ import DeleteAccount from './src/screens/AccountScreens/SettingsScreen/Account/D
 import UserFriends from './src/screens/AccountScreens/SettingsScreen/Account/UserFriends.js'
 import BlockedAccount from './src/screens/AccountScreens/SettingsScreen/Privacy/BlockedAccount.js';
 import ChangePassword from './src/screens/AccountScreens/SettingsScreen/SecurityScreen/ChangePassword.js';
+import OtherUserProfileScreen from './src/screens/AccountScreens/SearchScreens/OtherUserProfileScreen.js'
 const Stack = createNativeStackNavigator();
 export default function App() {
 
@@ -135,6 +136,11 @@ export default function App() {
             name="ChangePassword"
             component={ChangePassword}
             options={{headerShown:false}} />
+          <Stack.Screen 
+            name="OtherUserProfileScreen"
+            component={OtherUserProfileScreen}
+            options={{headerShown:false}} />
+            
         </Stack.Navigator>
       </NavigationContainer> 
   );
