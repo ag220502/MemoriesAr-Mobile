@@ -119,7 +119,7 @@ const UserChatScreen = ({navigation}) => {
         <View style={styles.send_msg}>
             <TextInput style={styles.msg} placeholder={'Enter Message'}/>
             <Pressable style={styles.sendBtn}>
-                <FontAwesome name="send" size={24} color="#F50057" />
+                <FontAwesome name="send" size={24} color={Color.textDarkColor} />
             </Pressable>
         </View>
 
@@ -133,12 +133,12 @@ const styles = StyleSheet.create({
     container:{
         width:'100%',
         height:'100%',
-        backgroundColor:'#F50057',
-        color:'#F5F6FA'
+        backgroundColor:Color.darkColor,
+        color:Color.textLightColor
     },
     main:{
         height:'90%',
-        backgroundColor:'#F5F6FA',
+        backgroundColor:Color.lightColor,
         borderBottomLeftRadius:60,
         borderBottomRightRadius:60,
         paddingBottom:20
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     buttonView:{
         width:45,
         height:45,
-        backgroundColor:'#F50057',
+        backgroundColor:Color.darkColor,
         borderRadius:10,
         justifyContent:'center',
         alignItems:'center'
@@ -167,17 +167,15 @@ const styles = StyleSheet.create({
     chatSec:{
     },
     chatDateView:{
-        backgroundColor:'#F50057',
+        backgroundColor:Color.darkColor,
         borderRadius:20,
         alignSelf:'center',
         margin:10
     },
     chatDate:{
-        color:'#F5F6FA',
+        color:Color.textLightColor,
         padding:7,
         fontSize:15,
-        
-
     },
     senderView:
     {
@@ -200,7 +198,7 @@ const styles = StyleSheet.create({
     receiverView:
     {
         marginTop:15,
-        backgroundColor:'#F50057',
+        backgroundColor:Color.darkColor,
         maxWidth:'80%',
         alignSelf:'flex-end',
         flexDirection:'row',
@@ -212,7 +210,7 @@ const styles = StyleSheet.create({
     },
     receiverText:
     {
-        color:'#F5F6FA',
+        color:Color.textLightColor,
         fontSize:16
     },
     receiverTime:{
@@ -241,7 +239,7 @@ const styles = StyleSheet.create({
     sendBtn:{
         width:45,
         height:45,
-        backgroundColor:'#F5F6FA',
+        backgroundColor: Color.lightColor,
         borderRadius:10,
         justifyContent:'center',
         alignItems:'center'
