@@ -1,6 +1,6 @@
-const darkColor = "#F50057"
+const darkColor = "#1B2C49"
 const lightColor = "#F5F6FA"
-const textDarkColor = "#F50057"
+const textDarkColor = "#1B2C49"
 const textLightColor = "#F5F6FA"
 const textMidColor = "#919191"
 const midColor="#919191"

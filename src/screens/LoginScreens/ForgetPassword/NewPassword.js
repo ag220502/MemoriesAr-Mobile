@@ -2,6 +2,7 @@ import { StyleSheet, Text, View,SafeAreaView,Image, TextInput, Pressable } from 
 import React from 'react'
 import img from '../../../images/LoginImages/newPass.png'
 import { StackActions } from '@react-navigation/native';
+import Color from './../../../ColourThemes/theme1.js';
 const NewPassword = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -42,7 +43,7 @@ export default NewPassword
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#F5F6FA',
+        backgroundColor:Color.lightColor,
         width:'100%',
         height:'100%',
         alignItems:'center',
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     },
     label:{
         fontSize:18,
-        color:'#919191',
+        color:Color.textMidColor,
         marginLeft:20,
         alignSelf:'left'
 
@@ -76,14 +77,14 @@ const styles = StyleSheet.create({
 
     },  
     input:{
-        backgroundColor:'#FFFFFF',
+        backgroundColor:Color.whiteColor,
         width:'75%',
         borderRadius:20,
         height:40,
         margin:10,
         padding:10,
         fontSize:17,
-        shadowColor: '#000',
+        shadowColor: Color.blackColor,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 2,
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     },
     buttonView:{
         borderRadius:30,
-        backgroundColor:'#F50057',
+        backgroundColor:Color.darkColor,
         padding:10,
         minWidth:'75%',
         margin:10,
@@ -100,12 +101,12 @@ const styles = StyleSheet.create({
     buttonText:{
         textAlign:'center',
         fontSize:20,
-        color:'#fff',
+        color:Color.whiteColor,
     },
     forgotPass:{
         fontSize:15,
         textAlign:'right',
-        color:'#F50057',
+        color:Color.darkColor,
         fontWeight:'bold',
         marginBottom:20
     },

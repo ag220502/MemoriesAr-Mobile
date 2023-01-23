@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react';
 import img from '../../images/LoginImages/welcome.png'
 import { StackActions } from '@react-navigation/native';
+import Color from './../../ColourThemes/theme1.js'
 
 const Welcome = ({navigation}) => {
   return (
@@ -35,7 +36,7 @@ export default Welcome
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#F5F6FA',
+        backgroundColor:Color.lightColor,
         width:'100%',
         height:'100%',
         justifyContent:'center',
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     },
     buttonView:{
         borderRadius:30,
-        backgroundColor:'#F50057',
+        backgroundColor:Color.darkColor,
         padding:10,
         minWidth:200,
         margin:10
@@ -58,6 +59,6 @@ const styles = StyleSheet.create({
     buttonText:{
         textAlign:'center',
         fontSize:20,
-        color:'#fff',
+        color:Color.whiteColor,
     },
 })

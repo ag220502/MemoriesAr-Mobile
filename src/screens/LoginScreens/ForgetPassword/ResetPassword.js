@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, SafeAreaView, TextInput, Image, Pressable } fro
 import React from 'react';
 import img from '../../../images/LoginImages/resetPass.png'
 import { StackActions } from '@react-navigation/native';
+import Color from './../../../ColourThemes/theme1.js';
+
 const ResetPassword = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +35,7 @@ export default ResetPassword
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#F5F6FA',
+        backgroundColor:Color.lightColor,
         width:'100%',
         height:'100%',
         alignItems:'center',
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
         margin:10
     },
     input:{
-        backgroundColor:'#FFFFFF',
+        backgroundColor:Color.whiteColor,
         width:'75%',
         borderRadius:30,
         alignSelf:'center',
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
         margin:30,
         padding:10,
         fontSize:17,
-        shadowColor: '#000',
+        shadowColor: Color.blackColor,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 2,
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     },
     buttonView:{
         borderRadius:30,
-        backgroundColor:'#F50057',
+        backgroundColor:Color.darkColor,
         padding:10,
         minWidth:'75%',
         margin:10
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     buttonText:{
         textAlign:'center',
         fontSize:20,
-        color:'#fff',
+        color:Color.whiteColor,
     },
     
 })

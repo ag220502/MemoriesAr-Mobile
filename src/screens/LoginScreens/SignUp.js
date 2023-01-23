@@ -51,7 +51,7 @@ const SignUp = ({navigation}) => {
             <Text style={style.linkText}>Already Have An Account? 
     
                 <Text style={[style.linkText,{fontWeight:'bold'}]} onPress={()=>navigation.dispatch(
-                    StackActions.replace('SignUp')
+                    StackActions.replace('SignIn')
                 )}>Sign In</Text>
             </Text>
         </View>

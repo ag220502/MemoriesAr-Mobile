@@ -2,6 +2,7 @@ import { StyleSheet, Text, View,SafeAreaView,Image, Pressable } from 'react-nati
 import React from 'react'
 import img from '../../../images/LoginImages/accVerified.png'
 import { StackActions } from '@react-navigation/native';
+import Color from './../../../ColourThemes/theme1.js';
 const AccountVerified = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -28,7 +29,7 @@ export default AccountVerified
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#F5F6FA',
+        backgroundColor:Color.lightColor,
         width:'100%',
         height:'100%',
         alignItems:'center',
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     },
     buttonView:{
         borderRadius:30,
-        backgroundColor:'#F50057',
+        backgroundColor:Color.darkColor,
         padding:10,
         minWidth:'75%',
         margin:20,
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     buttonText:{
         textAlign:'center',
         fontSize:20,
-        color:'#fff',
+        color:Color.whiteColor,
     },
     
 })
