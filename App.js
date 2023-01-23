@@ -19,7 +19,6 @@ import ProfileScreen from './src/screens/AccountScreens/ProfileScreens/ProfileSc
 import SearchScreen from './src/screens/AccountScreens/SearchScreens/SearchScreen.js'
 import ChatScreen from './src/screens/AccountScreens/ChatScreens/ChatScreen.js';
 import UserChatScreen from './src/screens/AccountScreens/ChatScreens/UserChatScreen.js';
-
 import EditProfile from './src/screens/AccountScreens/ProfileScreens/EditProfile.js';
 import Settings from './src/screens/AccountScreens/SettingsScreen/Settings.js';
 import PersonalInformation from './src/screens/AccountScreens/SettingsScreen/Account/PersonalInformation.js'

@@ -3,7 +3,10 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';  
-const UserChatScreen = () => {
+import Color from '../../../ColourThemes/theme1';
+import { StackActions } from '@react-navigation/native';
+
+const UserChatScreen = ({navigation}) => {
     const data = [
         {
             msgId:1,
@@ -53,6 +56,12 @@ const UserChatScreen = () => {
             chat:'Good',
             time:'12:00 PM'
         },
+        {
+            msgId:9,
+            id:'1',
+            chat:'Bye',
+            time:'12:00 PM'
+        },
         
     ]
   return (
@@ -60,12 +69,16 @@ const UserChatScreen = () => {
         <StatusBar barStyle={'dark-content'}/>
         <View style={styles.main}>
             <View style={styles.userDetails}>
-                <Pressable style={styles.buttonView}>
-                    <Ionicons name="chevron-back" size={24} color="#F5F6FA" />
+                <Pressable style={styles.buttonView}
+                    onPress={()=>navigation.dispatch(
+                        StackActions.replace('ChatScreen')
+                      )}
+                >
+                    <Ionicons name="chevron-back" size={24} color={Color.textLightColor} />
                 </Pressable>
                 <Text style={styles.userName}>Akshay Garg</Text>
                 <Pressable style={styles.buttonView}>
-                    <Entypo name="dots-three-horizontal" size={24} color="#F5F6FA" />
+                    <Entypo name="dots-three-horizontal" size={24} color={Color.textLightColor} />
                 </Pressable>
             </View>
             <ScrollView style={styles.chatSec}>
