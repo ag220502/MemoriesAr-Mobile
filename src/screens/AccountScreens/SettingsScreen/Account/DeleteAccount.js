@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, StatusBar, Pressable, Image } from 'react-nativ
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import deletePic from '../../../../images/SettingImages/delete.png'
+import Color from './../../../../ColourThemes/theme1.js'
 
 const DeleteAccount = ({navigation}) => {
   return (
@@ -11,7 +12,7 @@ const DeleteAccount = ({navigation}) => {
           <Pressable style={styles.buttonIconView}
               onPress={()=>navigation.navigate("Settings")}
           >
-              <Ionicons name="chevron-back" size={30} color="#F50057" />
+              <Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
           </Pressable>
           <Text style={styles.head}>Delete Account</Text>
       </View>
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   container:{
     width:'100%',
     height:'100%',
-    backgroundColor:'#F50057',
+    backgroundColor:Color.darkColor,
     alignItems:'center',
     justifyContent:'center'
   },
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
   buttonView:{
     width:45,
     height:45,
-    backgroundColor:'#F5F6FA',
+    backgroundColor:Color.lightColor,
     borderRadius:10,
     justifyContent:'center',
     alignItems:'center',
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
   buttonIconView:{
     width:45,
     height:45,
-    backgroundColor:'#F5F6FA',
+    backgroundColor:Color.lightColor,
     borderRadius:10,
     justifyContent:'center',
     alignItems:'center',
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
 },
   main:{
     flexDirection:'column',
-    backgroundColor:"#F5F6FA",
+    backgroundColor:Color.lightColor,
     width:'100%',
     height:'85%',
     borderTopLeftRadius:'60',
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     top:30,
     fontSize:24,
-    color:'#F5F6FA',
+    color:Color.textLightColor,
     fontWeight:'bold',
    
   },
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   },
   buttonView:{
     borderRadius:30,
-    backgroundColor:'#F50057',
+    backgroundColor:Color.darkColor,
     padding:10,
     margin:20,
     height:45
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
   buttonText:{
       textAlign:'center',
       fontSize:20,
-      color:'#fff',
+      color:Color.whiteColor,
       paddingHorizontal:20,
   }
 })

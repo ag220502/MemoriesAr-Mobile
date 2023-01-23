@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, Pressable,TextInput  } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
-
+import Color from './../../../../ColourThemes/theme1.js'
 const ChangePassword = ({navigation}) => {
   return(
     <View style={styles.container}>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   container:{
     width:'100%',
     height:'100%',
-    backgroundColor:'#F50057'
+    backgroundColor:Color.darkColor
   },
   search:{
     width:'100%',
@@ -72,11 +72,11 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     alignSelf:'center',
     justifyContent:'center',
-    color:'#F5F6FA'
+    color:Color.textLightColor
   },
   selectPic:{
     position:'absolute',
-    backgroundColor:'#F50057',
+    backgroundColor:Color.darkColor,
     padding:10,
     borderRadius:20,
     bottom:-10,
@@ -85,20 +85,20 @@ const styles = StyleSheet.create({
   buttonView:{
     height:45,
     paddingHorizontal:10,
-    backgroundColor:'#F5F6FA',
+    backgroundColor:Color.lightColor,
     borderRadius:10,
     justifyContent:'center',
     alignItems:'center',
   },
   btnText:{
-    color:'#F50057',
+    color:Color.textDarkColor,
     fontWeight:'700'
   },
   main:{
     flexDirection:'column',
     bottom:0,
     position:'absolute',
-    backgroundColor:"#F5F6FA",
+    backgroundColor:Color.lightColor,
     width:'100%',
     height:'80%',
     borderTopLeftRadius:'60',
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   label:{
     fontSize:18,
-    color:'#919191',
+    color:Color.textMidColor,
 
   },
   inputView:{
@@ -128,14 +128,14 @@ const styles = StyleSheet.create({
     marginVertical:10
   },  
   input:{
-    backgroundColor:'#FFFFFF',
+    backgroundColor:Color.whiteColor,
     width:'75%',
     borderRadius:10,
     height:40,
     marginVertical:7,
     padding:10,
     fontSize:17,
-    shadowColor: '#000',
+    shadowColor: Color.blackColor,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,

@@ -3,7 +3,7 @@ import React,{useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-
+import Color from './../../../../ColourThemes/theme1.js'
 
 
 const UserFriends = ({navigation}) => {
@@ -44,7 +44,7 @@ const UserFriends = ({navigation}) => {
             <Pressable style={styles.buttonView}
                 onPress={()=>navigation.navigate("Settings")}
             >
-                <Ionicons name="chevron-back" size={30} color="#F50057" />
+                <Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
             </Pressable>
             <View style={styles.headView}>
                 {showbar ? 
@@ -55,10 +55,10 @@ const UserFriends = ({navigation}) => {
             </View>
             {showbar ? 
                 <Pressable style={styles.buttonView} onPress={()=>{setShowBar(false);setKeyword('')}}>
-                    <Entypo name="cross" size={30} color="#F50057" />
+                    <Entypo name="cross" size={30} color={Color.textDarkColor} />
                 </Pressable>: 
                 <Pressable style={styles.buttonView} onPress={()=>setShowBar(true)}>
-                    <FontAwesome name="search" size={24} color="#F50057" />
+                    <FontAwesome name="search" size={24} color={Color.textDarkColor} />
                 </Pressable>}
         </View>
         <ScrollView style={styles.main}>
@@ -88,7 +88,7 @@ const UserFriends = ({navigation}) => {
                       </View>
 
                       <View style={styles.user_det}>
-                      <Entypo name="dots-three-horizontal" size={24} color="black" />
+                      <Entypo name="dots-three-horizontal" size={24} color={Color.blackColor} />
                       </View>
                     </Pressable>
                     )
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   container:{
     width:'100%',
     height:'100%',
-    backgroundColor:'#F50057',
+    backgroundColor:Color.darkColor,
     alignItems:'center',
     justifyContent:'center'
   },
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     width:250
   },
   head:{
-    color:'#F5F6FA',
+    color:Color.textLightColor,
     fontSize:25,
     fontWeight:'bold'
   },
@@ -133,14 +133,14 @@ const styles = StyleSheet.create({
   buttonView:{
     width:45,
     height:45,
-    backgroundColor:'#F5F6FA',
+    backgroundColor:Color.lightColor,
     borderRadius:10,
     justifyContent:'center',
     alignItems:'center'
   },
   main:{
     flexDirection:'column',
-    backgroundColor:"#F5F6FA",
+    backgroundColor:Color.lightColor,
     width:'100%',
     height:'75%',
     borderTopLeftRadius:'60',
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   searchInput:{
     height:45,
     width:'100%',
-    backgroundColor:'#F5F6FA',
+    backgroundColor:Color.lightColor,
     borderRadius:20,
     padding:10,
     fontSize:16

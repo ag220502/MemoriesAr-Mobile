@@ -8,6 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Post from '../../../components/ProfilePost'; 
 import Scrapbooks from '../../../components/ProfileScrapbooks';
 import Color from './../../../ColourThemes/theme1.js'
+import BottomNavBar from './../../../components/BottomNavBar.js'
 const ProfileScreen = ({navigation}) => {
   const [showPosts,setShowPosts] = useState(true);
 
@@ -80,6 +81,7 @@ const ProfileScreen = ({navigation}) => {
           }
         </ScrollView>
       </View>
+      <BottomNavBar navigation={navigation}/>
     </View>
   </View>
   )

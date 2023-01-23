@@ -2,6 +2,7 @@ import { StyleSheet, Text, View,StatusBar,Pressable, FlatList } from 'react-nati
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons';
+import Color from '../../../ColourThemes/theme1.js'
 const Settings = ({navigation}) => {
     const data = [
         {
@@ -59,9 +60,9 @@ const Settings = ({navigation}) => {
             <StatusBar barStyle={"light-content"}/>
             <View style={styles.search}>
                 <Pressable style={styles.buttonView}
-                    onPress={()=>navigation.navigate("MainScreen")}
+                    onPress={()=>navigation.navigate("ProfileScreen")}
                 >
-                    <Ionicons name="chevron-back" size={30} color="#F50057" />
+                    <Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
                 </Pressable>
                 <Text style={styles.head}>Settings</Text>
             </View>
@@ -84,9 +85,9 @@ const Settings = ({navigation}) => {
                                             {  
                                                 item.exception ? "" :
                                                 index === curIndex ? 
-                                                    <Entypo name="chevron-up" size={24} color="black" onPress={()=>setCurIndex(null)}/>
+                                                    <Entypo name="chevron-up" size={24} color={Color.blackColor} onPress={()=>setCurIndex(null)}/>
                                                     : 
-                                                    <Entypo name="chevron-down" size={24} color="black" />
+                                                    <Entypo name="chevron-down" size={24} color={Color.blackColor} />
                                                 }
                                             </Text>
                                             
@@ -106,7 +107,7 @@ const Settings = ({navigation}) => {
                                                             }}
                                                         >
                                                             <Text style={styles.subListText}>{item.name}</Text>
-                                                                <Entypo name="chevron-right" size={24} color="black" />
+                                                                <Entypo name="chevron-right" size={24} color={Color.blackColor} />
                                                         </Pressable>
                                                         )}}
                                         />        
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     container:{
         width:'100%',
         height:'100%',
-        backgroundColor:'#F50057',
+        backgroundColor:Color.darkColor,
         alignItems:'center',
         justifyContent:'center'
     },
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     buttonView:{
         width:45,
         height:45,
-        backgroundColor:'#F5F6FA',
+        backgroundColor:Color.lightColor,
         borderRadius:10,
         justifyContent:'center',
         alignItems:'center',
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     },
     main:{
         flexDirection:'column',
-        backgroundColor:"#F5F6FA",
+        backgroundColor:Color.lightColor,
         width:'100%',
         height:'85%',
         borderTopLeftRadius:'60',
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         top:30,
         fontSize:24,
-        color:'#F5F6FA',
+        color:Color.textLightColor,
         fontWeight:'bold'
     }
 

@@ -1,19 +1,21 @@
 import { StyleSheet, Text, View, Image, Pressable,TextInput  } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
-
+import Color from './../../../../ColourThemes/theme1.js'
+import DateTimePicker from '@react-native-community/datetimepicker'
 const PersonalInformation = ({navigation}) => {
+
   return (
     <View style={styles.container}>
         <View style={styles.search}>
             <Pressable style={styles.buttonView}
-                onPress={()=>navigation.navigate("ProfileScreen")}
+                onPress={()=>navigation.navigate("Settings")}
             >
                 <Text style={styles.btnText}>Cancel</Text>
             </Pressable>
             <Text style={styles.headText}>Personal Information</Text>
             <Pressable style={styles.buttonView}
-                onPress={()=>navigation.navigate("ProfileScreen")}
+                onPress={()=>navigation.navigate("Settings")}
             >
                 <Text style={styles.btnText}>Save</Text>
             </Pressable>
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
     container:{
         width:'100%',
         height:'100%',
-        backgroundColor:'#F50057'
+        backgroundColor:Color.darkColor
     },
     search:{
         width:'100%',
@@ -75,11 +77,11 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         alignSelf:'center',
         justifyContent:'center',
-        color:'#F5F6FA'
+        color:Color.textLightColor
     },
     selectPic:{
         position:'absolute',
-        backgroundColor:'#F50057',
+        backgroundColor:Color.darkColor,
         padding:10,
         borderRadius:20,
         bottom:-10,
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     buttonView:{
         height:45,
         paddingHorizontal:10,
-        backgroundColor:'#F5F6FA',
+        backgroundColor:Color.lightColor,
         borderRadius:10,
         justifyContent:'center',
         alignItems:'center',
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         bottom:0,
         position:'absolute',
-        backgroundColor:"#F5F6FA",
+        backgroundColor:Color.lightColor,
         width:'100%',
         height:'80%',
         borderTopLeftRadius:'60',
@@ -123,23 +125,23 @@ const styles = StyleSheet.create({
         flexDirection:'column'
     },
     inputView:{
-        marginVertical:10
+        marginVertical:5
     },
     label:{
         fontSize:18,
-        color:'#919191',
+        color:Color.textMidColor,
         paddingLeft:15
     },
     input:{
         elevation:10,
-        backgroundColor:'#FFFFFF',
+        backgroundColor:Color.whiteColor,
         width:300,
-        borderRadius:20,
+        borderRadius:10,
         height:40,
         margin:10,
         padding:10,
         fontSize:17,
-        shadowColor: '#000',
+        shadowColor: Color.blackColor,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 2,
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
         paddingTop:15
     },
     btnText:{
-        color:'#F50057',
+        color:Color.blackColor,
         fontWeight:'700'
     }
 })
