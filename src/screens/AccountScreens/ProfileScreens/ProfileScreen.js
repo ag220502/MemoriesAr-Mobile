@@ -7,6 +7,7 @@ import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Post from '../../../components/ProfilePost'; 
 import Scrapbooks from '../../../components/ProfileScrapbooks';
+import Color from './../../../ColourThemes/theme1.js'
 const ProfileScreen = ({navigation}) => {
   const [showPosts,setShowPosts] = useState(true);
 
@@ -26,12 +27,12 @@ const ProfileScreen = ({navigation}) => {
         <Pressable style={styles.buttonView}
             onPress={()=>navigation.navigate("MainScreen")}
         >
-            <Ionicons name="chevron-back" size={30} color="#F50057" />
+            <Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
         </Pressable>
         <Pressable style={styles.buttonView}
             onPress={()=>navigation.navigate("Settings")}
         >
-            <Ionicons name="ios-settings" size={24} color="#F50057" />
+            <Ionicons name="ios-settings" size={24} color={Color.textDarkColor} />
         </Pressable>
       </View>
       <View style={styles.main}>
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   container:{
     width:'100%',
     height:'100%',
-    backgroundColor:'#F50057',
+    backgroundColor:Color.darkColor,
     alignItems:'center',
     justifyContent:'center'
   },
@@ -106,14 +107,14 @@ const styles = StyleSheet.create({
   buttonView:{
     width:45,
     height:45,
-    backgroundColor:'#F5F6FA',
+    backgroundColor:Color.lightColor,
     borderRadius:10,
     justifyContent:'center',
     alignItems:'center'
   },
   main:{
     flexDirection:'column',
-    backgroundColor:"#F5F6FA",
+    backgroundColor:Color.lightColor,
     width:'100%',
     height:'85%',
     borderTopLeftRadius:'60',
@@ -122,14 +123,14 @@ const styles = StyleSheet.create({
   },
   FollowbuttonView:{
     height:45,
-    backgroundColor:'#F50057',
+    backgroundColor:Color.darkColor,
     borderRadius:10,
     justifyContent:'center',
     alignItems:'center',
     padding:10
   },
   FollowText:{
-    color:'#F50057'
+    color:Color.textDarkColor
   },
   pofile:{
     alignSelf:'center',
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     marginTop:10
   },
   btnText:{
-    color:'#F5F6FA',
+    color:Color.textLightColor,
     fontWeight:'500',
     fontSize:16
   },
