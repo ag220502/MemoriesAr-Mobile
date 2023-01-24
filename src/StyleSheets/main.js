@@ -24,7 +24,6 @@ const style = StyleSheet.create({
     downMain:{
         width:'100%',
         height:'13%',
-        alignItems:'center',
         justifyContent:'center'
     },
     frameHead:{

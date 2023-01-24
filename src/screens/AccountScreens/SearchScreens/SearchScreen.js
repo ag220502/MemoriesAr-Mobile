@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View,SafeAreaView, ScrollView,Image, Pressable,ImageBackground } from 'react-native'
 import React from 'react'
 import BottomNavBar from '../../../components/BottomNavBar'
-
+import Color from './../../../ColourThemes/theme1.js'
 const SearchScreen = ({navigation}) => {
 	const data=
 	[
@@ -36,10 +36,9 @@ const SearchScreen = ({navigation}) => {
 	]
 	return (
 		<View style={styles.container}>
-
 			<View style={styles.main}>
 				<ScrollView style={styles.dataView}>
-					<Text style={[styles.viewHead,{marginTop:50}]}>Recent Searches</Text>
+					<Text style={[styles.viewHead]}>Recent Searches</Text>
 					<ScrollView horizontal={true} style={styles.recentSearchView}>
 						{
 							data.map((item,index)=>{
@@ -80,7 +79,7 @@ const SearchScreen = ({navigation}) => {
 					</View>
 					<View style={styles.suggView}>
 						<View>
-
+							
 						</View>
 					</View>
 					<View style={{justifyContent:'space-between',flexDirection:'row'}}>
@@ -103,13 +102,13 @@ const styles = StyleSheet.create({
 	container:{
 		width: '100%',
 		height: '100%',
-		backgroundColor:'#F50057',
+		backgroundColor:Color.darkColor,
 		alignItems:'center',
 		justifyContent:'center'
 	},
 	main:{
 		flexDirection:'column',
-		backgroundColor:"#F5F6FA",
+		backgroundColor:Color.lightColor,
 		width:'100%',
 		height:'85%',
 		borderTopLeftRadius:'60',
@@ -118,6 +117,7 @@ const styles = StyleSheet.create({
 		bottom:0
 	},
 	dataView:{
+		marginTop:50
 	},
 	recentSearchView:{
 		width:'100%',
@@ -172,13 +172,13 @@ const styles = StyleSheet.create({
 		marginVertical:15
 	},
 	btnView:{
-		backgroundColor:'#F50057',
+		backgroundColor:Color.darkColor,
 
 		padding:7,
 		borderRadius:7
 	},
 	btnText:{
-		color:'#F5F6FA',
+		color:Color.textLightColor,
 		fontSize:16,
 		
 	},
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal:15,
 		fontSize:15,
 		fontWeight:'700',
-		color:'#F50057',
+		color:Color.textDarkColor,
 		marginTop:10
 	}
 

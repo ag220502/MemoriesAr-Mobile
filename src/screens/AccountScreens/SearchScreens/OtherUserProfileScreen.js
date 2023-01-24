@@ -1,10 +1,7 @@
 import { Pressable, ScrollView,  StyleSheet, Text, View, Image } from 'react-native'
 import React,{useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
-import { FontAwesome5 } from '@expo/vector-icons'; 
-import ChatCard from '../../../components/ChatCard';
 import { Entypo } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
 import Post from '../../../components/ProfilePost'; 
 import Scrapbooks from '../../../components/ProfileScrapbooks';
 const OtherUserProfileScreen = ({navigation}) => {
