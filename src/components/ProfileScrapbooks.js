@@ -22,16 +22,13 @@ const ProfileScrapbooks = (data) => {
             postProfile:require('../images/ProfileImages/scrap.png'),
         }
     ]
-    {postInfo.map((data,index)=>{
-        console.log(data.postProfile)
-    })}
   return (
     
     <View style={styles.allPosts}>
         {
             postInfo.map((data,index)=>{
                 return(
-                    <View style={styles.post}>
+                    <View style={styles.post} key={index}>
                         <Image source={data.postProfile} style={styles.pic}/>
                     </View>
                 )

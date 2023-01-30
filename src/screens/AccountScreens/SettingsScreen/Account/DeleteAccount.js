@@ -6,20 +6,6 @@ import Color from './../../../../ColourThemes/theme1.js'
 import SimpleModal from '../../../../components/Modals/SimpleModal';
  
 const DeleteAccount = ({navigation}) => {
-	const [isModalVisible,setModalVisible] = useState(false)
-    const [chooseData,setChooseData] = useState("")
-    const changeModalVisible = (bool)=>{
-        setModalVisible(bool)
-    }
-    const setData = (data)=>{
-        setChooseData(data)
-        if(data=="Yes")
-        {
-            navigation.dispatch(
-                StackActions.replace("SignIn")
-            )
-        }
-    }
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle={"light-content"}/>
@@ -40,24 +26,10 @@ const DeleteAccount = ({navigation}) => {
 				</View>
 				<Pressable 
 					style={styles.buttonView}
-					onPress={changeModalVisible(true)}
+	
 				>
 					<Text style={styles.buttonText}>Delete Account</Text>
 				</Pressable>
-				<Modal
-					transparent={true}
-					animationType='fade'
-					visible={isModalVisible}
-					nRequestClose={()=>changeModalVisible(false)}
-				>
-					<SimpleModal
-						changeModalVisible={changeModalVisible}
-						setData={setData}    
-						navigation={navigation}
-						header={"Logout Account"}
-						mdText={"Are you Sure You Want To Logout?"}
-					/>
-				</Modal>
 			</View>
 		</View>
 	)
