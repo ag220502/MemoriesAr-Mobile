@@ -1,16 +1,44 @@
 import { StyleSheet, Text, View,StatusBar, Pressable, TextInput, ScrollView,Image } from 'react-native'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import BottomNavBar from '../../../components/BottomNavBar.js'
-import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons';
 import style from '../../../StyleSheets/main.js'
+import * as ImagePicker from 'expo-image-picker'
 import Color from '../../../ColourThemes/theme1.js'
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
 
-
 const CreateScreen = ({navigation,location}) => {
+	const [hasGalleryPer,setGalleryPer] = useState(null)
+    const [image,setImage] = useState()
+
+    useEffect(()=>{
+        (async ()=>{
+            
+            const galleryPermission = await ImagePicker.requestCameraPermissionsAsync()
+            console.log("Asking Permission")
+            setGalleryPer(galleryPermission === 'granted');
+            console.log(setGalleryPer)
+
+        })()
+    },[])
+
+    const pickImage = async ()=>{
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes:ImagePicker.MediaTypeOptions.All,
+            allowsEditing:true,
+            aspect:[4,3],
+            quality:1
+        })
+
+        if(!result.canceled)
+        {
+            setImage(result.assets[0].uri)
+            console.log("Image Added")
+        }
+
+    }
 	return (
 		<View style={style.container}>
 			<StatusBar barStyle={"light-content"}/>
@@ -33,7 +61,10 @@ const CreateScreen = ({navigation,location}) => {
 			</View>
 			<ScrollView style={style.mainDown}>
 				<View style={styles.userPosting}>
-					<Image style={styles.userProfile}/>
+					<Image 
+						source={require('../../../images/ProfileImages/srk-5.jpg')}
+						style={styles.userProfile}
+					/>
 					<Text style={styles.userText}>
 						Akshay Garg
 					</Text>
@@ -45,12 +76,10 @@ const CreateScreen = ({navigation,location}) => {
 					<Pressable 
 						style={styles.option}
 						onPress={
-							()=>navigation.dispatch(
-								StackActions.replace('UploadImage')
-							)}
+							()=>pickImage()}
 					>
 						<MaterialIcons name="add-photo-alternate" size={32} color="black" />
-						<Text style={styles.postOptionText}>Upload Photo Or Video</Text>
+						{image? <Text style={styles.postOptionText}>Image Uploaded</Text> : <Text style={styles.postOptionText}>Upload Photo Or Video</Text>}
 					</Pressable>
 					<Pressable 
 						style={styles.option}

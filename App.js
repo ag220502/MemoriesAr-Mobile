@@ -19,10 +19,11 @@ import MainScreen from './src/screens/AccountScreens/MainScreen.js';
 //Create Post Screens
 import CreateScreen from './src/screens/AccountScreens/CreateScreens/CreateScreen.js';
 import AddLocation from './src/screens/AccountScreens/CreateScreens/AddLocation.js';
-import UploadImage from './src/screens/AccountScreens/CreateScreens/UploadImage.js';
 
 //Menu Screens
 import MenuScreen from './src/screens/AccountScreens/MenuScreens/MenuScreen.js'
+import UserPosts from './src/screens/AccountScreens/MenuScreens/UserPosts.js';
+import UserGroups from './src/screens/AccountScreens/MenuScreens/UserGroups.js';
 
 //Chat Screens
 import ChatScreen from './src/screens/AccountScreens/ChatScreens/ChatScreen.js';
@@ -52,7 +53,7 @@ export default function App() {
 
   return (
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ animation: 'none' }}>
           <Stack.Screen
             name="StartApp"
             component={StartApp}
@@ -163,10 +164,14 @@ export default function App() {
             component={AddLocation}
             options={{headerShown:false}} />
           <Stack.Screen 
-            name="UploadImage"
-            component={UploadImage}
+            name="UserPosts"
+            component={UserPosts}
             options={{headerShown:false}} />
             
+            <Stack.Screen 
+            name="UserGroups"
+            component={UserGroups}
+            options={{headerShown:false}} />
         </Stack.Navigator>
       </NavigationContainer> 
   );

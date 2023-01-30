@@ -27,22 +27,37 @@ const MenuScreen = ({navigation}) => {
 				<Pressable 
 					style={styles.menuOptionView}
 					onPress={()=>{
-						navigation.navigate("SavedPosts")
+						navigation.navigate("UserFriends")
 					}}
 				>
 					<FontAwesome5 name="user-friends" size={32} color="black" />
 					<Text style={styles.menuOptionText}>Your Friends</Text>
 				</Pressable>
-				<Pressable style={styles.menuOptionView}>
+				<Pressable 
+					style={styles.menuOptionView}
+					onPress={()=>{
+						navigation.navigate("UserGroups")
+					}}
+				>
 					<MaterialIcons name="groups" size={38} color="black" />
 					<Text style={styles.menuOptionText}>Groups</Text>
 				</Pressable>
-				<Pressable style={styles.menuOptionView}>
+				<Pressable 
+					style={styles.menuOptionView}
+					onPress={()=>{
+						navigation.navigate("SavedMemories")
+					}}
+				>
 					
 					<Ionicons name="bookmarks" size={32} color="black" />
 					<Text style={styles.menuOptionText}>Saved Memories</Text>
 				</Pressable>
-				<Pressable style={styles.menuOptionView}>
+				<Pressable 
+					style={styles.menuOptionView}
+					onPress={()=>{
+						navigation.navigate("UserPosts")
+					}}
+				>
 					<Entypo name="picasa" size={32} color="black" />
 					<Text style={styles.menuOptionText}>Your Memories</Text>
 				</Pressable>
