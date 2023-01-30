@@ -4,14 +4,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StackActions } from '@react-navigation/native';
 import Color from '../../ColourThemes/theme1';
 import style from './StyleSheets/main';
+import { StatusBar } from 'expo-status-bar';
 
 const Signin = ({navigation}) => {
   return (
+    
     <View style={style.container}>
+        <StatusBar barStyle="dark"/>
         <View style={style.mainUp}>
             <View style={style.loginWelcomeView}>
                 <Text style={style.loginWelcomeText}>Welcome!</Text>
-                <Text style={style.loginSignInText}>Sign Up and Get Started</Text>
+                <Text style={style.loginSignInText}>Sign In and Get Started</Text>
             </View>
         <View style={style.mainInputView}>
             <View style={[{marginVertical:15}]}>
@@ -46,13 +49,13 @@ const Signin = ({navigation}) => {
         <View>
             <Text style={styles.label2}>Or Sign In With</Text>
             <View style={styles.icons}>
-                <View style={styles.icon}>
+                {/* <View style={styles.icon}>
                 <Icon
                     name="facebook"
                     style={styles.iconText}
                     backgroundColor="#3b5998"
                     />
-                </View>
+                </View> */}
                 <View style={styles.icon}>
                 <Icon
                     name="google"

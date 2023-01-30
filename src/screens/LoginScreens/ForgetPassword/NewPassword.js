@@ -3,9 +3,11 @@ import React from 'react'
 import img from '../../../images/LoginImages/newPass.png'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
+import { StatusBar } from 'expo-status-bar';
 const NewPassword = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark"/>
         <Text style={styles.head}>Change Password</Text>
         <Image
             source={img}
@@ -66,29 +68,26 @@ const styles = StyleSheet.create({
     label:{
         fontSize:18,
         color:Color.textMidColor,
-        marginLeft:20,
-        alignSelf:'left'
-
+        alignSelf:'left',
+        marginLeft:20
     },
     inputView:{
-        width:'100%',
-        alignItems:'center',
-        marginLeft:20
-
+        width:'90%',
     },  
     input:{
         backgroundColor:Color.whiteColor,
         width:'75%',
-        borderRadius:20,
+        borderRadius:10,
+        marginLeft:20,
         height:40,
-        margin:10,
         padding:10,
         fontSize:17,
         shadowColor: Color.blackColor,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 2,
-        elevation: 2,
+        elevation: 2,        
+        marginVertical:15
     },
     buttonView:{
         borderRadius:30,

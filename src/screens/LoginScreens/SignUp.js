@@ -4,10 +4,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StackActions } from '@react-navigation/native';
 import Color from '../../ColourThemes/theme1';
 import style from './StyleSheets/main.js';
+import { StatusBar } from 'expo-status-bar';
 
 const SignUp = ({navigation}) => {
   return (
     <View style={style.container}>
+        <StatusBar barStyle="dark"/>
         <View style={style.mainUp}>
             <View style={style.loginWelcomeView}>
                 <Text style={style.loginWelcomeText}>Welcome!</Text>

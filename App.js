@@ -2,24 +2,41 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Welcome from './src/screens/LoginScreens/Welcome.js'
-import SignIn from './src/screens/LoginScreens/SignIn.js';
+//Login Screens
+import StartApp from './src/screens/LoginScreens/StartApp.js';
 import SignUp from './src/screens/LoginScreens/SignUp.js';
-import SignUpVerification from './src/screens/LoginScreens/SignUpVerification/SignUpVerification.js'
-import AccountVerified from './src/screens/LoginScreens/SignUpVerification/AccountVerified.js'
-import FirstScreen from './src/screens/LoginScreens/FirstScreen.js'
-import ForPassVerification from './src/screens/LoginScreens/ForgetPassword/ForPassVerification.js'
-import NewPassword from './src/screens/LoginScreens/ForgetPassword/NewPassword.js'
-import PasswordUpdated from './src/screens/LoginScreens/ForgetPassword/PasswordUpdated.js'
-import ResetPassword from './src/screens/LoginScreens/ForgetPassword/ResetPassword.js'
+import SignUpVerification from './src/screens/LoginScreens/SignUpVerification/SignUpVerification.js';
+import AccountVerified from './src/screens/LoginScreens/SignUpVerification/AccountVerified.js';
+import SignIn from './src/screens/LoginScreens/SignIn.js';
+import ResetPassword from './src/screens/LoginScreens/ForgetPassword/ResetPassword.js';
+import ForPassVerification from './src/screens/LoginScreens/ForgetPassword/ForPassVerification.js';
+import NewPassword from './src/screens/LoginScreens/ForgetPassword/NewPassword.js';
+import PasswordUpdated from './src/screens/LoginScreens/ForgetPassword/PasswordUpdated.js';
+
+//Home Screens
 import MainScreen from './src/screens/AccountScreens/MainScreen.js';
-import CreateScreen from './src/screens/AccountScreens/CreateScreens/CreateScreen.js'
+
+//Create Post Screens
+import CreateScreen from './src/screens/AccountScreens/CreateScreens/CreateScreen.js';
+import AddLocation from './src/screens/AccountScreens/CreateScreens/AddLocation.js';
+import UploadImage from './src/screens/AccountScreens/CreateScreens/UploadImage.js';
+
+//Menu Screens
 import MenuScreen from './src/screens/AccountScreens/MenuScreens/MenuScreen.js'
-import ProfileScreen from './src/screens/AccountScreens/ProfileScreens/ProfileScreen.js'
-import SearchScreen from './src/screens/AccountScreens/SearchScreens/SearchScreen.js'
+
+//Chat Screens
 import ChatScreen from './src/screens/AccountScreens/ChatScreens/ChatScreen.js';
 import UserChatScreen from './src/screens/AccountScreens/ChatScreens/UserChatScreen.js';
+
+//Profile Screens
 import EditProfile from './src/screens/AccountScreens/ProfileScreens/EditProfile.js';
+import ProfileScreen from './src/screens/AccountScreens/ProfileScreens/ProfileScreen.js'
+
+//Search Screens
+import OtherUserProfileScreen from './src/screens/AccountScreens/SearchScreens/OtherUserProfileScreen.js'
+import SearchScreen from './src/screens/AccountScreens/SearchScreens/SearchScreen.js'
+
+//Setting Screens
 import Settings from './src/screens/AccountScreens/SettingsScreen/Settings.js';
 import PersonalInformation from './src/screens/AccountScreens/SettingsScreen/Account/PersonalInformation.js'
 import SavedMemories from './src/screens/AccountScreens/SettingsScreen/Account/SavedMemories.js'
@@ -28,18 +45,17 @@ import DeleteAccount from './src/screens/AccountScreens/SettingsScreen/Account/D
 import UserFriends from './src/screens/AccountScreens/SettingsScreen/Account/UserFriends.js'
 import BlockedAccount from './src/screens/AccountScreens/SettingsScreen/Privacy/BlockedAccount.js';
 import ChangePassword from './src/screens/AccountScreens/SettingsScreen/SecurityScreen/ChangePassword.js';
-import OtherUserProfileScreen from './src/screens/AccountScreens/SearchScreens/OtherUserProfileScreen.js'
-import AddLocation from './src/screens/AccountScreens/CreateScreens/AddLocation.js';
-import UploadImage from './src/screens/AccountScreens/CreateScreens/UploadImage.js';
+
+
 const Stack = createNativeStackNavigator();
 export default function App() {
 
   return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen 
-            name="Welcome" 
-            component={Welcome}
+          <Stack.Screen
+            name="StartApp"
+            component={StartApp}
             options={{headerShown:false}}/>
           <Stack.Screen 
             name="SignIn" 

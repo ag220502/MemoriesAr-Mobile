@@ -3,10 +3,12 @@ import React from 'react'
 import img from '../../../images/LoginImages/passUpdated.png'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
+import { StatusBar } from 'expo-status-bar';
 
 const PasswordUpdated = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark"/>
         <Image
         source={img}
         style={styles.img1}

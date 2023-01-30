@@ -2,9 +2,11 @@ import { StyleSheet, Text, View,TextInput,SafeAreaView, Pressable } from 'react-
 import React from 'react'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
+import { StatusBar } from 'expo-status-bar';
 const Verification = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark"/>
         <View>
             <Text style={styles.head}>Verification</Text>
         </View>
@@ -12,7 +14,7 @@ const Verification = ({navigation}) => {
             <Text style={styles.heading}>Enter Your Verification Code</Text>
             <TextInput style={styles.input}/>
             <Text style={styles.para}>We have sent the verification code to your email akshay@gmail.com. Please check your inbox.</Text>
-            <Text style={styles.label1}>Didn't received the code? Send Again</Text>
+            <Text style={styles.label1}>Didn't received the code? <Text style={[styles.label1,{fontWeight:'700',color:Color.textDarkColor}]}>Send Again</Text></Text>
         </View>
         <Pressable
             style={styles.buttonView}

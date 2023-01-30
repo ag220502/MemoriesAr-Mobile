@@ -2,9 +2,11 @@ import { StyleSheet, Text, View,TextInput,SafeAreaView, Pressable } from 'react-
 import React from 'react'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
+import { StatusBar } from 'expo-status-bar';
 const ForPassVerification = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark"/>
         <View>
             <Text style={styles.head}>Verification</Text>
         </View>

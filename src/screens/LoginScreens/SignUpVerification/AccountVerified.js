@@ -3,9 +3,13 @@ import React from 'react'
 import img from '../../../images/LoginImages/accVerified.png'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
+import { StatusBar } from 'expo-status-bar';
+
 const AccountVerified = ({navigation}) => {
-  return (
-    <SafeAreaView style={styles.container}>
+  return (<>
+    <StatusBar barStyle="dark"/>
+    <View style={styles.container}>
+        
         <Image
             source={img}
             style={styles.img1}
@@ -20,7 +24,7 @@ const AccountVerified = ({navigation}) => {
         >
             <Text style={styles.buttonText}>Sign In</Text>
         </Pressable>
-    </SafeAreaView>
+    </View></>
   )
 }
 

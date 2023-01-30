@@ -3,10 +3,11 @@ import React from 'react';
 import img from '../../../images/LoginImages/resetPass.png'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
-
+import { StatusBar } from 'expo-status-bar';
 const ResetPassword = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark"/>
         <View>
             <Text style={styles.head}>Reset Password</Text>
         </View>
