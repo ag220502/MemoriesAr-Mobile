@@ -2,6 +2,7 @@ import { StyleSheet, Text, View,Image, SafeAreaView, Pressable } from 'react-nat
 import React from 'react'
 import logo from '../images/HomeImages/logo.png' 
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Color from '../ColourThemes/theme1';
 
 const TopNavBar = ({navigation}) => {
   return (
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     container:{
         flexDirection:'row',
         justifyContent:'space-between',
-        backgroundColor:'#F5F6FA',
+        backgroundColor:Color.lightColor,
         alignItems:'center',
         width:'100%',
         paddingHorizontal:15,
@@ -35,17 +36,11 @@ const styles = StyleSheet.create({
         top:40,
         zIndex:100,
         position:'absolute',
-        borderBottomWidth:0.5,
-        shadowColor: '#000',
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        elevation: 2,
     },
     name:{
         fontWeight:'bold',
         fontSize:20,
-        color:'#000'
+        color:Color.blackColor
     },
     logo2:{
         width:50,

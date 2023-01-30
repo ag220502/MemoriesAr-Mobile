@@ -3,16 +3,14 @@ import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import BottomNavBar from '../../components/BottomNavBar'
 import TopNavBar from '../../components/TopNavBar'
-import FriendPosts from '../../components/FriendPosts'
-
+import UserFeed from '../../components/UserFeed'
 const MainScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-        <StatusBar/>
+        <StatusBar barStyle="dark"/>
         <TopNavBar navigation={navigation}/>
-        <FriendPosts/>
+        <UserFeed navigation={navigation}/>
         <BottomNavBar navigation={navigation}/>
-        
     </SafeAreaView>
   )
 }
