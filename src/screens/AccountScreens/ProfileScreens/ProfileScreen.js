@@ -38,7 +38,7 @@ const ProfileScreen = ({navigation}) => {
       </View>
       <View style={styles.main}>
         <View style={styles.profile_img}>
-          <Image style={styles.pofile} source={require('../../../images/ProfileImages/profile.png')}/>
+          <Image style={styles.pofile} source={require('../../../images/ProfileImages/srk-5.jpg')}/>
         </View>
         <View style={styles.profile_data}>
           <View style={styles.dataView}>
@@ -136,6 +136,9 @@ const styles = StyleSheet.create({
   },
   pofile:{
     alignSelf:'center',
+    height:100,
+    width:100,
+    borderRadius:100
   },
   profile_img:{
     position:'absolute',

@@ -10,7 +10,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
 
 
-const CreateScreen = ({navigation}) => {
+const CreateScreen = ({navigation,location}) => {
 	return (
 		<View style={style.container}>
 			<StatusBar barStyle={"light-content"}/>
@@ -42,11 +42,23 @@ const CreateScreen = ({navigation}) => {
 					<TextInput multiline style={styles.caption} placeholder="What's in your mind?"/>
 				</View>
 				<View style={styles.postOptions}>
-					<Pressable style={styles.option}>
+					<Pressable 
+						style={styles.option}
+						onPress={
+							()=>navigation.dispatch(
+								StackActions.replace('UploadImage')
+							)}
+					>
 						<MaterialIcons name="add-photo-alternate" size={32} color="black" />
 						<Text style={styles.postOptionText}>Upload Photo Or Video</Text>
 					</Pressable>
-					<Pressable style={styles.option}>
+					<Pressable 
+						style={styles.option}
+						onPress={
+							()=>navigation.dispatch(
+								StackActions.replace('AddLocation')
+							)}
+					>
 						<MaterialIcons name="add-location-alt" size={32} color="black" />
 						<Text style={styles.postOptionText}>Add Location</Text>
 					</Pressable>

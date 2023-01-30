@@ -1,8 +1,12 @@
-import { StyleSheet, Text, View,StatusBar,Pressable, FlatList } from 'react-native'
+import { StyleSheet, Text, View,StatusBar,Pressable, FlatList,Modal } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons';
 import Color from '../../../ColourThemes/theme1.js'
+import SimpleModal from '../../../components/Modals/SimpleModal.js';
+import { StackActions } from '@react-navigation/native';
+
+
 const Settings = ({navigation}) => {
     const data = [
         {
@@ -55,6 +59,20 @@ const Settings = ({navigation}) => {
         }
     ]
     const [curIndex,setCurIndex] = useState(null)
+    const [isModalVisible,setModalVisible] = useState(false)
+    const [chooseData,setChooseData] = useState("")
+    const changeModalVisible = (bool)=>{
+        setModalVisible(bool)
+    }
+    const setData = (data)=>{
+        setChooseData(data)
+        if(data=="Yes")
+        {
+            navigation.dispatch(
+                StackActions.replace("SignIn")
+            )
+        }
+    }
     return (
         <View style={styles.container}>
             <StatusBar barStyle={"light-content"}/>
@@ -68,28 +86,43 @@ const Settings = ({navigation}) => {
             </View>
             <View style={styles.main}>
                 <View style={styles.listView}>
-                    {
-                        
+                    { 
                         data.map((item,index)=>{
                             return (
                                 <View key={index}>
                                 <Pressable 
                                     key={index}
                                     onPress={()=>{
-                                        item.exception ? navigation.navigate(item.link):
+                                        item.exception ? changeModalVisible(true):
                                         setCurIndex(index)
                                     }}
-                                    style={styles.nameBtn}>
-                                            <Text style={styles.name}>{item.name}</Text>
-                                            <Text>
-                                            {  
-                                                item.exception ? "" :
-                                                index === curIndex ? 
-                                                    <Entypo name="chevron-up" size={24} color={Color.blackColor} onPress={()=>setCurIndex(null)}/>
-                                                    : 
-                                                    <Entypo name="chevron-down" size={24} color={Color.blackColor} />
-                                                }
-                                            </Text>
+                                    style={styles.nameBtn}
+                                >
+                                    <Modal
+                                        transparent={true}
+                                        animationType='fade'
+                                        visible={isModalVisible}
+                                        nRequestClose={()=>changeModalVisible(false)}
+                                    >
+                                        <SimpleModal
+                                            changeModalVisible={changeModalVisible}
+                                            setData={setData}    
+                                            navigation={navigation}
+                                            header={"Logout Account"}
+                                            mdText={"Are you Sure You Want To Logout?"}
+                                        />
+                                    </Modal>
+                                    <Text style={styles.name}>{item.name}</Text>
+                                    <Text>
+                                    {  
+
+                                        item.exception ? "" :
+                                        index === curIndex ? 
+                                            <Entypo name="chevron-up" size={24} color={Color.blackColor} onPress={()=>setCurIndex(null)}/>
+                                            : 
+                                            <Entypo name="chevron-down" size={24} color={Color.blackColor} />
+                                        }
+                                    </Text>
                                             
                                 </Pressable>
                                 <View>
@@ -106,6 +139,7 @@ const Settings = ({navigation}) => {
                                                                 navigation.navigate(item.link)
                                                             }}
                                                         >
+                                                            
                                                             <Text style={styles.subListText}>{item.name}</Text>
                                                                 <Entypo name="chevron-right" size={24} color={Color.blackColor} />
                                                         </Pressable>

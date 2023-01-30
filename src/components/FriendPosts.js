@@ -64,7 +64,7 @@ const Post = () => {
     ]
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView horizontal={false} style={styles.container}>
         {postInfo.map((data,index)=>{
             const [like, setlike] = useState(data.isLiked)
             const [dislike, setdislike] = useState(data.isDisliked)

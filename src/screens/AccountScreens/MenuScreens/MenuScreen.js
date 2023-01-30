@@ -47,7 +47,7 @@ const MenuScreen = ({navigation}) => {
 					<Text style={styles.menuOptionText}>Your Memories</Text>
 				</Pressable>
 			</View>
-			<BottomNavBar/>
+			<BottomNavBar navigation={navigation}/>
 		</View>
     </View>
   )

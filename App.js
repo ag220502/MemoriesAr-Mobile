@@ -29,6 +29,8 @@ import UserFriends from './src/screens/AccountScreens/SettingsScreen/Account/Use
 import BlockedAccount from './src/screens/AccountScreens/SettingsScreen/Privacy/BlockedAccount.js';
 import ChangePassword from './src/screens/AccountScreens/SettingsScreen/SecurityScreen/ChangePassword.js';
 import OtherUserProfileScreen from './src/screens/AccountScreens/SearchScreens/OtherUserProfileScreen.js'
+import AddLocation from './src/screens/AccountScreens/CreateScreens/AddLocation.js';
+import UploadImage from './src/screens/AccountScreens/CreateScreens/UploadImage.js';
 const Stack = createNativeStackNavigator();
 export default function App() {
 
@@ -138,6 +140,15 @@ export default function App() {
           <Stack.Screen 
             name="OtherUserProfileScreen"
             component={OtherUserProfileScreen}
+            options={{headerShown:false}} />
+            
+          <Stack.Screen 
+            name="AddLocation"
+            component={AddLocation}
+            options={{headerShown:false}} />
+          <Stack.Screen 
+            name="UploadImage"
+            component={UploadImage}
             options={{headerShown:false}} />
             
         </Stack.Navigator>

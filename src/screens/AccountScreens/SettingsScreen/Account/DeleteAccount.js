@@ -1,32 +1,66 @@
-import { StyleSheet, Text, View, StatusBar, Pressable, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, StatusBar, Pressable, Image, Modal } from 'react-native'
+import React,{useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import deletePic from '../../../../images/SettingImages/delete.png'
 import Color from './../../../../ColourThemes/theme1.js'
-
+import SimpleModal from '../../../../components/Modals/SimpleModal';
+ 
 const DeleteAccount = ({navigation}) => {
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle={"light-content"}/>
-      <View style={styles.search}>
-          <Pressable style={styles.buttonIconView}
-              onPress={()=>navigation.navigate("Settings")}
-          >
-              <Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
-          </Pressable>
-          <Text style={styles.head}>Delete Account</Text>
-      </View>
-      <View style={styles.main}>
-        <View style={styles.picView}>
-          <Image source={deletePic} resizeMode={'contain'} style={styles.pic}/>
-        </View>
-        <View style={styles.textView}>
-        <Text style={styles.deleteText}>We're sorry to see you go, If you want to permanently delete your Account click on Delete Accout. Deleting your account will remove all your data from our platform.</Text>
-        </View>
-        <Pressable style={styles.buttonView}><Text style={styles.buttonText}>Delete Account</Text></Pressable>
-      </View>
-    </View>
-  )
+	const [isModalVisible,setModalVisible] = useState(false)
+    const [chooseData,setChooseData] = useState("")
+    const changeModalVisible = (bool)=>{
+        setModalVisible(bool)
+    }
+    const setData = (data)=>{
+        setChooseData(data)
+        if(data=="Yes")
+        {
+            navigation.dispatch(
+                StackActions.replace("SignIn")
+            )
+        }
+    }
+	return (
+		<View style={styles.container}>
+			<StatusBar barStyle={"light-content"}/>
+			<View style={styles.search}>
+				<Pressable style={styles.buttonIconView}
+					onPress={()=>navigation.navigate("Settings")}
+				>
+					<Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
+				</Pressable>
+				<Text style={styles.head}>Delete Account</Text>
+			</View>
+			<View style={styles.main}>
+				<View style={styles.picView}>
+					<Image source={deletePic} resizeMode={'contain'} style={styles.pic}/>
+				</View>
+				<View style={styles.textView}>
+					<Text style={styles.deleteText}>We're sorry to see you go, If you want to permanently delete your Account click on Delete Accout. Deleting your account will remove all your data from our platform.</Text>
+				</View>
+				<Pressable 
+					style={styles.buttonView}
+					onPress={changeModalVisible(true)}
+				>
+					<Text style={styles.buttonText}>Delete Account</Text>
+				</Pressable>
+				<Modal
+					transparent={true}
+					animationType='fade'
+					visible={isModalVisible}
+					nRequestClose={()=>changeModalVisible(false)}
+				>
+					<SimpleModal
+						changeModalVisible={changeModalVisible}
+						setData={setData}    
+						navigation={navigation}
+						header={"Logout Account"}
+						mdText={"Are you Sure You Want To Logout?"}
+					/>
+				</Modal>
+			</View>
+		</View>
+	)
 }
 
 export default DeleteAccount

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,SafeAreaView, ScrollView,Image, Pressable,ImageBackground } from 'react-native'
+import { StyleSheet, Text, View,SafeAreaView, ScrollView,Image, Pressable,ImageBackground, FlatList } from 'react-native'
 import React from 'react'
 import BottomNavBar from '../../../components/BottomNavBar'
 import Color from './../../../ColourThemes/theme1.js'
@@ -33,6 +33,30 @@ const SearchScreen = ({navigation}) => {
 			name:'Akshay',
 			profile:require('../../../images/ProfileImages/profile.png')
 		}
+	]
+
+	const post=[
+		{
+			userName:"Akshay Garg",
+			post:require('../../../images/HomeImages/post.png')
+		},
+		{
+			userName:"Dhruv Chaturvedi",
+			post:require('../../../images/HomeImages/post.png')
+		},
+		{
+			userName:"Mani Shankar",
+			post:require('../../../images/HomeImages/post.png')
+		},
+		{
+			userName:"Rajanssh Gadhvi",
+			post:require('../../../images/HomeImages/post.png')
+		},
+		{
+			userName:"Abdul Rehman",
+			post:require('../../../images/HomeImages/post.png')
+		},
+
 	]
 	return (
 		<View style={styles.container}>
@@ -78,8 +102,18 @@ const SearchScreen = ({navigation}) => {
 						<Text style={styles.viewAllLink}>View All</Text>
 					</View>
 					<View style={styles.suggView}>
-						<View>
-							
+						<View style={[{flexWrap:'wrap'}]}>
+							<FlatList
+								data={post}
+								renderItem={
+									({item})=>{return(
+										<View style={styles.recPost}>
+											<Text>{item.userName}</Text>
+										</View>)
+									}
+								}
+								keyExtractor={item => item.id}
+							/>
 						</View>
 					</View>
 					<View style={{justifyContent:'space-between',flexDirection:'row'}}>
@@ -138,7 +172,8 @@ const styles = StyleSheet.create({
 	suggView:{
 		width:'100%',
 		height:300,
-		marginVertical:10
+		marginVertical:10,
+		backgroundColor:'red'
 	},
 	userDetails:{
 		flexDirection:'column',
@@ -192,6 +227,11 @@ const styles = StyleSheet.create({
 		fontWeight:'700',
 		color:Color.textDarkColor,
 		marginTop:10
+	},
+	recPost:{
+		width:'33.3%',
+		height:'50%',
+		backgroundColor:'blue'
 	}
 
 })
