@@ -35,7 +35,7 @@ import ProfileScreen from './src/screens/AccountScreens/ProfileScreens/ProfileSc
 
 //Search Screens
 import OtherUserProfileScreen from './src/screens/AccountScreens/SearchScreens/OtherUserProfileScreen.js'
-import SearchScreen from './src/screens/AccountScreens/SearchScreens/SearchScreen.js'
+import ExploreScreen from './src/screens/AccountScreens/SearchScreens/ExploreScreen.js';
 
 //Setting Screens
 import Settings from './src/screens/AccountScreens/SettingsScreen/Settings.js';
@@ -115,8 +115,8 @@ export default function App() {
             component={ProfileScreen}
             options={{headerShown:false}} />
           <Stack.Screen 
-            name="SearchScreen"
-            component={SearchScreen}
+            name="ExploreScreen"
+            component={ExploreScreen}
             options={{headerShown:false}} />
           <Stack.Screen 
             name="EditProfile"

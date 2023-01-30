@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     chatSec:{
     },
     chatDateView:{
-        backgroundColor:Color.darkColor,
+        backgroundColor:Color.midColor,
         borderRadius:20,
         alignSelf:'center',
         margin:10

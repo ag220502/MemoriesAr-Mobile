@@ -17,7 +17,7 @@ const BottomNavBar = ({navigation}) => {
             </Pressable>
             <Pressable
                 style={styles.IconBehave}
-                onPress={()=>navigation.navigate('SearchScreen')}
+                onPress={()=>navigation.navigate('ExploreScreen')}
             >
                 <Ionicons name="search" size={32} color={Color.textLightColor} />
             </Pressable>

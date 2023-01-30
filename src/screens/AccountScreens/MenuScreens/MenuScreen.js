@@ -7,21 +7,26 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar'
 
 
 const MenuScreen = ({navigation}) => {
   return (
     <View style={style.container}>
+		<StatusBar barStyle="light"/>
 		<View style={style.downMain}>
 			<Text style={style.frameHead}>Menu Options</Text>
 		</View>
 		<View style={style.mainDown}>
-			<View style={styles.profileView}>
+			<Pressable 
+				style={styles.profileView}
+				onPress={()=>navigation.navigate("ProfileScreen")}
+			>
 				<Image
 				 	style={styles.profile_img}
 					source={require('../../../images/ProfileImages/profile.png')}/>
 				<Text style={styles.profile_name}>Akshay Garg</Text>
-			</View>
+			</Pressable>
 			<Text style={styles.text_head}>All Shortcuts</Text>
 			<View style={styles.divView}>
 				<Pressable 
