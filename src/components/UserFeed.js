@@ -132,7 +132,8 @@ export default UserFeed
 const styles = StyleSheet.create({
 	container:{
 		width:'100%',
-		marginVertical:50
+		marginVertical:50,
+		backgroundColor:Color.lightColor
 	},
 	userPost:{
 		width:'90%',
