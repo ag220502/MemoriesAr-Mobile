@@ -51,7 +51,7 @@ const CreateScreen = ({navigation,location}) => {
 					>
 						<Entypo name="cross" size={24} color={Color.textDarkColor} />
 					</Pressable>
-					<Text style={styles.userName}>Create Post</Text>
+					<Text style={styles.userName}>Create Memory</Text>
 					<Pressable style={styles.buttonView} onPress={()=>navigation.dispatch(
 							StackActions.replace('MainScreen')
 						)}>
@@ -62,11 +62,11 @@ const CreateScreen = ({navigation,location}) => {
 			<ScrollView style={style.mainDown}>
 				<View style={styles.userPosting}>
 					<Image 
-						source={require('../../../images/ProfileImages/srk-5.jpg')}
+						source={require('../../../images/ProfileImages/profile8.jpg')}
 						style={styles.userProfile}
 					/>
 					<Text style={styles.userText}>
-						Akshay Garg
+						John Thomas
 					</Text>
 				</View>
 				<View style={styles.postCaption}>

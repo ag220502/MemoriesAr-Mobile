@@ -13,7 +13,7 @@ import { StatusBar } from 'expo-status-bar'
 const MenuScreen = ({navigation}) => {
   return (
     <View style={style.container}>
-		<StatusBar barStyle="light"/>
+		<StatusBar style="light"/>
 		<View style={style.downMain}>
 			<Text style={style.frameHead}>Menu Options</Text>
 		</View>
@@ -24,8 +24,8 @@ const MenuScreen = ({navigation}) => {
 			>
 				<Image
 				 	style={styles.profile_img}
-					source={require('../../../images/ProfileImages/profile.png')}/>
-				<Text style={styles.profile_name}>Akshay Garg</Text>
+					source={require('../../../images/ProfileImages/profile8.jpg')}/>
+				<Text style={styles.profile_name}>John Thomas</Text>
 			</Pressable>
 			<Text style={styles.text_head}>All Shortcuts</Text>
 			<View style={styles.divView}>

@@ -4,22 +4,22 @@ import React from 'react'
 const ProfileScrapbooks = (data) => {
     const postInfo = [
         {
-            postProfile:require('../images/ProfileImages/scrap.png'),
+            postProfile:require('../images/ProfileImages/profile3.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/scrap.png'),
+            postProfile:require('../images/ProfileImages/profile4.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/scrap.png'),
+            postProfile:require('../images/ProfileImages/profile10.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/scrap.png'),
+            postProfile:require('../images/ProfileImages/profile8.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/scrap.png'),
+            postProfile:require('../images/HomeImages/post4.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/scrap.png'),
+            postProfile:require('../images/HomeImages/post3.jpg'),
         }
     ]
   return (

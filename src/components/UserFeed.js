@@ -11,52 +11,78 @@ import Color from '../ColourThemes/theme1'
 const UserFeed = ({navigation}) => {
 	const postInfo = [
         {
-            postTitle:"Akshay Garg",
+            postTitle:"Benjamin Conley",
             postTag:"AAR225 and 2 others",
             postLocation:"Dubai",
             postType:"Fictional",
-            postProfile:require('../images/HomeImages/profile.png'),
-            postImage:require('../images/HomeImages/post.png'),
-            likes:765,
+            postProfile:require('../images/ProfileImages/profile3.jpg'),
+            postImage:require('../images/HomeImages/post10.jpg'),
+            likes:230,
             comments:23,
             isLiked:true,
             isDisliked:true,
             isSaved:false,
         },
         {
-            postTitle:"Akshay Garg",
+            postTitle:"Shelia Huntley",
             postTag:"AAR225 and 2 others",
             postLocation:"Dubai",
             postType:"Fictional",
-            postProfile:require('../images/HomeImages/profile.png'),
-            postImage:require('../images/HomeImages/post.png'),
+            postProfile:require('../images/ProfileImages/profile1.jpg'),
+            postImage:require('../images/HomeImages/post5.jpg'),
             likes:765,
-            comments:23,
+            comments:9,
+            isLiked:true,
+            isDisliked:false,
+            isSaved:false,
+        },
+		{
+            postTitle:"Theresia Hall",
+            postTag:"AAR225 and 2 others",
+            postLocation:"Dubai",
+            postType:"Fictional",
+            postProfile:require('../images/ProfileImages/profile2.jpg'),
+            postImage:require('../images/HomeImages/post1.jpg'),
+            likes:10,
+            comments:1,
+            isLiked:true,
+            isDisliked:false,
+            isSaved:false,
+        },
+		{
+            postTitle:"Gary Dame",
+            postTag:"AAR225 and 2 others",
+            postLocation:"Dubai",
+            postType:"Fictional",
+            postProfile:require('../images/ProfileImages/profile4.jpg'),
+            postImage:require('../images/HomeImages/post2.jpg'),
+            likes:90,
+            comments:0,
             isLiked:true,
             isDisliked:false,
             isSaved:false,
         },
         {
-            postTitle:"Akshay Garg",
+            postTitle:"Peggy Justus",
             postTag:"AAR225 and 2 others",
             postLocation:"Dubai",
             postType:"Fictional",
-            postProfile:require('../images/HomeImages/profile.png'),
-            postImage:require('../images/HomeImages/post.png'),
-            likes:765,
+            postProfile:require('../images/ProfileImages/profile5.jpg'),
+            postImage:require('../images/HomeImages/post7.jpg'),
+            likes:854,
             comments:23,
             isLiked:false,
             isDisliked:true,
             isSaved:false,
         },
         {
-            postTitle:"Akshay Garg",
+            postTitle:"Angelo Edwards",
             postTag:"AAR225 and 2 others",
             postLocation:"Dubai",
             postType:"Fictional",
-            postProfile:require('../images/HomeImages/profile.png'),
-            postImage:require('../images/HomeImages/post.png'),
-            likes:765,
+            postProfile:require('../images/ProfileImages/profile8.jpg'),
+            postImage:require('../images/HomeImages/post3.jpg'),
+            likes:98,
             comments:23,
             isLiked:true,
             isDisliked:true,
@@ -100,7 +126,7 @@ const UserFeed = ({navigation}) => {
 										size={30} 
 										color={Color.textMidColor}
 									/>
-									<Text style={styles.optionNum}>234</Text>
+									<Text style={styles.optionNum}>{element.item.likes}</Text>
 								</Pressable>
 								<Pressable style={styles.postOpt}>
 									<FontAwesome 
@@ -108,7 +134,7 @@ const UserFeed = ({navigation}) => {
 										size={24} 
 										color={Color.textMidColor} 
 									/>
-									<Text style={styles.optionNum}>23</Text>
+									<Text style={styles.optionNum}>{element.item.comments}</Text>
 								</Pressable>
 								<Pressable style={styles.postOpt}>
 								<Ionicons 
@@ -174,7 +200,8 @@ const styles = StyleSheet.create({
 	},
 	postImage:{
 		borderRadius:20,
-		width:'100%'
+		width:'100%',
+		height:250
 	},
 	postBtn:{
 		position:'absolute',

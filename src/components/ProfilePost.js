@@ -4,22 +4,22 @@ import React from 'react'
 const ProfilePost = (data) => {
     const postInfo = [
         {
-            postProfile:require('../images/ProfileImages/posts.png'),
+            postProfile:require('../images/HomeImages/post3.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/posts.png'),
+            postProfile:require('../images/HomeImages/post10.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/posts.png'),
+            postProfile:require('../images/HomeImages/post6.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/posts.png'),
+            postProfile:require('../images/HomeImages/post2.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/posts.png'),
+            postProfile:require('../images/HomeImages/post1.jpg'),
         },
         {
-            postProfile:require('../images/ProfileImages/posts.png'),
+            postProfile:require('../images/HomeImages/post8.jpg'),
         }
     ]
   return (

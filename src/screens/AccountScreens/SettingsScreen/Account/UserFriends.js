@@ -9,30 +9,41 @@ import Color from './../../../../ColourThemes/theme1.js'
 const UserFriends = ({navigation}) => {
   let chat = [
     {
-        id:1,
-        username:'Akshay',
-        profile_image:require('../../../../images/HomeImages/profile.png')
-    },
-    {
-        id:2,
-        username:'Dhruv',
-        profile_image:require('../../../../images/HomeImages/profile.png')
-    },
-    {
-        id:3,
-        username:'Akshay',
-        profile_image:require('../../../../images/HomeImages/profile.png')
-    },
-    {
-        id:4,
-        username:'Dhruv',
-        profile_image:require('../../../../images/HomeImages/profile.png')
-    },
-    {
-        id:5,
-        username:'Akshay',
-        profile_image:require('../../../../images/HomeImages/profile.png')
-    },
+      id:1,
+			name:'Ken',
+			profile_image:require('../../../../images/ProfileImages/profile10.jpg')
+		},
+		{
+      id:2,
+			name:'Leona',
+			profile_image:require('../../../../images/ProfileImages/profile9.jpg')
+		},
+		{
+      id:3,
+
+			name:'Kenneth',
+			profile_image:require('../../../../images/ProfileImages/profile8.jpg')
+		},
+		{
+      id:4,
+			name:'Lee',
+			profile_image:require('../../../../images/ProfileImages/profile7.jpg')
+		},
+		{
+      id:5,
+			name:'Alicia',
+			profile_image:require('../../../../images/ProfileImages/profile6.jpg')
+		},
+		{
+      id:6,
+			name:'Harold',
+			profile_image:require('../../../../images/ProfileImages/profile4.jpg')
+		},
+		{
+      id:7,
+			name:'Melissa',
+			profile_image:require('../../../../images/ProfileImages/profile2.jpg')
+		},
 
 ]
   const [keyword,setKeyword] = useState('')
@@ -64,7 +75,7 @@ const UserFriends = ({navigation}) => {
         <ScrollView style={styles.main}>
             {
                 chat.filter((data)=>{
-                    if(data.username.toLowerCase().includes(keyword.toLowerCase())){
+                    if(data.name.toLowerCase().includes(keyword.toLowerCase())){
                         return data
                     }
                     else if(keyword===''){
@@ -82,7 +93,7 @@ const UserFriends = ({navigation}) => {
                             <Image source={data.profile_image} style={styles.profile_img}/>
                         </View>
                         <View>
-                            <Text style={styles.user_name}>{data.username}
+                            <Text style={styles.user_name}>{data.name}
                             </Text>
                         </View>
                       </View>
@@ -158,6 +169,7 @@ const styles = StyleSheet.create({
   profile_img:{
     width:50,
     height:50,
+    borderRadius:100
   },
   user_name:{
     fontSize:16,

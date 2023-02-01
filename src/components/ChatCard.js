@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     profile_img:{
         width:60,
         height:60,
+        borderRadius:100
     },
     user_name:{
         fontSize:16,

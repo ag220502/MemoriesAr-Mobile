@@ -10,58 +10,35 @@ import { StatusBar } from 'expo-status-bar'
 
 
 const ExploreScreen = ({navigation}) => {
-    const post=[
-		{
-			userName:"Akshay Garg",
-			post:require('../../../images/HomeImages/post.png')
-		},
-		{
-			userName:"Dhruv Chaturvedi",
-			post:require('../../../images/HomeImages/post.png')
-		},
-		{
-			userName:"Mani Shankar",
-			post:require('../../../images/HomeImages/post.png')
-		},
-		{
-			userName:"Rajanssh Gadhvi",
-			post:require('../../../images/HomeImages/post.png')
-		},
-		{
-			userName:"Abdul Rehman",
-			post:require('../../../images/HomeImages/post.png')
-		},
-
-	]
     const data=
 	[
 		{
-			name:'Akshay',
-			profile:require('../../../images/ProfileImages/profile.png')
+			name:'Ken',
+			profile:require('../../../images/ProfileImages/profile10.jpg')
 		},
 		{
-			name:'Akshay',
-			profile:require('../../../images/ProfileImages/profile.png')
+			name:'Leona',
+			profile:require('../../../images/ProfileImages/profile9.jpg')
 		},
 		{
-			name:'Akshay',
-			profile:require('../../../images/ProfileImages/profile.png')
+			name:'Kenneth',
+			profile:require('../../../images/ProfileImages/profile8.jpg')
 		},
 		{
-			name:'Akshay',
-			profile:require('../../../images/ProfileImages/profile.png')
+			name:'Lee',
+			profile:require('../../../images/ProfileImages/profile7.jpg')
 		},
 		{
-			name:'Akshay',
-			profile:require('../../../images/ProfileImages/profile.png')
+			name:'Alicia',
+			profile:require('../../../images/ProfileImages/profile6.jpg')
 		},
 		{
-			name:'Akshay',
-			profile:require('../../../images/ProfileImages/profile.png')
+			name:'Harold',
+			profile:require('../../../images/ProfileImages/profile4.jpg')
 		},
 		{
-			name:'Akshay',
-			profile:require('../../../images/ProfileImages/profile.png')
+			name:'Melissa',
+			profile:require('../../../images/ProfileImages/profile2.jpg')
 		}
 	]
     const [isFocus,setFocus] = useState(false)
@@ -97,7 +74,7 @@ const ExploreScreen = ({navigation}) => {
                                     return(
                                         <Pressable style={styles.userDetails} key={index}>
                                             <Image source={item.profile} style={styles.profile_img}/>
-                                            <Text>{item.name}</Text>
+                                            <Text style={[{alignSelf:'center',paddingVertical:5}]}>{item.name}</Text>
                                         </Pressable>	
                                     )
                                 })
@@ -193,7 +170,8 @@ const styles = StyleSheet.create({
 	},
 	profile_img:{
 		width:50,
-		height:50
+		height:50,
+		borderRadius:100
 	},
 	suggUser:{
 		width:200,
@@ -230,7 +208,8 @@ const styles = StyleSheet.create({
 	},
 	suggProfileImg:{
 		width:100,
-		height:100
+		height:100,
+		borderRadius:100
 	},
 	viewAllLink:{
 		paddingHorizontal:15,

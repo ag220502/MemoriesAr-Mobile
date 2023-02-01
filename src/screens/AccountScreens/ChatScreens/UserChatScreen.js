@@ -76,7 +76,7 @@ const UserChatScreen = ({navigation}) => {
                 >
                     <Ionicons name="chevron-back" size={24} color={Color.textLightColor} />
                 </Pressable>
-                <Text style={styles.userName}>Akshay Garg</Text>
+                <Text style={styles.userName}>Benjamin Conley</Text>
                 <Pressable style={styles.buttonView}>
                     <Entypo name="dots-three-horizontal" size={24} color={Color.textLightColor} />
                 </Pressable>

@@ -11,16 +11,6 @@ import Color from './../../../ColourThemes/theme1.js'
 import BottomNavBar from './../../../components/BottomNavBar.js'
 const ProfileScreen = ({navigation}) => {
   const [showPosts,setShowPosts] = useState(true);
-
-  const data = [
-    { 
-      post:require('../../../images/ProfileImages/posts.png'),
-      name:"Akshay"
-    },
-    { post:require('../../../images/ProfileImages/posts.png')},    
-    { post:require('../../../images/ProfileImages/posts.png')},
-    { post:require('../../../images/ProfileImages/posts.png')}
-  ]
   return (
   <View>
     <View style={styles.container}>
@@ -38,7 +28,7 @@ const ProfileScreen = ({navigation}) => {
       </View>
       <View style={styles.main}>
         <View style={styles.profile_img}>
-          <Image style={styles.pofile} source={require('../../../images/ProfileImages/srk-5.jpg')}/>
+          <Image style={styles.pofile} source={require('../../../images/ProfileImages/profile8.jpg')}/>
         </View>
         <View style={styles.profile_data}>
           <View style={styles.dataView}>
@@ -51,7 +41,7 @@ const ProfileScreen = ({navigation}) => {
           </View>
         </View>
         <View style={styles.userNameView}>
-          <Text style={styles.userName}>Akshay Garg</Text>
+          <Text style={styles.userName}>John Thomas</Text>
         </View>
         <View style={styles.profile_bio}>
           <Text style={styles.bio_text}>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem </Text>
@@ -77,7 +67,7 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <ScrollView style={styles.postsView}>
           {
-            showPosts ? <Post data={data}/> : <Scrapbooks/>
+            showPosts ? <Post/> : <Scrapbooks/>
           }
         </ScrollView>
       </View>

@@ -22,7 +22,7 @@ const EditProfile = ({navigation}) => {
         </View>
         <View style={styles.main}>
             <View style={styles.profile_img}>
-                <Image style={styles.pofile} source={require('../../../images/ProfileImages/profile.png')}/>
+                <Image style={styles.pofile} source={require('../../../images/ProfileImages/profile8.jpg')}/>
                 <Pressable style={styles.selectPic}>
                     <Ionicons name="images" size={24}  color="#F5F6FA" />
                 </Pressable>
@@ -102,6 +102,9 @@ const styles = StyleSheet.create({
     },
     pofile:{
         alignSelf:'center',
+        width:100,
+        height:100,
+        borderRadius:100
     },
     profile_img:{
         position:'absolute',

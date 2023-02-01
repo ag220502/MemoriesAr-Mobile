@@ -1,3 +1,4 @@
+
 const darkColor = "#F50057"
 const lightColor = "#F5F6FA"
 const textDarkColor = "#F50057"

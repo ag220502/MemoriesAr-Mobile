@@ -9,38 +9,38 @@ const ChatScreen = ({navigation}) => {
     let chat = [
         {
             id:1,
-            username:'Akshay',
-            lastMessage:'Hello',
+            username:'Benjamin Conley',
+            lastMessage:'You?',
             time:'12:00',
-            profile_image:require('../../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/ProfileImages/profile3.jpg')
         },
         {
             id:2,
-            username:'Dhruv',
+            username:'Shelia Huntley',
             lastMessage:'Hello, How Are you?',
             time:'19:00',
-            profile_image:require('../../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/ProfileImages/profile1.jpg')
         },
         {
             id:3,
-            username:'Akshay',
+            username:'Theresia Hall',
             lastMessage:'Hello',
             time:'11:00',
-            profile_image:require('../../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/ProfileImages/profile2.jpg')
         },
         {
             id:4,
-            username:'Dhruv',
+            username:'Gary Dame',
             lastMessage:'Hello, How Are you?Hello How Are you?Hello, How Are you?',
             time:'10:00',
-            profile_image:require('../../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/ProfileImages/profile4.jpg')
         },
         {
             id:5,
-            username:'Akshay',
+            username:'Peggy Justus',
             lastMessage:'Hello',
             time:'12:00',
-            profile_image:require('../../../images/HomeImages/profile.png')
+            profile_image:require('../../../images/ProfileImages/profile5.jpg')
         },
 
     ]

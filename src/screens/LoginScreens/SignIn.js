@@ -14,7 +14,7 @@ const Signin = ({navigation}) => {
         <View style={style.mainUp}>
             <View style={style.loginWelcomeView}>
                 <Text style={style.loginWelcomeText}>Welcome!</Text>
-                <Text style={style.loginSignInText}>Sign In and Get Started</Text>
+                <Text style={style.loginSignInText}>Sign In to Access Account</Text>
             </View>
         <View style={style.mainInputView}>
             <View style={[{marginVertical:15}]}>
