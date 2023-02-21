@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View,StatusBar,Pressable, FlatList,Modal } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons';
 import Color from '../../../ColourThemes/theme1.js'
 import SimpleModal from '../../../components/Modals/SimpleModal.js';
 import { StackActions } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../../context/AuthContext.js';
 
 const Settings = ({navigation}) => {
+    const {logout} = useContext(AuthContext)
     const data = [
         {
             name:"Account",
@@ -64,13 +66,11 @@ const Settings = ({navigation}) => {
     const changeModalVisible = (bool)=>{
         setModalVisible(bool)
     }
-    const setData = (data)=>{
+    const setData =(data)=>{
         setChooseData(data)
         if(data=="Yes")
         {
-            navigation.dispatch(
-                StackActions.replace("SignIn")
-            )
+            logout()            
         }
     }
     return (
