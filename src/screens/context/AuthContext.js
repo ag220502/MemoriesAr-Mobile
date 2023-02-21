@@ -20,6 +20,7 @@ export const AuthProvider= ({children})=>{
                     try {
                             setToken(data.token)
                             await AsyncStorage.setItem('token',data.token);
+                            await AsyncStorage.setItem('userId',data.userId);
                         } catch (error) {
                         console.log(error)
                         }
@@ -47,6 +48,7 @@ export const AuthProvider= ({children})=>{
                         {
                             setToken(null)
                             await AsyncStorage.removeItem("token");
+                            await AsyncStorage.removeItem("userId");
                         } 
                         catch (error) {
                             console.log(error)
