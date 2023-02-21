@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, View,Alert } from 'react-native'
 import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { StackActions } from '@react-navigation/native';
@@ -12,10 +12,6 @@ const SignUp = ({navigation}) => {
     const [pass,setPassword] = useState("");
 
     const sendCred = ()=>{
-        console.log(userName)
-        console.log(userEmail)
-        console.log(pass)
-
         fetch("http://localhost:3000/api/auth/register",{
             method:"POST",
             headers:{
@@ -30,13 +26,21 @@ const SignUp = ({navigation}) => {
         .then(data=>{
             if(data==="User Registered Successfully")
             {
-                navigation.dispatch(
-                    StackActions.replace('SignIn')
-                )
+                Alert.alert("User Registered Successfully","",[{
+                    text:"Sign In",
+                    onPress:()=>{
+                        navigation.dispatch(
+                            StackActions.replace('SignIn')
+                        )
+                    }
+                }])
             }
             else if(data==="User Already Exists!")
             {
-                console.log("hell")
+                Alert.alert("User Already Exists","Please Sign In!",[{
+                    text:"Ok"
+                }]
+            )
             }
         })
     }

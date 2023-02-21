@@ -1,12 +1,36 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View,Alert } from 'react-native'
+import React, { useContext, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { StackActions } from '@react-navigation/native';
 import Color from '../../ColourThemes/theme1';
 import style from './StyleSheets/main';
 import { StatusBar } from 'expo-status-bar';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../context/AuthContext';
+
+
 const Signin = ({navigation}) => {
+
+    const {login} = useContext(AuthContext)
+    const [email,setEmail] = useState("")
+    const [pass,setPass]= useState("")
+
+    const loginFunc = async (userEmail,userPass)=>
+    {
+        console.log("In func")
+        if(!userEmail || !userPass)
+        {
+            Alert.alert("Alert Box","Please Enter All Details",[{
+                    text:"Ok"
+                }]
+            )
+        }
+        else
+        {
+            login(email,pass)
+        }
+    }
   return (
     
     <View style={style.container}>
@@ -19,13 +43,17 @@ const Signin = ({navigation}) => {
         <View style={style.mainInputView}>
             <View style={[{marginVertical:15}]}>
                 <Text style={style.inputLabel}>Email</Text>
-                <TextInput style={style.input}/>
+                <TextInput 
+                    style={style.input}
+                    onChangeText={(text)=>{setEmail(text)}}
+                />
             </View >
             <View style={[{marginVertical:15}]}>
                 <Text style={style.inputLabel}>Password</Text>
                 <TextInput 
-                style={style.input}
-                secureTextEntry
+                    style={style.input}
+                    onChangeText={(text)=>{setPass(text)}}
+                    secureTextEntry={true}
                 />
             </View>
             <View>
@@ -39,9 +67,7 @@ const Signin = ({navigation}) => {
             </View>
             <Pressable 
                 style={style.logInButtonView}
-                onPress={()=>navigation.dispatch(
-                    StackActions.replace('MainScreen')
-                  )}
+                onPress={()=>loginFunc(email,pass)}
             >
                 <Text style={style.logInButtonText}>Sign In</Text>
             </Pressable>

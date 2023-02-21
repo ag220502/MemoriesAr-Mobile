@@ -4,8 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import Color from '../../../ColourThemes/theme1.js'
 import SimpleModal from '../../../components/Modals/SimpleModal.js';
-import { StackActions } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../../context/AuthContext.js';
 
 const Settings = ({navigation}) => {
