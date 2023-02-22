@@ -20,7 +20,8 @@ export const AuthProvider= ({children})=>{
                     try {
                             setToken(data.token)
                             await AsyncStorage.setItem('token',data.token);
-                            await AsyncStorage.setItem('userId',data.userId);
+                            console.log(data.userId)
+                            await AsyncStorage.setItem('userId',data.userId.toString());
                         } catch (error) {
                         console.log(error)
                         }
