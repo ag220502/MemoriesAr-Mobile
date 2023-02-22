@@ -6,7 +6,8 @@ import Color from '../../../ColourThemes/theme1.js'
 import SimpleModal from '../../../components/Modals/SimpleModal.js';
 import { AuthContext } from '../../context/AuthContext.js';
 
-const Settings = ({navigation}) => {
+const Settings = ({navigation,route}) => {
+
     const {logout} = useContext(AuthContext)
     const data = [
         {
@@ -76,7 +77,7 @@ const Settings = ({navigation}) => {
             <StatusBar barStyle={"light-content"}/>
             <View style={styles.search}>
                 <Pressable style={styles.buttonView}
-                    onPress={()=>navigation.navigate("ProfileScreen")}
+                    onPress={()=>navigation.navigate("ProfileScreen",{userId:id})}
                 >
                     <Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
                 </Pressable>
@@ -134,7 +135,7 @@ const Settings = ({navigation}) => {
                                                         <Pressable 
                                                             style={styles.subListTextView}
                                                             onPress={()=>{
-                                                                navigation.navigate(item.link)
+                                                                navigation.navigate(item.link,{userId:route.params.userId})
                                                             }}
                                                         >
                                                             

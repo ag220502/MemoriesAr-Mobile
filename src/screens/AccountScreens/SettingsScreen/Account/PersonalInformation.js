@@ -1,59 +1,149 @@
-import { StyleSheet, Text, View, Image, Pressable,TextInput  } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable,TextInput,Alert  } from 'react-native'
 import React, { useState } from 'react'
-import { Ionicons } from '@expo/vector-icons'; 
 import Color from './../../../../ColourThemes/theme1.js'
-import DateTimePicker from '@react-native-community/datetimepicker'
-const PersonalInformation = ({navigation}) => {
+import { StackActions } from '@react-navigation/native';
+const PersonalInformation = ({navigation,route}) => {
+	const [id,setId] = useState(route.params.userId)
+	const [email,setEmail] = useState("")
+	const [mobile,setMobile] = useState(null)
+	const [dob,setDob] = useState(null)
+	const [gender,setGen] = useState("")
 
-  return (
-    <View style={styles.container}>
-        <View style={styles.search}>
-            <Pressable style={styles.buttonView}
-                onPress={()=>navigation.navigate("Settings")}
-            >
-                <Text style={styles.btnText}>Cancel</Text>
-            </Pressable>
-            <Text style={styles.headText}>Personal Information</Text>
-            <Pressable style={styles.buttonView}
-                onPress={()=>navigation.navigate("Settings")}
-            >
-                <Text style={styles.btnText}>Save</Text>
-            </Pressable>
-        </View>
-        <View style={styles.main}>
-            <View style={styles.profile_img}>
-                <Image style={styles.pofile} source={require('../../../../images/ProfileImages/profile.png')}/>
-            </View>
-            <View style={styles.detailsView}>
-                <View style={styles.inputView}>
-                    <Text style={styles.label}>Email Id</Text>
-                    <TextInput style={styles.input}/>
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.label}>Mobile Number</Text>
-                    <TextInput style={styles.input}/>
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.label}>Date Of Birth</Text>
-                    <TextInput style={styles.input}/>
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.label}>Country</Text>
-                    <TextInput style={[styles.input,styles.input]}/>
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.label}>State</Text>
-                    <TextInput style={styles.input}/>
-                </View>
-                <View style={styles.inputView}>
-                    <Text style={styles.label}>City</Text>
-                    <TextInput style={[styles.input]} />
-                </View>
-                
-            </View>
-        </View>
-    </View>
-  )
+	const [getData,setGetData] = useState(false)
+	const getUserData= async()=>
+	{
+		try
+        {
+            await fetch ('http://localhost:3000/api/users/personal/'+id,{
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				  }
+			}).then(
+                res => {
+					if(res.status===200)
+					{
+						res.json().then((data)=>{
+							if(data[0].id)
+							{
+								setEmail(data[0].email)
+								setMobile(data[0].mobile)
+								setDob(data[0].dob)
+								setGen(data[0].gender)
+							}
+						})
+					}
+					else if(res.status==400)
+					{
+						console.log(res)
+					}
+            })
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+	}
+	if(!getData)
+	{
+		getUserData()
+		setGetData(true)
+	}
+
+	const updateData=()=>{
+		console.log("in func")
+        fetch("http://localhost:3000/api/users/updatePersonal",{
+            method:"PATCH",
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                id:id,
+                dob:dob,
+                countryCode:"971",
+                mobile:mobile,
+                gender:"0"
+            })
+        }).then(res=>res.json())
+        .then(data=>{
+			console.log(data)
+            if(data==="Personal Data Updated")
+            {
+                Alert.alert("Details Updated Successfully","",[{
+                    text:"Ok",
+                    onPress:()=>{
+                        navigation.dispatch(
+                            StackActions.replace('ProfileScreen')
+                        )
+                    }
+                }])
+            }
+        })
+    }
+	
+
+	return (
+		<View style={styles.container}>
+			<View style={styles.search}>
+				<Pressable style={styles.buttonView}
+					onPress={()=>navigation.navigate("Settings",{userId:route.params.userId})}
+				>
+					<Text style={styles.btnText}>Cancel</Text>
+				</Pressable>
+				<Text style={styles.headText}>Personal Information</Text>
+				<Pressable style={styles.buttonView}
+					onPress={()=>updateData()}
+				>
+					<Text style={styles.btnText}>Save</Text>
+				</Pressable>
+			</View>
+			<View style={styles.main}>
+				<View style={styles.profile_img}>
+					<Image style={styles.pofile} source={require('../../../../images/ProfileImages/profile.png')}/>
+				</View>
+				<View style={styles.detailsView}>
+					<View style={styles.inputView}>
+						<Text style={styles.label}>Email Id</Text>
+						<TextInput 
+							style={[styles.input,{color:'grey'}]}
+							value={email}
+							editable={false}
+							onChangeText={(text)=>{setEmail(text)}}
+						/>
+					</View>
+					<View style={styles.inputView}>
+						<Text style={styles.label}>Mobile Number</Text>
+						<TextInput 
+							style={styles.input}
+							value={mobile}
+							onChangeText={(text)=>{setMobile(text)}}
+						/>
+					</View>
+					<View style={styles.inputView}>
+						<Text style={styles.label}>Date Of Birth</Text>
+						<TextInput 
+							style={styles.input}
+							value={dob}
+							onChangeText={(text)=>{setDob(text)}}
+						/>
+					</View>
+					{/* <View style={styles.inputView}>
+						<Text style={styles.label}>Country</Text>
+						<TextInput style={[styles.input,styles.input]}/>
+					</View>
+					<View style={styles.inputView}>
+						<Text style={styles.label}>State</Text>
+						<TextInput style={styles.input}/>
+					</View>
+					<View style={styles.inputView}>
+						<Text style={styles.label}>City</Text>
+						<TextInput style={[styles.input]} />
+					</View> */}
+					
+				</View>
+			</View>
+		</View>
+	)
 }
 
 export default PersonalInformation

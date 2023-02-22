@@ -106,7 +106,9 @@ const ProfileScreen = ({navigation}) => {
 				<Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
 			</Pressable>
 			<Pressable style={styles.buttonView}
-				onPress={()=>navigation.navigate("Settings")}
+				onPress={()=>navigation.navigate("Settings",{
+					userId:id
+				})}
 			>
 				<Ionicons name="ios-settings" size={24} color={Color.textDarkColor} />
 			</Pressable>
