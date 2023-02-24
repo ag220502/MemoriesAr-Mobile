@@ -1,54 +1,126 @@
-import { StyleSheet, Text, View, Image, Pressable,TextInput  } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, Pressable,TextInput,Alert  } from 'react-native'
+import React,{useContext, useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import Color from './../../../../ColourThemes/theme1.js'
-const ChangePassword = ({navigation}) => {
-  return(
-    <View style={styles.container}>
-      <View style={styles.search}>
-        <Pressable style={styles.buttonView}
-            onPress={()=>navigation.navigate("Settings")}
-        >
-            <Text style={styles.btnText}>Cancel</Text>
-        </Pressable>
-        <Text style={styles.headText}>Change Password</Text>
-        <Pressable style={styles.buttonView}
-            onPress={()=>navigation.navigate("Settings")}
-        >
-            <Text style={styles.btnText}>Save</Text>
-        </Pressable>
-      </View>
-      <View style={styles.main}>
-        <View style={styles.profile_img}>
-          <Image style={styles.pofile} source={require('../../../../images/ProfileImages/profile.png')}/>
-        </View>
-        <View style={styles.fieldDisplay}>
-          <View style={styles.inputView}>
-            <Text style={styles.label}>Enter Current Password</Text>
-            <TextInput
-            style={styles.input}
-            secureTextEntry
-            />
-          </View>
-          <View style={styles.inputView}>
-            <Text style={styles.label}>Enter New Password</Text>
-            <TextInput
-            style={styles.input}
-            secureTextEntry
-            />
-          </View>
-          <View style={styles.inputView}>
-            <Text style={styles.label}>Confirm New Password</Text>
-            <TextInput
-            style={styles.input}
-            secureTextEntry
-            />
-          </View>
-        </View>
-        <Image source={require('../../../../images/LoginImages/newPass.png')} resizeMode={'contain'} style={styles.illusImg}/>
-      </View>
-    </View>
-  )
+import { AuthContext } from '../../../context/AuthContext.js';
+const ChangePassword = ({navigation,route}) => {
+	const [password, setPassword] = useState('');
+	const [newPassword, setNewPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const {logout} = useContext(AuthContext);
+
+	const changePassword= async ()=>{
+		try{
+			await fetch('http://localhost:3000/api/auth/updatePass',{
+				method:"PATCH",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body:JSON.stringify({
+					"id":route.params.userId,
+					"oldPassword":password,
+					"newPassword":newPassword,
+					"confirmPassword":confirmPassword,
+				})
+			}).then(
+				res => {
+					if(res.status===200)
+					{
+						res.json().then((data)=>{
+							if(data=="Password Updated")
+							{
+								Alert.alert("Password Changed Successfully","",[{
+									text:"Ok",
+									onPress:()=>{
+										Alert.alert("Please Sign In Again","",[{
+											text:"Ok",
+											onPress:()=>{
+												logout()
+											}
+										}])
+									}
+								}])
+							}
+						})
+					}
+					else if(res.status==400)
+					{
+						Alert.alert("Wrong Password","",[{
+							text:"Ok"
+						}])
+					}
+			})
+		}
+		catch(err){
+			console.log(err)
+		}
+	}
+	return(
+		<View style={styles.container}>
+		<View style={styles.search}>
+			<Pressable style={styles.buttonView}
+				onPress={()=>navigation.navigate("Settings",{userId:route.params.userId})}
+			>
+				<Text style={styles.btnText}>Cancel</Text>
+			</Pressable>
+			<Text style={styles.headText}>Change Password</Text>
+			<Pressable style={styles.buttonView}
+				onPress={()=>{
+					if(password=="" || newPassword=="" || confirmPassword=="")
+					{
+						Alert.alert("Please fill all the fields")
+					}
+					else if(newPassword!=confirmPassword)
+					{
+						Alert.alert("New Password and Confirm Password do not match")
+					}
+					else
+					{
+						changePassword()
+					}
+				}}
+			>
+				<Text style={styles.btnText}>Save</Text>
+			</Pressable>
+		</View>
+		<View style={styles.main}>
+			<View style={styles.profile_img}>
+			<Image style={styles.pofile} source={require('../../../../images/ProfileImages/profile.png')}/>
+			</View>
+			<View style={styles.fieldDisplay}>
+			<View style={styles.inputView}>
+				<Text style={styles.label}>Enter Current Password</Text>
+				<TextInput
+					style={styles.input}
+					secureTextEntry
+					value={password}
+					onChangeText={(text)=>{setPassword(text)}}
+				/>
+			</View>
+			<View style={styles.inputView}>
+				<Text style={styles.label}>Enter New Password</Text>
+				<TextInput
+					style={styles.input}
+					secureTextEntry
+					value={newPassword}
+					onChangeText={(text)=>{setNewPassword(text)}}
+				/>
+			</View>
+			<View style={styles.inputView}>
+				<Text style={styles.label}>Confirm New Password</Text>
+				<TextInput
+					style={styles.input}
+					secureTextEntry
+					value={confirmPassword}
+					onChangeText={(text)=>{setConfirmPassword(text)}}
+				/>
+			</View>
+			</View>
+			<Image source={require('../../../../images/LoginImages/newPass.png')} resizeMode={'contain'} style={styles.illusImg}/>
+		</View>
+		</View>
+	)
 }
 
 export default ChangePassword
