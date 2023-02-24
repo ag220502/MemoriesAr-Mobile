@@ -1,17 +1,67 @@
-import { StyleSheet, Text, View, StatusBar, Pressable, Image, Modal } from 'react-native'
-import React,{useState} from 'react'
+import { StyleSheet, Text, View, StatusBar, Pressable, Image, Alert } from 'react-native'
+import React,{useState,useContext} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import deletePic from '../../../../images/SettingImages/delete.png'
 import Color from './../../../../ColourThemes/theme1.js'
 import SimpleModal from '../../../../components/Modals/SimpleModal';
- 
-const DeleteAccount = ({navigation}) => {
+
+import { AuthContext } from '../../../context/AuthContext.js';
+
+
+const DeleteAccount = ({navigation,route}) => {
+	const {logout} = useContext(AuthContext)
+	const deleteAcc= async()=>{
+		try{
+			await fetch ('http://localhost:3000/api/users/delete',{
+				method:"DELETE",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body:JSON.stringify({
+					"id":route.params.userId
+				})
+			}).then(
+				res => {
+					if(res.status===200)
+					{
+						res.json().then((data)=>{
+							if(data=="Account Deleted")
+							{
+								Alert.alert("Account Deleted Successfully","",[{
+									text:"Ok",
+									onPress:async ()=>{
+										try
+										{
+											logout()
+										}
+										catch(err)
+										{
+											console.log(err)
+										}
+									}
+								}])
+							}
+						})
+					}
+					else if(res.status==400)
+					{
+						console.log("Res"+res)
+					}
+			})
+		}
+		catch(err)
+		{
+
+		}
+	}
+
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle={"light-content"}/>
 			<View style={styles.search}>
 				<Pressable style={styles.buttonIconView}
-					onPress={()=>navigation.navigate("Settings")}
+					onPress={()=>navigation.navigate("Settings",{userId:route.params.userId})}
 				>
 					<Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
 				</Pressable>
@@ -26,7 +76,20 @@ const DeleteAccount = ({navigation}) => {
 				</View>
 				<Pressable 
 					style={styles.buttonView}
-	
+					onPress={()=>{
+						Alert.alert("Delete Account","Are you sure you want to delete your account?",[{
+							text:"Cancel",
+							onPress:()=>{
+							}
+							},
+							{
+								text:"Yes",
+								onPress:()=>{
+									deleteAcc()
+								}
+							}
+						])
+					}}
 				>
 					<Text style={styles.buttonText}>Delete Account</Text>
 				</Pressable>
