@@ -42,6 +42,7 @@ const ProfileScreen = ({navigation}) => {
 								setFName(data[0].firstName)
 								setLName(data[0].lastName)
 								setBio(data[0].bio)
+								
 							}
 						})
 					}

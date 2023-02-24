@@ -77,7 +77,7 @@ const Settings = ({navigation,route}) => {
             <StatusBar barStyle={"light-content"}/>
             <View style={styles.search}>
                 <Pressable style={styles.buttonView}
-                    onPress={()=>navigation.navigate("ProfileScreen",{userId:id})}
+                    onPress={()=>navigation.navigate("ProfileScreen",{userId:route.params.userId})}
                 >
                     <Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
                 </Pressable>

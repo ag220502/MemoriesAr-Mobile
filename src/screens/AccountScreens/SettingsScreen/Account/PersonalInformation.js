@@ -51,7 +51,6 @@ const PersonalInformation = ({navigation,route}) => {
 	}
 
 	const updateData=()=>{
-		console.log("in func")
         fetch("http://localhost:3000/api/users/updatePersonal",{
             method:"PATCH",
             headers:{
@@ -66,14 +65,13 @@ const PersonalInformation = ({navigation,route}) => {
             })
         }).then(res=>res.json())
         .then(data=>{
-			console.log(data)
             if(data==="Personal Data Updated")
             {
                 Alert.alert("Details Updated Successfully","",[{
                     text:"Ok",
                     onPress:()=>{
                         navigation.dispatch(
-                            StackActions.replace('ProfileScreen')
+                            StackActions.replace('Settings',{userId:id})
                         )
                     }
                 }])
