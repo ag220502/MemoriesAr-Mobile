@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import Post from '../../../components/ProfilePost'; 
 import Scrapbooks from '../../../components/ProfileScrapbooks';
-const OtherUserProfileScreen = ({navigation}) => {
+const OtherUserProfileScreen = ({navigation,route}) => {
   const [showPosts,setShowPosts] = useState(true);
 
   const data = [
@@ -21,7 +21,7 @@ const OtherUserProfileScreen = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.search}>
         <Pressable style={styles.buttonView}
-            onPress={()=>navigation.navigate("MainScreen")}
+            onPress={()=>navigation.navigate(route.params.backTo)}
         >
             <Ionicons name="chevron-back" size={30} color="#F50057" />
         </Pressable>

@@ -9,7 +9,7 @@ import CreateScreen from '../AccountScreens/CreateScreens/CreateScreen.js';
 import AddLocation from '../AccountScreens/CreateScreens/AddLocation.js';
 
 //Menu Screens
-import MenuScreen from '../AccountScreens/MenuScreens/MenuScreen.js'
+import MenuScreen from '../AccountScreens/MapScreens/PostsMap'
 import UserPosts from '../AccountScreens/MenuScreens/UserPosts.js';
 import UserGroups from '../AccountScreens/MenuScreens/UserGroups.js';
 
