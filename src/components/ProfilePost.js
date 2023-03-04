@@ -2,39 +2,22 @@ import { StyleSheet, Text, View,Image } from 'react-native'
 import React from 'react'
 
 const ProfilePost = (data) => {
-    const postInfo = [
-        {
-            postProfile:require('../images/HomeImages/post3.jpg'),
-        },
-        {
-            postProfile:require('../images/HomeImages/post10.jpg'),
-        },
-        {
-            postProfile:require('../images/HomeImages/post6.jpg'),
-        },
-        {
-            postProfile:require('../images/HomeImages/post2.jpg'),
-        },
-        {
-            postProfile:require('../images/HomeImages/post1.jpg'),
-        },
-        {
-            postProfile:require('../images/HomeImages/post8.jpg'),
-        }
-    ]
-  return (
+
+    return (
     
-    <View style={styles.allPosts}>
-        {
-            postInfo.map((data,index)=>{
-                return(
-                    <View style={styles.post} key={index}>
-                        <Image source={data.postProfile} style={styles.pic}/>
-                    </View>
-                )
-            })} 
-    </View>
-  )
+        <View style={styles.allPosts}>
+            {
+                data.data.length ?
+                data.data.map((data,index)=>{
+                    return(
+                        <View style={styles.post} key={index}>
+                            <Image source={{uri:data.photo}} style={styles.pic}/>
+                        </View>
+                    )
+                }) : <Text>No Memories Uploaded</Text>
+                }
+        </View>
+    )
 }
 
 export default ProfilePost

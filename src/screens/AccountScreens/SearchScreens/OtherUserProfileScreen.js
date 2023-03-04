@@ -1,87 +1,151 @@
 import { Pressable, ScrollView,  StyleSheet, Text, View, Image } from 'react-native'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons';
 import Post from '../../../components/ProfilePost'; 
 import Scrapbooks from '../../../components/ProfileScrapbooks';
-const OtherUserProfileScreen = ({navigation,route}) => {
-  const [showPosts,setShowPosts] = useState(true);
+import { getProfileData,getNumPosts,getNumFriends, getUserPosts, checkIsFriend } from '../../fetchData/profileData';
+import { Feather } from '@expo/vector-icons';
+import Color from '../../../ColourThemes/theme1';
 
-  const data = [
-    { 
-      post:require('../../../images/ProfileImages/posts.png'),
-      name:"Akshay"
-    },
-    { post:require('../../../images/ProfileImages/posts.png')},    
-    { post:require('../../../images/ProfileImages/posts.png')},
-    { post:require('../../../images/ProfileImages/posts.png')}
-  ]
-  return (
-  <View>
-    <View style={styles.container}>
-      <View style={styles.search}>
-        <Pressable style={styles.buttonView}
-            onPress={()=>navigation.navigate(route.params.backTo,{userId:route.params.logged})}
-        >
-            <Ionicons name="chevron-back" size={30} color="#F50057" />
-        </Pressable>
-        <Pressable style={styles.buttonView}
-            onPress={()=>navigation.navigate("MainScreen")}
-        >
-            <Entypo name="dots-three-horizontal" size={24} color="#F50057" />
-        </Pressable>
-      </View>
-      <View style={styles.main}>
-        <View style={styles.profile_img}>
-          <Image style={styles.pofile} source={require('../../../images/ProfileImages/profile.png')}/>
-        </View>
-        <View style={styles.profile_data}>
-          <View style={styles.dataView}>
-            <Text style={styles.dataNum}>300</Text>
-            <Text style={styles.dataName}>Friends</Text>
-          </View>
-          <View style={styles.dataView}>
-            <Text style={styles.dataNum}>30</Text>
-            <Text style={styles.dataName}>Memories</Text>
-          </View>
-        </View>
-        <View style={styles.userNameView}>
-          <Text style={styles.userName}>Akshay Garg</Text>
-        </View>
-        <View style={styles.profile_bio}>
-          <Text style={styles.bio_text}>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem </Text>
-        </View>
-        <View style={styles.followButtonView}>
-          <Pressable style={styles.FollowbuttonView}>
-            <Text style={styles.btnText}>Add Friend</Text>
-          </Pressable>
-          <Pressable style={styles.FollowbuttonView} >
-            <Text  style={styles.btnText}>Message</Text>
-          </Pressable>
-        </View>
-        <View style={styles.tabView}>
-          <View style={{flexDirection:'row'}}>
-            <Text style={
-              showPosts? styles.tabTextActive: styles.tabText}
-              onPress={()=>setShowPosts(true)}
-              >Memories</Text>
-          </View>
-          <View style={{flexDirection:'row'}}>
-            <Text style={
-              showPosts? styles.tabText: styles.tabTextActive}
-              onPress={()=>setShowPosts(false)}
-              > Scrapbooks</Text>
-          </View>
-        </View>
-        <ScrollView style={styles.postsView}>
-          {
-            showPosts ? <Post data={data}/> : <Scrapbooks/>
-          }
-        </ScrollView>
-      </View>
-    </View>
-  </View>
-  )
+const OtherUserProfileScreen = ({navigation,route}) => {
+	const [showPosts,setShowPosts] = useState(true);
+	const [loggedUserId,setLoggedUserId] = useState(route.params.logged);
+	const [profileUserId,setProfileUserId] = useState(route.params.userId);
+	const [name,setName] = useState('');
+	const [numFriends,setNumFriends] = useState(0);
+	const [numPosts,setNumPosts] = useState(0);
+	const [isFriend,setIsFriend] = useState(false);
+	const [profilePhoto,setProfilePhoto] = useState('');
+	const [bio,setBio] = useState('');
+	const [isLoaded,setIsLoaded] = useState(false);
+	const [userPosts,setUserPosts] = useState([]);
+
+	useEffect(()=>{
+		if(!isLoaded){
+	getProfileData(profileUserId).then((data)=>{
+		setIsLoaded(false)
+		if(data.lastName==null)
+		{
+			setName(data.firstName)
+		}
+		else
+		{
+			setName(data.firstName+" "+data.lastName)
+		}
+		setBio(data.bio)
+		console.log(data.profilePhoto)
+		setProfilePhoto(data.profilePhoto)
+		getNumPosts(profileUserId).then((data)=>{
+			setNumPosts(data)
+		})
+		getNumFriends(profileUserId).then((data)=>{
+			setNumFriends(data)
+		})
+		getUserPosts(profileUserId).then((data)=>{
+			setUserPosts(data)
+		})
+		checkIsFriend(loggedUserId,profileUserId).then((data)=>{
+			setIsFriend(data)
+		})
+
+		setIsLoaded(true)
+	})
+}
+	},[])
+	
+	function printData(){
+		if(isLoaded)
+		{
+			return (<View>
+				<View style={styles.container}>
+					<View style={styles.search}>
+						<Pressable style={styles.buttonView}
+							onPress={()=>navigation.navigate(route.params.backTo,{userId:route.params.logged})}
+						>
+							<Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
+						</Pressable>
+						<Pressable style={styles.buttonView}
+							onPress={()=>navigation.navigate("MainScreen")}
+						>
+							<Entypo name="dots-three-horizontal" size={24} color={Color.textDarkColor} />
+						</Pressable>
+					</View>
+					<View style={styles.main}>
+						<View style={styles.profile_img}>
+							<Image source={{uri:profilePhoto}} style={styles.pofile}/>
+							</View>
+						<View style={styles.profile_data}>
+						<View style={styles.dataView}>
+							<Text style={styles.dataNum}>{numFriends}</Text>
+							<Text style={styles.dataName}>Friends</Text>
+						</View>
+						<View style={styles.dataView}>
+							<Text style={styles.dataNum}>{numPosts}</Text>
+							<Text style={styles.dataName}>Memories</Text>
+						</View>
+						</View>
+						<View style={styles.userNameView}>
+							<Text style={styles.userName}>{name}</Text>
+						</View>
+						{
+							bio ?<View style={styles.profile_bio}>
+							<Text style={styles.bio_text}>
+								{bio}
+							</Text>
+						</View>:null
+						}
+						
+						<View style={styles.followButtonView}>
+							<Pressable style={styles.FollowbuttonView}>
+								<Text style={styles.btnText}>
+									{isFriend 
+										? 
+										<><Text>Friends</Text>
+										<Feather name="user-check" size={20} color={Color.textLightColor} />
+										</>
+										:
+										<><Text>Add Friend</Text>
+										<Ionicons name="person-add-sharp" size={24} color={Color.textLightColor} />
+										</>
+									}
+								</Text>
+							</Pressable>
+							<Pressable style={styles.FollowbuttonView} >
+								<Text  style={styles.btnText}>Message</Text>
+							</Pressable>
+						</View>
+						<View style={styles.tabView}>
+							<View style={{flexDirection:'row'}}>
+								<Text style={
+								showPosts? styles.tabTextActive: styles.tabText}
+								onPress={()=>setShowPosts(true)}
+								>Memories</Text>
+							</View>
+							<View style={{flexDirection:'row'}}>
+								<Text style={
+								showPosts? styles.tabText: styles.tabTextActive}
+								onPress={()=>setShowPosts(false)}
+								> Scrapbooks</Text>
+							</View>
+						</View>
+						<View style={styles.postsView}>
+						{
+							showPosts ? <Post data={userPosts}/> : <Scrapbooks/>
+						}
+						</View>
+					</View>
+				</View>
+			</View>)
+		}
+	}
+	return (
+		<View>
+		{
+			isLoaded ? printData() : <View><Text>Loading</Text></View>
+		}
+		</View>
+	)
 }
 
 export default OtherUserProfileScreen
