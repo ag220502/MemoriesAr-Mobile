@@ -6,13 +6,12 @@ import TopNavBar from '../../components/TopNavBar'
 import UserFeed from '../../components/UserFeed'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AuthContext } from '../context/AuthContext'
+import { getHomeFeed } from '../fetchData/homeScreenData'
 
 const MainScreen = ({navigation}) => {
-	const {userLoggedIn} = React.useContext(AuthContext)
-	console.log("User Logged In "+userLoggedIn)
 	const [id,setId] = useState("")
     const [isLoaded,setIsLoaded] = useState(false)
-
+	
     const getId = async ()=>{
         setIsLoaded(true)
         const user  = await AsyncStorage.getItem("userId")
@@ -20,11 +19,14 @@ const MainScreen = ({navigation}) => {
         if(id)
         {
             setIsLoaded(false)
-			console.log(id)
         }
     }
     useEffect(()=>{
-		getId()
+		if(!id)
+		{
+			getId()
+		}
+		
 	}, [])
 
   	return (
@@ -35,7 +37,7 @@ const MainScreen = ({navigation}) => {
 
 					<StatusBar barStyle="dark"/>
 					<TopNavBar navigation={navigation}/>
-					<UserFeed navigation={navigation}/>
+					<UserFeed navigation={navigation} userId={id}/>
 					<BottomNavBar navigation={navigation} userId={id}/>
 				</>
 			}

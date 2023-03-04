@@ -7,10 +7,10 @@ import Color from '../ColourThemes/theme1';
 const TopNavBar = ({navigation}) => {
   return (
     <View style={styles.container}>
-        <Image
+        {/* <Image
             source={logo}
             style={styles.logo2}
-        />
+        /> */}
         <Text style={styles.name}>Memories AR</Text>
         <Pressable 
             onPress={()=>navigation.navigate("ChatScreen")}

@@ -1,95 +1,24 @@
 import { StyleSheet, Text, View,FlatList,Image, Pressable } from 'react-native'
 import React,{useState} from 'react'
-import Feather from "@expo/vector-icons/Feather"
-import AntDesign from "@expo/vector-icons/AntDesign"
 import Ionicons from "@expo/vector-icons/Ionicons"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import { Entypo } from '@expo/vector-icons';
 import Color from '../ColourThemes/theme1'
 
+import { getHomeFeed } from '../screens/fetchData/homeScreenData';
 
-const UserFeed = ({navigation}) => {
-	const postInfo = [
-        {
-            postTitle:"Benjamin Conley",
-            postTag:"AAR225 and 2 others",
-            postLocation:"Dubai",
-            postType:"Fictional",
-            postProfile:require('../images/ProfileImages/profile3.jpg'),
-            postImage:require('../images/HomeImages/post10.jpg'),
-            likes:230,
-            comments:23,
-            isLiked:true,
-            isDisliked:true,
-            isSaved:false,
-        },
-        {
-            postTitle:"Shelia Huntley",
-            postTag:"AAR225 and 2 others",
-            postLocation:"Dubai",
-            postType:"Fictional",
-            postProfile:require('../images/ProfileImages/profile1.jpg'),
-            postImage:require('../images/HomeImages/post5.jpg'),
-            likes:765,
-            comments:9,
-            isLiked:true,
-            isDisliked:false,
-            isSaved:false,
-        },
-		{
-            postTitle:"Theresia Hall",
-            postTag:"AAR225 and 2 others",
-            postLocation:"Dubai",
-            postType:"Fictional",
-            postProfile:require('../images/ProfileImages/profile2.jpg'),
-            postImage:require('../images/HomeImages/post1.jpg'),
-            likes:10,
-            comments:1,
-            isLiked:true,
-            isDisliked:false,
-            isSaved:false,
-        },
-		{
-            postTitle:"Gary Dame",
-            postTag:"AAR225 and 2 others",
-            postLocation:"Dubai",
-            postType:"Fictional",
-            postProfile:require('../images/ProfileImages/profile4.jpg'),
-            postImage:require('../images/HomeImages/post2.jpg'),
-            likes:90,
-            comments:0,
-            isLiked:true,
-            isDisliked:false,
-            isSaved:false,
-        },
-        {
-            postTitle:"Peggy Justus",
-            postTag:"AAR225 and 2 others",
-            postLocation:"Dubai",
-            postType:"Fictional",
-            postProfile:require('../images/ProfileImages/profile5.jpg'),
-            postImage:require('../images/HomeImages/post7.jpg'),
-            likes:854,
-            comments:23,
-            isLiked:false,
-            isDisliked:true,
-            isSaved:false,
-        },
-        {
-            postTitle:"Angelo Edwards",
-            postTag:"AAR225 and 2 others",
-            postLocation:"Dubai",
-            postType:"Fictional",
-            postProfile:require('../images/ProfileImages/profile8.jpg'),
-            postImage:require('../images/HomeImages/post3.jpg'),
-            likes:98,
-            comments:23,
-            isLiked:true,
-            isDisliked:true,
-            isSaved:true,
-        }
 
-    ]
+const UserFeed = ({navigation,userId}) => {
+
+	const [postInfo,setPostInfo] = useState([])
+	if(!postInfo.length)
+	{
+		getHomeFeed(userId).then((data)=>{
+			setPostInfo(data)
+		})
+	}
+
+
 	return (
 		<View style={styles.container}>
 			<FlatList
@@ -101,10 +30,10 @@ const UserFeed = ({navigation}) => {
                             <View style={styles.postUserDetails}>
 								<View style={styles.userDetails}>
 									<Image
-										source={element.item.postProfile}
+										source={{uri:element.item.profilePhoto}}
 										style={styles.userProfile}
 									/>
-									<Text style={styles.userName}>{element.item.postTitle}</Text>
+									<Text style={styles.userName}>{element.item.firstName + " "} {element.item.lastName?element.item.lastName:""}</Text>
 								</View>
 								<View style={styles.moreOptions}>
 									<Entypo name="dots-three-horizontal" size={24} color="black" />
@@ -112,7 +41,7 @@ const UserFeed = ({navigation}) => {
 							</View>
 							<View style={styles.userPostPic}>
 								<Image
-									source={element.item.postImage}
+									source={{uri:element.item.PhotoLink}}
 									style={styles.postImage}
 								/>
 								<Pressable style={styles.postBtn}>
@@ -126,7 +55,7 @@ const UserFeed = ({navigation}) => {
 										size={30} 
 										color={Color.textMidColor}
 									/>
-									<Text style={styles.optionNum}>{element.item.likes}</Text>
+									<Text style={styles.optionNum}>{element.item.PostLikes}</Text>
 								</Pressable>
 								<Pressable style={styles.postOpt}>
 									<FontAwesome 
@@ -134,7 +63,7 @@ const UserFeed = ({navigation}) => {
 										size={24} 
 										color={Color.textMidColor} 
 									/>
-									<Text style={styles.optionNum}>{element.item.comments}</Text>
+									<Text style={styles.optionNum}>{element.item.PostComments}</Text>
 								</Pressable>
 								<Pressable style={styles.postOpt}>
 								<Ionicons 

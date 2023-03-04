@@ -7,7 +7,6 @@ import Color from './../ColourThemes/theme1.js'
 import { FontAwesome5 } from '@expo/vector-icons';
 
 const BottomNavBar = ({navigation,userId}) => {
-    console.log(userId)
   return (
     <View style={styles.NavContainer}> 
         <View style={styles.NavBar}>
