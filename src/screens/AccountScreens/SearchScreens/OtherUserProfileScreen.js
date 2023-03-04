@@ -21,7 +21,7 @@ const OtherUserProfileScreen = ({navigation,route}) => {
     <View style={styles.container}>
       <View style={styles.search}>
         <Pressable style={styles.buttonView}
-            onPress={()=>navigation.navigate(route.params.backTo)}
+            onPress={()=>navigation.navigate(route.params.backTo,{userId:route.params.logged})}
         >
             <Ionicons name="chevron-back" size={30} color="#F50057" />
         </Pressable>

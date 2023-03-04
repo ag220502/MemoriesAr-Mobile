@@ -6,7 +6,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Color from './../ColourThemes/theme1.js'
 import { FontAwesome5 } from '@expo/vector-icons';
 
-const BottomNavBar = ({navigation}) => {
+const BottomNavBar = ({navigation,userId}) => {
+    console.log(userId)
   return (
     <View style={styles.NavContainer}> 
         <View style={styles.NavBar}>
@@ -36,7 +37,7 @@ const BottomNavBar = ({navigation}) => {
             </Pressable>
             <Pressable
                 style={styles.IconBehave}
-                onPress={()=>navigation.navigate('MenuScreen')}
+                onPress={()=>navigation.navigate('MenuScreen',{userId:userId})}
             >
                 <FontAwesome5 name="map-marked-alt" size={32} color={Color.textLightColor} />
                 {/* <Ionicons name="menu" size={32} color={Color.textLightColor} /> */}
