@@ -17,8 +17,6 @@ const UserFeed = ({navigation,userId}) => {
 			setPostInfo(data)
 		})
 	}
-
-
 	return (
 		<View style={styles.container}>
 			<FlatList
