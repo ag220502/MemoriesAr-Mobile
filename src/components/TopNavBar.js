@@ -12,12 +12,18 @@ const TopNavBar = ({navigation}) => {
             style={styles.logo2}
         /> */}
         <Text style={styles.name}>Memories AR</Text>
+        <View style={{flexDirection:'row'}}>
         <Pressable 
             onPress={()=>navigation.navigate("ChatScreen")}
             >
             <Ionicons name="chatbubbles-outline" size={32} color="black" />
         </Pressable>
-
+        <Pressable 
+            onPress={()=>navigation.navigate("ChatScreen")}
+            >
+            <Ionicons name="chatbubbles-outline" size={32} color="black" />
+        </Pressable>
+        </View>
     </View>
   )
 }
