@@ -16,7 +16,7 @@ const TopNavBar = ({navigation}) => {
         <Pressable 
             onPress={()=>navigation.navigate("ChatScreen")}
             >
-            <Ionicons name="chatbubbles-outline" size={32} color="black" />
+            <Ionicons name="notifications-outline" size={32} color="black" style={{paddingRight:10}}/>
         </Pressable>
         <Pressable 
             onPress={()=>navigation.navigate("ChatScreen")}
