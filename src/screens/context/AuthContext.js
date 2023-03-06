@@ -38,6 +38,7 @@ export const AuthProvider= ({children})=>{
 
     const logout = async ()=>{
         setLoading(true)
+        console.log("logged out1")
         try
         {
             await fetch ('http://localhost:3000/api/auth/logout',{
@@ -46,11 +47,12 @@ export const AuthProvider= ({children})=>{
                 res => {res.json().then(async data => {
                     if(data==true)
                     {
-                        try 
+                        try
                         {
                             setToken(null)
                             await AsyncStorage.removeItem("token");
                             await AsyncStorage.removeItem("userId");
+                            console.log("logged out")
                         } 
                         catch (error) {
                             console.log(error)

@@ -3,8 +3,12 @@ import React from 'react'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
 import { StatusBar } from 'expo-status-bar';
-const Verification = ({navigation}) => {
-  return (
+import { sendOTP } from '../fetchData/signUpProcess.js';
+const Verification = ({navigation,route}) => {
+    const sendAgain = () => {
+        sendOTP(route.params.email)
+    }
+    return (
     <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark"/>
         <View>
@@ -13,16 +17,28 @@ const Verification = ({navigation}) => {
         <View style={styles.mainView}>
             <Text style={styles.heading}>Enter Your Verification Code</Text>
             <TextInput style={styles.input}/>
-            <Text style={styles.para}>We have sent the verification code to your email akshay@gmail.com. Please check your inbox.</Text>
-            <Text style={styles.label1}>Didn't received the code? <Text style={[styles.label1,{fontWeight:'700',color:Color.textDarkColor}]}>Send Again</Text></Text>
+            <Text style={styles.para}>We have sent the verification code to your email {route.params.email}. Please check your inbox.</Text>
+            <Text style={styles.label1}>Didn't received the code? 
+                <Text 
+                    style={[styles.label1,{fontWeight:'700',color:Color.textDarkColor}]}
+                    onPress={()=>(sendAgain())}
+                >
+                    Send Again
+                </Text>
+            </Text>
         </View>
         <Pressable
             style={styles.buttonView}
             onPress={()=>navigation.dispatch(
                 StackActions.replace('AccountVerified')
-              )}    
+              )}
         >
-            <Text style={styles.buttonText}>Verify</Text>
+            <Text 
+                style={styles.buttonText}
+                onPress={()=>{}}
+            >
+                Verify
+            </Text>
         </Pressable>
     </SafeAreaView>
   )

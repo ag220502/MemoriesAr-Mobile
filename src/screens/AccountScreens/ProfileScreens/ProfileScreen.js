@@ -159,9 +159,9 @@ const ProfileScreen = ({navigation}) => {
 			</View>
 			</View>
 			<ScrollView style={styles.postsView}>
-			{
+			{/* {
 				showPosts ? <Post/> : <Scrapbooks/>
-			}
+			} */}
 			</ScrollView>
 		</View>
 		<BottomNavBar navigation={navigation}/>
