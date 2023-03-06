@@ -18,13 +18,17 @@ const Signin = ({navigation}) => {
 
     const loginFunc = async (userEmail,userPass)=>
     {
-        console.log("In func")
         if(!userEmail || !userPass)
         {
             Alert.alert("Alert Box","Please Enter All Details",[{
                     text:"Ok"
                 }]
             )
+        }
+        if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail)))
+        {
+            Alert.alert("You have entered an invalid email address!","")
+            return
         }
         else
         {
@@ -99,7 +103,7 @@ const Signin = ({navigation}) => {
     
                 <Text style={[style.linkText,{fontWeight:'bold'}]} onPress={()=>navigation.dispatch(
                     StackActions.replace('SignUp')
-                )}>Sign Up</Text>
+                )}> Sign Up</Text>
             </Text>
         </View>
     </View>

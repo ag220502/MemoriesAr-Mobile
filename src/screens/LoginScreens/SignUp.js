@@ -188,7 +188,7 @@ const SignUp = ({navigation}) => {
         
                     <Text style={[style.linkText,{fontWeight:'bold'}]} onPress={()=>navigation.dispatch(
                         StackActions.replace('SignIn')
-                    )}>Sign In</Text>
+                    )}> Sign In</Text>
                 </Text>
             </View>
         </View>

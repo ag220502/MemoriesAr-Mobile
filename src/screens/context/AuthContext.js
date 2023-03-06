@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React,{createContext, useEffect, useState} from "react";
+import {Alert} from "react-native";
 
 export const AuthContext = createContext();
 
@@ -7,16 +8,37 @@ export const AuthProvider= ({children})=>{
     const [isLoading,setLoading] = useState(false)
     const [token,setToken] = useState(null)
     const [userLoggedIn,setUserLoggedIn] = useState(false)
-    const login = async(userEmail,userPass)=>{
+    const login = (userEmail,userPass)=>{
         setLoading(true)
         try
         {
-            await fetch ('http://localhost:3000/api/auth/login',{
+            fetch ('http://localhost:3000/api/auth/login',{
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({email:userEmail,password:userPass})
             }).then(
                 res => {res.json().then(async data => {
+                    if(data==false)
+                    {
+                        Alert.alert("Invalid Credentials","Please Check Your Email And Password",[{
+                            text:"Ok"
+                        }])
+                        return
+                    }
+                    else if(data=="Account Deactivated!")
+                    {
+                        Alert.alert("Account Deactivated","Please Activate Your Account",[{
+                            text:"Ok"
+                        }])
+                        return
+                    }
+                    else if(data=="Account Banned!")
+                    {
+                        Alert.alert("Account Banned","Please Contact Admin",[{
+                            text:"Ok"
+                        }])
+                        return
+                    }
                     try {
                             setToken(data.token)
                             await AsyncStorage.setItem('token',data.token);
@@ -36,12 +58,12 @@ export const AuthProvider= ({children})=>{
         setLoading(false)
     }
 
-    const logout = async ()=>{
+    const logout = ()=>{
         setLoading(true)
         console.log("logged out1")
         try
         {
-            await fetch ('http://localhost:3000/api/auth/logout',{
+            fetch ('http://localhost:3000/api/auth/logout',{
                 method: 'GET',
             }).then(
                 res => {res.json().then(async data => {
