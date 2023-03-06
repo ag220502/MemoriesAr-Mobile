@@ -1,13 +1,43 @@
-import { StyleSheet, Text, View,TextInput,SafeAreaView, Pressable } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View,TextInput,SafeAreaView, Pressable,Alert } from 'react-native'
+import React,{useState} from 'react'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
 import { StatusBar } from 'expo-status-bar';
-import { sendOTP } from '../fetchData/signUpProcess.js';
+import { registerUser, sendOTP,verifyOTP } from '../fetchData/signUpProcess.js';
 const Verification = ({navigation,route}) => {
     const sendAgain = () => {
-        sendOTP(route.params.email)
+        if(sendOTP(route.params.email))
+        {
+            Alert.alert('Success','Verification code sent again to your email')
+        }
     }
+    const [otp,setOtp]=React.useState('')
+    const verifyData=()=>{
+        if(otp.length!=6)
+        {
+            Alert.alert('Error','OTP must be of 6 digits')
+            return
+        }
+        if(verifyOTP(route.params.email,otp))
+        {
+            if(registerUser(route.params.name,route.params.email,route.params.password))
+            {
+                Alert.alert('Success','Account created successfully')
+                navigation.dispatch(
+                    StackActions.replace('AccountVerified')
+                  )
+            }
+            else
+            {
+                Alert.alert('Error','Something went wrong')
+            }
+        }
+        else
+        {
+            Alert.alert('Error','Wrong OTP')
+        }
+    }
+
     return (
     <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark"/>
@@ -16,7 +46,11 @@ const Verification = ({navigation,route}) => {
         </View>
         <View style={styles.mainView}>
             <Text style={styles.heading}>Enter Your Verification Code</Text>
-            <TextInput style={styles.input}/>
+            <TextInput 
+                style={styles.input}
+                value={otp}
+                onChangeText={(text)=>setOtp(text)}
+            />
             <Text style={styles.para}>We have sent the verification code to your email {route.params.email}. Please check your inbox.</Text>
             <Text style={styles.label1}>Didn't received the code? 
                 <Text 
@@ -35,7 +69,8 @@ const Verification = ({navigation,route}) => {
         >
             <Text 
                 style={styles.buttonText}
-                onPress={()=>{}}
+                
+                onPress={()=>{verifyData()}}
             >
                 Verify
             </Text>
