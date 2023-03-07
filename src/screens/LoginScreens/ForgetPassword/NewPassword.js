@@ -1,11 +1,78 @@
-import { StyleSheet, Text, View,SafeAreaView,Image, TextInput, Pressable } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View,SafeAreaView,Image, TextInput, Pressable, Alert } from 'react-native'
+import React,{useState} from 'react'
 import img from '../../../images/LoginImages/newPass.png'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
 import { StatusBar } from 'expo-status-bar';
-const NewPassword = ({navigation}) => {
-  return (
+import { forgetPass } from '../fetchData/forgotPassProcess.js';
+
+const NewPassword = ({navigation,route}) => {
+    const [pass,setPass] = useState('')
+    const [confirmPass,setConfirmPass] = useState('')
+    const [resData,setResData] = useState('')
+    const checkPassword = () => {
+        console.log("Hello")
+        if (pass.length === 0) {
+            Alert.alert('Please enter password')
+            return
+        }
+        if(pass.length < 6)
+        {
+            Alert.alert('Password should be atleast 6 characters long')
+            return
+        }
+        if(pass!==confirmPass)
+        {
+            Alert.alert("Password Mismatch","Please enter same password in both fields")
+        }
+        else
+        {
+            setResData('')
+            console.log("Hello")
+            const data = forgetPass(route.params.email,pass)
+            setResData(data)
+            console.log("Data in main")
+            console.log(data)
+            if(data instanceof Promise)
+            {
+                Alert.alert("Error","Something went wrong")
+                return
+            }
+            if(!resData)
+            {
+                Alert.alert("Error","Something went wrong in fetching data")
+                return
+            }
+            if(!data)
+            {
+                Alert.alert("Error","Something went wrong")
+                return
+            }
+            else if(data==2)
+            {
+                Alert.alert("Error","User not found")
+                return
+            }
+            else if(data==3)
+            {
+                
+                Alert.alert("Error","New Password cannot be same as old password!")
+                return
+            }
+            else if(data==0)
+            {
+                Alert.alert("Password Changed Successfully","Please Login again",[{
+                    text:"Ok",
+                    onPress:()=>{
+                        navigation.dispatch(
+                            StackActions.replace('Login')
+                        )
+                    }
+                }])
+            }
+        }
+    }
+    return (
     <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark"/>
         <Text style={styles.head}>Change Password</Text>
@@ -18,22 +85,24 @@ const NewPassword = ({navigation}) => {
         <View style={styles.inputView}>
             <Text style={styles.label}>Enter Password</Text>
             <TextInput
-            style={styles.input}
-            secureTextEntry
+                style={styles.input}
+                secureTextEntry
+                value={pass}
+                onChangeText={(text)=>setPass(text)}
             />
         </View>
         <View style={styles.inputView}>
             <Text style={styles.label}>Confirm Password</Text>
             <TextInput
-            style={styles.input}
-            secureTextEntry
+                style={styles.input}
+                secureTextEntry
+                value={confirmPass}
+                onChangeText={(text)=>setConfirmPass(text)}
             />
         </View>
         <Pressable 
             style={styles.buttonView}
-            onPress={()=>navigation.dispatch(
-                StackActions.replace('PasswordUpdated')
-              )}
+            onPress={()=> checkPassword()}
         >
             <Text style={styles.buttonText}>Update Password</Text>
         </Pressable>

@@ -1,10 +1,42 @@
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Image, Pressable } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Image, Pressable,Alert } from 'react-native'
 import React from 'react';
 import img from '../../../images/LoginImages/resetPass.png'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
 import { StatusBar } from 'expo-status-bar';
+import { checkUser,sendOTP } from '../fetchData/signUpProcess.js';
+
 const ResetPassword = ({navigation}) => {
+    const [email,setEmail] = React.useState('')
+    const validateAndSendOTP = () => {
+        if (email.length === 0) {
+            alert('Please enter email')
+            return
+        }
+        if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
+        {
+            Alert.alert("You have entered an invalid email address!","")
+            return
+        }
+        const checkUser1 = checkUser(email)
+        if (checkUser1) {
+            const sendOTP1 = sendOTP(email)
+            if (sendOTP1) {
+                Alert.alert("OTP Sent Successfully","Please check your email",[{
+                    text:"Ok",
+                    onPress:()=>{
+                        navigation.dispatch(
+                            StackActions.replace('ForPassVerification',{
+                                email:email
+                            })
+                        )
+                    }
+                }])
+            }
+        }
+    }
+
+
   return (
     <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark"/>
@@ -17,13 +49,15 @@ const ResetPassword = ({navigation}) => {
         />
         <View style={styles.mainView}>
             <Text style={styles.heading}>Don't Worry. Enter your Email id and we'll send you a verification code to reset your password.</Text>
-            <TextInput style={styles.input}/>
+            <TextInput 
+                style={styles.input}
+                value={email} 
+                onChangeText={(text)=>setEmail(text)}       
+            />
         </View>
         <Pressable 
             style={styles.buttonView}
-            onPress={()=>navigation.dispatch(
-                StackActions.replace('ForPassVerification')
-              )}
+            onPress={()=>validateAndSendOTP()}
         >
             <Text style={styles.buttonText}>Send Code</Text>
         </Pressable>

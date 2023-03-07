@@ -1,10 +1,42 @@
-import { StyleSheet, Text, View,TextInput,SafeAreaView, Pressable } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View,TextInput,SafeAreaView, Pressable,Alert } from 'react-native'
+import React,{useState} from 'react'
 import { StackActions } from '@react-navigation/native';
 import Color from './../../../ColourThemes/theme1.js';
 import { StatusBar } from 'expo-status-bar';
-const ForPassVerification = ({navigation}) => {
-  return (
+import { sendOTP,verifyOTP } from '../fetchData/signUpProcess.js';
+
+const ForPassVerification = ({navigation,route}) => {
+    const [otp,setOtp] = useState('')
+    const sendAgain = () => {
+        if(sendOTP(route.params.email))
+        {
+            Alert.alert('Success','Verification code sent again to your email')
+        }
+    }
+    const validateAndVerifyOTP = () => {
+        if (otp.length === 0) {
+            Alert.alert('Please enter OTP')
+            return
+        }
+        if (otp.length !== 6) {
+            Alert.alert('Please enter valid OTP')
+            return
+
+        }
+        const verifyOTP1 = verifyOTP(route.params.email,otp)
+        if (verifyOTP1) {
+            Alert.alert("OTP Verified Successfully","Please Enter New Password",[{
+                text:"Ok",
+                onPress:()=>{
+                    navigation.dispatch(
+                        StackActions.replace('NewPassword',{email:route.params.email})
+                    )
+                }
+            }])
+        }
+    }
+
+    return (
     <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark"/>
         <View>
@@ -12,15 +44,23 @@ const ForPassVerification = ({navigation}) => {
         </View>
         <View style={styles.mainView}>
             <Text style={styles.heading}>Enter Your Verification Code</Text>
-            <TextInput style={styles.input}/>
+            <TextInput 
+                style={styles.input}
+                value={otp}
+                onChangeText={(text)=>setOtp(text)}
+            />
             <Text style={styles.para}>We have sent the verification code to your email akshay@gmail.com. Please check your inbox.</Text>
-            <Text style={styles.label1}>Didn't received the code? Send Again</Text>
+            <Text style={styles.label1}>Didn't received the code? 
+                <Text 
+                    style={[styles.label1,{fontWeight:'700',color:Color.textDarkColor}]}
+                    onPress={()=>(sendAgain())}
+                > Send Again
+                </Text>
+            </Text>
         </View>
         <Pressable 
             style={styles.buttonView}
-            onPress={()=>navigation.dispatch(
-                StackActions.replace('NewPassword')
-              )}
+            onPress={()=>validateAndVerifyOTP()}
         >
             <Text style={styles.buttonText}>Verify</Text>
         </Pressable>
