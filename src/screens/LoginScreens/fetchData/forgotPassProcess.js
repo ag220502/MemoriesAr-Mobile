@@ -10,19 +10,14 @@ const forgetPass = async (email,pass) => {
         })
     })
     const data = await response.json()
-    console.log(data)
-    console.log("Data is "+data)
     if(!(Number.isInteger(data)))
     {
-        console.log("Calling again")
         forgetPass(email,pass)
         return
     }
     if(Number.isInteger(data)) {
-        console.log("Returning data")
         return data
     }
-
     return false
 }
 

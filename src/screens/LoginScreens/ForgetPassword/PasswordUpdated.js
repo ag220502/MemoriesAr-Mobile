@@ -10,8 +10,8 @@ const PasswordUpdated = ({navigation}) => {
     <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark"/>
         <Image
-        source={img}
-        style={styles.img1}
+            source={img}
+            style={styles.img1}
         />
         <Text style={styles.head}>Password Updated</Text>
         <Text style={styles.label1}>Your Password Has Been Updated. Please Sign In and Continue.</Text>

@@ -8,6 +8,8 @@ export const AuthProvider= ({children})=>{
     const [isLoading,setLoading] = useState(false)
     const [token,setToken] = useState(null)
     const [userLoggedIn,setUserLoggedIn] = useState(false)
+    const [setingData,setSetingData] = useState(false)
+    const [setId,setUserId] = useState(false)
     const login = (userEmail,userPass)=>{
         setLoading(true)
         try
@@ -40,11 +42,24 @@ export const AuthProvider= ({children})=>{
                         return
                     }
                     try {
+                            if(setingData && await AsyncStorage.getItem('userId'))
+                            {
+                                return
+                            }
                             setToken(data.token)
-                            await AsyncStorage.setItem('token',data.token);
-                            await AsyncStorage.setItem('userId',data.userId.toString());
-                            setUserLoggedIn(true)
-
+                            console.log("Setting Item");
+                            (await AsyncStorage.setItem('token',data.token)).then(()=>{
+                                setUserId(true)
+                            });
+                            (await AsyncStorage.setItem('userId',data.userId.toString())).then(()=>{
+                                setUserId(true)
+                            });
+                            
+                            if(setId)
+                            {
+                                setSetingData(true)
+                                setUserLoggedIn(true)
+                            }
                         } catch (error) {
                         console.log(error)
                         }
@@ -60,7 +75,6 @@ export const AuthProvider= ({children})=>{
 
     const logout = ()=>{
         setLoading(true)
-        console.log("logged out1")
         try
         {
             fetch ('http://localhost:3000/api/auth/logout',{
@@ -74,7 +88,6 @@ export const AuthProvider= ({children})=>{
                             setToken(null)
                             await AsyncStorage.removeItem("token");
                             await AsyncStorage.removeItem("userId");
-                            console.log("logged out")
                         } 
                         catch (error) {
                             console.log(error)

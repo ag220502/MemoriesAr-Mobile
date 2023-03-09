@@ -42,7 +42,17 @@ const UserFeed = ({navigation,userId}) => {
 									source={{uri:element.item.PhotoLink}}
 									style={styles.postImage}
 								/>
-								<Pressable style={styles.postBtn}>
+								<Pressable 
+									style={styles.postBtn}
+									onPress={()=>{
+										console.log(element.item.postId)
+										navigation.navigate("ViewPost",{
+											postId:element.item.postId
+										})
+										
+									}
+								}
+								>
 									<Text style={styles.postBtnText}>View Post</Text>
 								</Pressable>
 							</View>

@@ -10,8 +10,7 @@ const NewPassword = ({navigation,route}) => {
     const [pass,setPass] = useState('')
     const [confirmPass,setConfirmPass] = useState('')
     const [resData,setResData] = useState('')
-    const checkPassword = () => {
-        console.log("Hello")
+    const checkPassword = async () => {
         if (pass.length === 0) {
             Alert.alert('Please enter password')
             return
@@ -28,44 +27,25 @@ const NewPassword = ({navigation,route}) => {
         else
         {
             setResData('')
-            console.log("Hello")
-            const data = forgetPass(route.params.email,pass)
+            const data = await forgetPass(route.params.email,pass)
             setResData(data)
-            console.log("Data in main")
-            console.log(data)
-            if(data instanceof Promise)
-            {
-                Alert.alert("Error","Something went wrong")
-                return
-            }
-            if(!resData)
-            {
-                Alert.alert("Error","Something went wrong in fetching data")
-                return
-            }
-            if(!data)
-            {
-                Alert.alert("Error","Something went wrong")
-                return
-            }
-            else if(data==2)
+            if(data===2)
             {
                 Alert.alert("Error","User not found")
                 return
             }
-            else if(data==3)
+            else if(data===3)
             {
-                
                 Alert.alert("Error","New Password cannot be same as old password!")
                 return
             }
-            else if(data==0)
+            else if(data===0)
             {
-                Alert.alert("Password Changed Successfully","Please Login again",[{
+                Alert.alert("Password Changed Successfully","",[{
                     text:"Ok",
                     onPress:()=>{
                         navigation.dispatch(
-                            StackActions.replace('Login')
+                            StackActions.replace('PasswordUpdated')
                         )
                     }
                 }])

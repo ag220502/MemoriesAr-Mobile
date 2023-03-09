@@ -3,7 +3,7 @@ import React from 'react'
 
 //Home Screens
 import MainScreen from '../AccountScreens/MainScreen.js';
-
+import ViewPost from '../AccountScreens/ViewScreens/ViewPost.js';
 //Create Post Screens
 import CreateScreen from '../AccountScreens/CreateScreens/CreateScreen.js';
 import AddLocation from '../AccountScreens/CreateScreens/AddLocation.js';
@@ -42,6 +42,10 @@ const AppStack = () => {
             <Stack.Screen 
                 name="MainScreen"
                 component={MainScreen}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="ViewPost"
+                component={ViewPost}
                 options={{headerShown:false}} />
             <Stack.Screen 
                 name="ChatScreen"

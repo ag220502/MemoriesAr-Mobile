@@ -10,30 +10,28 @@ import { getHomeFeed } from '../fetchData/homeScreenData'
 
 const MainScreen = ({navigation}) => {
 	const [id,setId] = useState("")
-    const [isLoaded,setIsLoaded] = useState(false)
 	
     const getId = async ()=>{
-        setIsLoaded(true)
-        const user  = await AsyncStorage.getItem("userId")
-        setId(user)
-        if(id)
-        {
-            setIsLoaded(false)
-        }
+		console.log("Starteinf")
+        const user  = AsyncStorage.getItem("userId")
+        await Promise.all(setId(user))
+		console.log("User id is")
+		console.log(user)
     }
     useEffect(()=>{
 		if(!id)
 		{
 			getId()
 		}
-		
 	}, [])
 
   	return (
 
 		<SafeAreaView style={styles.container}>
 			{
+			id &&
 				<>
+					
 
 					<StatusBar barStyle="dark"/>
 					<TopNavBar navigation={navigation}/>
