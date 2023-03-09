@@ -65,7 +65,6 @@ const PostsMap = ({navigation,route}) => {
                     const cords = {    
                         latitude: val.lattitude,
                         longitude: val.longitude}
-                    console.log(val.profilePhoto)
                     return(
                         <Marker 
                             coordinate={cords}

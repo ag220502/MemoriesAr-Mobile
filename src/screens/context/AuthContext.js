@@ -9,7 +9,7 @@ export const AuthProvider= ({children})=>{
     const [token,setToken] = useState(null)
     const [userLoggedIn,setUserLoggedIn] = useState(false)
     const [setingData,setSetingData] = useState(false)
-    const [setId,setUserId] = useState(false)
+    const [userId,setUserId] = useState(null)
     const login = (userEmail,userPass)=>{
         setLoading(true)
         try
@@ -47,19 +47,19 @@ export const AuthProvider= ({children})=>{
                                 return
                             }
                             setToken(data.token)
-                            console.log("Setting Item");
-                            (await AsyncStorage.setItem('token',data.token)).then(()=>{
-                                setUserId(true)
-                            });
-                            (await AsyncStorage.setItem('userId',data.userId.toString())).then(()=>{
-                                setUserId(true)
+                            (AsyncStorage.setItem('token',data.token)).then(()=>{
+                                setToken(true)
+                                AsyncStorage.setItem('userId', data.userId.toString())
+                                .then(async () => {
+                                    setSetingData(true)
+                                    setUserLoggedIn(true)
+                                    setLoading(false)
+                                })
+                                .catch((error) => {
+                                    console.log('Error while saving item: ', error);
+                                });
                             });
                             
-                            if(setId)
-                            {
-                                setSetingData(true)
-                                setUserLoggedIn(true)
-                            }
                         } catch (error) {
                         console.log(error)
                         }
@@ -70,7 +70,7 @@ export const AuthProvider= ({children})=>{
         {
             console.log(err)
         }
-        setLoading(false)
+        
     }
 
     const logout = ()=>{
@@ -122,7 +122,9 @@ export const AuthProvider= ({children})=>{
     const isLoggenIn= async ()=>{
         try {
             setLoading(true)
-            const token = await AsyncStorage.getItem("token")   
+            const userId = await AsyncStorage.getItem("userId")   
+            setUserId(userId)
+            const token = await AsyncStorage.getItem("token")
             setToken(token) 
             setLoading(false)
             return token
