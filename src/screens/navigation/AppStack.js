@@ -4,6 +4,7 @@ import React from 'react'
 //Home Screens
 import MainScreen from '../AccountScreens/MainScreen.js';
 import ViewPost from '../AccountScreens/ViewScreens/ViewPost.js';
+
 //Create Post Screens
 import CreateScreen from '../AccountScreens/CreateScreens/CreateScreen.js';
 import AddLocation from '../AccountScreens/CreateScreens/AddLocation.js';
@@ -20,6 +21,8 @@ import UserChatScreen from '../AccountScreens/ChatScreens/UserChatScreen.js';
 //Profile Screens
 import EditProfile from '../AccountScreens/ProfileScreens/EditProfile.js';
 import ProfileScreen from '../AccountScreens/ProfileScreens/ProfileScreen.js'
+import AllFriends from '../AccountScreens/ProfileScreens/AllFriends.js';
+
 
 //Search Screens
 import OtherUserProfileScreen from '../AccountScreens/SearchScreens/OtherUserProfileScreen.js'
@@ -74,6 +77,10 @@ const AppStack = () => {
             <Stack.Screen 
                 name="EditProfile"
                 component={EditProfile}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="AllFriends"
+                component={AllFriends}
                 options={{headerShown:false}} />
             <Stack.Screen 
                 name="Settings"

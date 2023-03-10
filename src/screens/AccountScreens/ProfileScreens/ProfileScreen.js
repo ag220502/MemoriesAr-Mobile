@@ -7,102 +7,43 @@ import Color from './../../../ColourThemes/theme1.js'
 import BottomNavBar from './../../../components/BottomNavBar.js'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getProfileData,getNumFriends,getNumPosts,getUserPosts } from '../../fetchData/profileData.js';
+import { StatusBar } from 'expo-status-bar';
 
-
-const ProfileScreen = ({navigation}) => {
-	const [id,setId] = useState("")
-	const getId= async()=>
-	{
-		const user  = await AsyncStorage.getItem("userId")
-		setId(user)
-	}
-	getId()
+const ProfileScreen = ({navigation,route}) => {
+	const [id,setId] = useState(route.params.userId)
 	const [fname,setFName] = useState(null)
 	const [lname,setLName] = useState(null)
 	const [bio,setBio] =  useState(null)
 	const [frNum,setFrNum] = useState(0)
 	const [postNum,setPostNum] = useState(0)
-
-	const getUserData= async()=>
-	{
-		try
-        {
-            await fetch ('http://localhost:3000/api/users/profile/'+id,{
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				  }
-			}).then(
-                res => {
-					if(res.status===200)
-					{
-						res.json().then((data)=>{
-							if(data[0].id)
-							{
-								setFName(data[0].firstName)
-								setLName(data[0].lastName)
-								setBio(data[0].bio)
-								
-							}
-						})
-					}
-					else if(res.status==400)
-					{
-						console.log(res)
-					}
-            })
-			await fetch ('http://localhost:3000/api/users/profile/friendsNum/'+id,{
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				  }
-			}).then(
-                res => {
-					if(res.status===200)
-					{
-						res.json().then((data)=>{
-							setFrNum(data[0].Num)
-						})
-					}
-					else if(res.status==400)
-					{
-						console.log("Error")
-					}
-            })
-			await fetch ('http://localhost:3000/api/users/profile/postNum/'+id,{
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				  }
-			}).then(
-                res => {
-					if(res.status===200)
-					{
-						res.json().then((data)=>{
-							setPostNum(data[0].Num)
-						})
-					}
-					else if(res.status==400)
-					{
-						console.log("Error")
-					}
-            })
-        }
-        catch(err)
-        {
-            console.log(err)
-        }
-	}
-	getUserData()
-	
-
 	const [showPosts,setShowPosts] = useState(true);
+	const [profilePic,setProfilePic] = useState(null)
+	const [userPosts,setUserPosts] = useState([]);
+	getProfileData(id).then((data)=>{
+		setFName(data.firstName)
+		setLName(data.lastName)
+		setBio(data.bio)
+		setProfilePic(data.profilePhoto)
+	});
+	
+	getNumFriends(id).then((data)=>{
+		setFrNum(data)
+	});
+
+	getNumPosts(id).then((data)=>{
+		setPostNum(data)
+	})
+	getUserPosts(id).then((data)=>{
+		setUserPosts(data)
+	})
 	return (
 	<View>
+		<StatusBar barStyle="light"/>
 		<View style={styles.container}>
 		<View style={styles.search}>
 			<Pressable style={styles.buttonView}
-				onPress={()=>navigation.navigate("MainScreen")}
+				onPress={()=>navigation.navigate("MainScreen",{userId:id})}
 			>
 				<Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
 			</Pressable>
@@ -116,13 +57,15 @@ const ProfileScreen = ({navigation}) => {
 		</View>
 		<View style={styles.main}>
 			<View style={styles.profile_img}>
-			<Image style={styles.pofile} source={require('../../../images/ProfileImages/profile8.jpg')}/>
+			<Image style={styles.pofile} source={{uri:profilePic}}/>
 			</View>
 			<View style={styles.profile_data}>
-			<View style={styles.dataView}>
+			<Pressable style={styles.dataView} onPress={
+				()=>navigation.navigate("AllFriends",{userId:id})
+			}>
 				<Text style={styles.dataNum}>{frNum}</Text>
 				<Text style={styles.dataName}>Friends</Text>
-			</View>
+			</Pressable>
 			<View style={styles.dataView}>
 				<Text style={styles.dataNum}>{postNum}</Text>
 				<Text style={styles.dataName}>Memories</Text>
@@ -159,9 +102,9 @@ const ProfileScreen = ({navigation}) => {
 			</View>
 			</View>
 			<ScrollView style={styles.postsView}>
-			{/* {
-				showPosts ? <Post/> : <Scrapbooks/>
-			} */}
+			{
+				showPosts ? <Post data={userPosts}/> : <Scrapbooks/>
+			}
 			</ScrollView>
 		</View>
 		<BottomNavBar navigation={navigation}/>

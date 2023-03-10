@@ -9,24 +9,31 @@ import BottomNavBar from '../../../components/BottomNavBar.js'
 import Color from '../../../ColourThemes/theme1.js';
 
 
-const AllFriends = ({navigation}) => {
+const AllFriends = ({navigation,route}) => {
 	const [userFriends, setUserFriends] = React.useState([])
 	const [keyword,setKeyword] = useState('')
 	const [showbar,setShowBar] = useState(false)
-
+	const [isLoaded,setIsLoaded] = useState(false)
 	useEffect(() => {
-		getAllFriends(18).then((data) => {
-			// console.log(data)
-			setUserFriends(data)
-		})
+		if(!isLoaded)
+		{
+			getAllFriends(route.params.userId).then((data) => {
+				console.log(data)
+				setUserFriends(data)
+				setIsLoaded(true)
+			})
+		}
+		
 	}, [])
 	
 	return (
 		<View style={style.container}>
+			{isLoaded? 
+			<>
 			<View style={style.downMain}>
 				<View style={styles.search}>
 					<Pressable style={styles.buttonView}
-						onPress={()=>navigation.navigate("Settings",{userId:route.params.userId})}
+						onPress={()=>navigation.navigate("ProfileScreen",{userId:route.params.userId})}
 					>
 						<Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
 					</Pressable>
@@ -63,7 +70,12 @@ const AllFriends = ({navigation}) => {
 					
 				</View>
 				<BottomNavBar navigation={navigation}/>
+				
 			</View>
+			</>
+			:
+			<Text>Loading</Text>
+				}
 			
 		</View>
 	)
