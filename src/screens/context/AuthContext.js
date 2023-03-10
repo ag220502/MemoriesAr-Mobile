@@ -46,7 +46,7 @@ export const AuthProvider= ({children})=>{
                             {
                                 return
                             }
-                            setToken(data.token)
+                            // setToken(data.token)
                             (AsyncStorage.setItem('token',data.token)).then(()=>{
                                 setToken(true)
                                 AsyncStorage.setItem('userId', data.userId.toString())

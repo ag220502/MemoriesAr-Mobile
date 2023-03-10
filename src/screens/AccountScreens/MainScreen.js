@@ -9,6 +9,7 @@ import { AuthContext } from '../context/AuthContext'
 import { getHomeFeed } from '../fetchData/homeScreenData'
 
 const MainScreen = ({navigation}) => {
+	
 	const [id,setId] = useState(null)
 	
     const getId = async ()=>{

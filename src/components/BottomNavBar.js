@@ -18,19 +18,19 @@ const BottomNavBar = ({navigation,userId}) => {
             </Pressable>
             <Pressable
                 style={styles.IconBehave}
-                onPress={()=>navigation.navigate('ExploreScreen')}
+                onPress={()=>navigation.navigate('ExploreScreen',{userId:userId})}
             >
                 <Ionicons name="search" size={32} color={Color.textLightColor} />
             </Pressable>
             <Pressable
                 style={styles.IconBehave}
-                onPress={()=>navigation.navigate('CreateScreen')}
+                onPress={()=>navigation.navigate('CreateScreen',{userId:userId})}
             >
                 <MaterialIcons name="post-add" size={32} color={Color.textLightColor} />
             </Pressable>
             <Pressable
                 style={styles.IconBehave}
-                onPress={()=>navigation.navigate('ProfileScreen')}
+                onPress={()=>navigation.navigate('ProfileScreen',{userId:userId})}
             >
                 <FontAwesome name="user-circle-o" size={32} color={Color.textLightColor} />
             </Pressable>

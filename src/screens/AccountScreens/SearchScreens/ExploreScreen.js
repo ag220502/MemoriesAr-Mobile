@@ -7,9 +7,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar'
+import { recentSearch, searchUser } from '../../fetchData/searchData.js'
 
 
-const ExploreScreen = ({navigation}) => {
+const ExploreScreen = ({navigation,route}) => 
+{
     const data=
 	[
 		{
@@ -43,6 +45,16 @@ const ExploreScreen = ({navigation}) => {
 	]
     const [isFocus,setFocus] = useState(false)
     const [searchText,setSearchText] = useState("")
+	const [searchedUser,setSearchedUser] = useState([])
+	const [recent,setRecent] = useState([])
+	const searchByName = (searchText) => {
+		setSearchText(searchText)
+		const users = searchUser(searchText)
+		setSearchedUser(users)
+		console.log(searchedUser)
+	}
+	setRecent(recentSearch(route.params.userId))
+	console.log(recent)
     return (
         <View style={Style.container}>
             <StatusBar style="light" />
@@ -53,7 +65,8 @@ const ExploreScreen = ({navigation}) => {
                     placeholder="Search"
                     onFocus={() =>setFocus(true) }
                     onChangeText={(text)=>{
-                        setSearchText(text)
+						searchByName(text)
+                        
                     }}
                     onBlur={()=>
                         {
@@ -64,7 +77,21 @@ const ExploreScreen = ({navigation}) => {
                 <Pressable/>
             </View>
             <View style={Style.mainDown}>
-                {isFocus ? <Text></Text>:
+                {isFocus ? 
+					<></>
+					// <FlatList
+					// 	data={searchedUser}
+					// 	renderItem={({item}) => {
+					// 		return (
+					// 			<Pressable style={styles.userDetails}>
+					// 				<Image source={item.profile} style={styles.profile_img}/>
+					// 				<Text style={[{alignSelf:'center',paddingVertical:5}]}>{item.name}</Text>
+					// 			</Pressable>
+					// 		)
+					// 	}}
+					// 	keyExtractor={(item,index) => index.toString()}
+					// />
+					:
                 <View>
                     <ScrollView style={styles.dataView}>
                         <Text style={[styles.viewHead]}>Recent Searches</Text>
@@ -121,7 +148,7 @@ const ExploreScreen = ({navigation}) => {
                     </ScrollView>
                 </View>}
             </View>
-        <BottomNavBar navigation={navigation}/>
+        <BottomNavBar navigation={navigation} userId={route.params.userId}/>
         </View>
     )
 }
