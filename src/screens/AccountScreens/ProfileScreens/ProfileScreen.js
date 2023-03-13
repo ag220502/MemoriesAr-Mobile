@@ -12,31 +12,44 @@ import { StatusBar } from 'expo-status-bar';
 
 const ProfileScreen = ({navigation,route}) => {
 	const [id,setId] = useState(route.params.userId)
-	const [fname,setFName] = useState(null)
-	const [lname,setLName] = useState(null)
-	const [bio,setBio] =  useState(null)
+	const [fname,setFName] = useState('')
+	const [lname,setLName] = useState('')
+	const [bio,setBio] =  useState('')
 	const [frNum,setFrNum] = useState(0)
 	const [postNum,setPostNum] = useState(0)
 	const [showPosts,setShowPosts] = useState(true);
 	const [profilePic,setProfilePic] = useState(null)
 	const [userPosts,setUserPosts] = useState([]);
-	getProfileData(id).then((data)=>{
-		setFName(data.firstName)
-		setLName(data.lastName)
-		setBio(data.bio)
-		setProfilePic(data.profilePhoto)
-	});
+	if(!fname)
+	{
+		getProfileData(id).then((data)=>{
+			setFName(data.firstName)
+			setLName(data.lastName)
+			setBio(data.bio)
+			setProfilePic(data.profilePhoto)
+		});
+	}
 	
-	getNumFriends(id).then((data)=>{
-		setFrNum(data)
-	});
-
-	getNumPosts(id).then((data)=>{
-		setPostNum(data)
-	})
-	getUserPosts(id).then((data)=>{
-		setUserPosts(data)
-	})
+	
+	if(!frNum)
+	{
+		getNumFriends(id).then((data)=>{
+			setFrNum(data)
+		});
+	}
+	if(!postNum)
+	{
+		getNumPosts(id).then((data)=>{
+			setPostNum(data)
+		})
+	}
+	if(userPosts.length==0)
+	{
+		getUserPosts(id).then((data)=>{
+			setUserPosts(data)
+		})
+	}
+	
 	return (
 	<View>
 		<StatusBar barStyle="light"/>
@@ -250,4 +263,4 @@ const ProfileScreen = ({navigation,route}) => {
 	postsView:{
 		marginTop:20,
 	}
-	})
+})

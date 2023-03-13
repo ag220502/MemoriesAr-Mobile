@@ -4,7 +4,7 @@ import React,{useState} from 	'react';
 import { AuthProvider } from './src/screens/context/AuthContext.js';
 import AppNav from './src/screens/navigation/AppNav.js';
 import BottomModal from './src/components/BottomModal.js';
-
+import ChangeVisibility from './src/screens/AccountScreens/SettingsScreen/Privacy/changeVisibility.js';
 export default function App() {
 	const [connection,setConnection] = useState(false)
 	const checkConnection = () => {
@@ -26,16 +26,17 @@ export default function App() {
 	}
 	checkConnection()
 	return (
+		<ChangeVisibility/>
 		// <BottomModal/>
-		<AuthProvider>
-			{
-				connection ? 
-				<NavigationContainer>
-					<AppNav/>
-				</NavigationContainer> 
-				: null
-			}
-		</AuthProvider>
+		// <AuthProvider>
+		// 	{
+		// 		connection ? 
+		// 		<NavigationContainer>
+		// 			<AppNav/>
+		// 		</NavigationContainer> 
+		// 		: null
+		// 	}
+		// </AuthProvider>
 	);
 }
 
