@@ -5,7 +5,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome"
 import { Entypo } from '@expo/vector-icons';
 import Color from '../ColourThemes/theme1'
 
-import { getHomeFeed } from '../screens/fetchData/homeScreenData';
+import { getHomeFeed,getAllData } from '../screens/fetchData/homeScreenData';
 
 
 const UserFeed = ({navigation,userId}) => {
@@ -13,6 +13,9 @@ const UserFeed = ({navigation,userId}) => {
 	const [postInfo,setPostInfo] = useState([])
 	if(!postInfo.length)
 	{
+		// getAllData(userId).then((data)=>{
+		// 	// setPostInfo(data)
+		// })
 		getHomeFeed(userId).then((data)=>{
 			setPostInfo(data)
 		})
@@ -65,7 +68,10 @@ const UserFeed = ({navigation,userId}) => {
 									/>
 									<Text style={styles.optionNum}>{element.item.PostLikes}</Text>
 								</Pressable>
-								<Pressable style={styles.postOpt}>
+								<Pressable 
+									style={styles.postOpt}
+									onPress={()=>{navigation.navigate("Comments",{postId:element.item.postId,userId:userId})}}
+								>
 									<FontAwesome 
 										name="commenting" 
 										size={24} 

@@ -1,5 +1,5 @@
 import {checkLiked, checkDisliked, checkSaved} from './viewPost.js';
-import { useState } from 'react';
+
 
 
 const getHomeFeed = async (id) => {
@@ -12,22 +12,35 @@ const getHomeFeed = async (id) => {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             },
-    });
-    const json = await response.json();
-
-    json.map(async (item) => {
-        const res = await checkLiked(item.postId, id).then((data) => {
-            var obj = {};
-            Object.assign(obj, item)
-            obj.liked = data;
-            array.push(obj);
-        });
-    });
-    if(!array.length)
-    {
-        return array;
-    }
+    }).then((response) => response.json()).then((res) => {
+        return res;
+    })
+    // console.log(response)
     
+    return response
+
 }
 
-module.exports = {getHomeFeed}
+const getAllData = async (id) => {
+    const arr = await getHomeFeed(id)
+    const array = []
+    const result = arr.map(async (item) => 
+    {
+        const liked = await checkLiked(item.postId,id)
+        const disliked = await checkDisliked(item.postId,id)
+        const saved = await checkSaved(item.postId,id)
+        const obj = {
+            ...item,
+            liked: liked,
+            disliked: disliked,
+            saved: saved
+        }
+        // console.log(obj)
+        array.push(obj)
+        return array
+    })
+    // console.log(result)
+}
+
+
+module.exports = {getHomeFeed,getAllData}

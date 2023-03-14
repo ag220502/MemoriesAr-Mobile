@@ -14,4 +14,11 @@ const createComment = async (postId, userId, comment) => {
     return data;
 };
 
-module.exports = { createComment };
+const getAllComments = async (postId) => {
+    const response = await fetch(`http://localhost:3000/api/comment/allComments/${postId}}`);
+    const data = await response.json();
+    return data;
+};
+
+
+module.exports = { createComment,getAllComments };

@@ -3,7 +3,9 @@ const viewPostById = async (id) => {
       "http://localhost:3000/api/posts/getPostById/" + id
     );
     const data = await response.json();
-    return data;
+    return new Promise((resolve,reject)=>{
+        resolve(data)
+    })
 };
 
 const checkLiked = async (postId, userId) => {
@@ -12,7 +14,9 @@ const checkLiked = async (postId, userId) => {
   );
   const data = await response.json();
 
-  return data;
+  return new Promise((resolve,reject)=>{
+    resolve(data)
+})
 };
 
 const checkDisliked = async (postId, userId) => {
@@ -28,7 +32,9 @@ const checkSaved = async (postId, userId) => {
     "http://localhost:3000/api/posts/checkSaved/" + postId + "/" + userId
   );
   const data = await response.json();
-  return data;
+  return new Promise((resolve,reject)=>{
+    resolve(data)
+})
 };
 
 module.exports = { viewPostById, checkLiked, checkDisliked, checkSaved };
