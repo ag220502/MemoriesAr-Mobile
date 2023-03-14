@@ -3,8 +3,10 @@ import NetInfo from "@react-native-community/netinfo";
 import React,{useState} from 	'react';
 import { AuthProvider } from './src/screens/context/AuthContext.js';
 import AppNav from './src/screens/navigation/AppNav.js';
-import BottomModal from './src/components/BottomModal.js';
-import ChangeVisibility from './src/screens/AccountScreens/SettingsScreen/Privacy/changeVisibility.js';
+// import BottomModal from './src/components/BottomModal.js';
+// import ChangeVisibility from './src/screens/AccountScreens/SettingsScreen/Privacy/changeVisibility.js';
+import Comments from './src/screens/AccountScreens/ViewScreens/Comments.js';
+import SelectTheme from './src/screens/AccountScreens/SettingsScreen/Account/SelectTheme.js';
 export default function App() {
 	const [connection,setConnection] = useState(false)
 	const checkConnection = () => {
@@ -26,8 +28,9 @@ export default function App() {
 	}
 	checkConnection()
 	return (
-		<ChangeVisibility/>
+		// <ChangeVisibility/>
 		// <BottomModal/>
+		<Comments/>
 		// <AuthProvider>
 		// 	{
 		// 		connection ? 
