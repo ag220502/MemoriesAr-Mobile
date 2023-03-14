@@ -30,16 +30,16 @@ export default function App() {
 	return (
 		// <ChangeVisibility/>
 		// <BottomModal/>
-		<Comments/>
-		// <AuthProvider>
-		// 	{
-		// 		connection ? 
-		// 		<NavigationContainer>
-		// 			<AppNav/>
-		// 		</NavigationContainer> 
-		// 		: null
-		// 	}
-		// </AuthProvider>
+		// <Comments/>
+		<AuthProvider>
+			{
+				connection ? 
+				<NavigationContainer>
+					<AppNav/>
+				</NavigationContainer> 
+				: null
+			}
+		</AuthProvider>
 	);
 }
 

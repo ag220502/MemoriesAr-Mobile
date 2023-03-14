@@ -1,9 +1,9 @@
 const viewPostById = async (id) => {
-  const response = await fetch(
-    "http://localhost:3000/api/posts/getPostById/" + id
-  );
-  const data = await response.json();
-  return data;
+    const response = await fetch(
+      "http://localhost:3000/api/posts/getPostById/" + id
+    );
+    const data = await response.json();
+    return data;
 };
 
 const checkLiked = async (postId, userId) => {
@@ -11,6 +11,7 @@ const checkLiked = async (postId, userId) => {
     "http://localhost:3000/api/posts/checkLiked/" + postId + "/" + userId
   );
   const data = await response.json();
+
   return data;
 };
 
