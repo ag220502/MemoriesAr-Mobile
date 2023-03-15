@@ -1,29 +1,34 @@
-import { StyleSheet, Text, View,Image, FlatList } from 'react-native'
+import { StyleSheet, Text, View,Image, FlatList, Alert } from 'react-native'
 import React,{useState,useEffect} from 'react'
 import BottomNavBar from '../../../components/BottomNavBar'
 import Color from '../../../ColourThemes/theme1.js'
 import style from '../../../StyleSheets/main.js'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
-import {requestData} from '../../fetchData/requestData'
+import {acceptRequest, requestData,declineRequest} from '../../fetchData/requestData'
+import { StatusBar } from 'expo-status-bar'
 
-const FriendRequest = ({navigation}) => {
+const FriendRequest = ({navigation,route}) => 
+{
 	const [reqData,setReqData] = useState([])
 	useEffect(()=>{
-		requestData(18).then((data)=>{
+
+		requestData(route.params.userId).then((data)=>{
 			setReqData(data)
 		})
+		
 	},[])
 
 	return (
 		<View style={style.container}>
+			<StatusBar style='light'/>
 			<View style={style.downMain}>
-				<Text>Friend Request</Text>
+				<Text style={style.frameHead}>Friend Requests</Text>
 			</View>
 			<View style={style.mainDown}>
 				<View style={{marginTop:50}}>
 					{
-						console.log(reqData)
-					}
+						reqData.length==0 ? <Text style={{alignSelf:'center',fontWeight:'700',fontSize:16}}>No Requests Found</Text>:
+					
 					<FlatList
 						data={reqData}
 						renderItem={({item})=>
@@ -39,16 +44,31 @@ const FriendRequest = ({navigation}) => {
 									</View>
 								</View>
 								<View style={styles.btnView}>
-									<Pressable onPress={()=>{}} style={styles.accBtn}>
+									<Pressable onPress={()=>{
+										acceptRequest(item.userId,route.params.userId).then((data)=>{
+											Alert.alert(data)
+											requestData(route.params.userId).then((data)=>{
+												setReqData(data)
+											})
+										})
+										
+									}} style={styles.accBtn}>
 										<Text style={styles.accBtnTxt}>Accept</Text>
 									</Pressable>
-									<Pressable onPress={()=>{}} style={[styles.accBtn,{backgroundColor:Color.lightColor,borderWidth:1,borderColor:Color.darkColor}]}>
+									<Pressable onPress={()=>{
+										declineRequest(item.userId,route.params.userId).then((data)=>{
+											Alert.alert(data)
+											requestData(route.params.userId).then((data)=>{
+												setReqData(data)
+											})
+										})
+									}} style={[styles.accBtn,{backgroundColor:Color.lightColor,borderWidth:1,borderColor:Color.darkColor}]}>
 										<Text>Decline</Text>
 									</Pressable>
 								</View>
 							</View>
 								)}
-					/>
+					/>}
 					{/* <View style={{flexDirection:'row',justifyContent:'space-between'}}>
 						<View style={styles.user_det}>
 							<View>

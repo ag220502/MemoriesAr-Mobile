@@ -18,28 +18,31 @@ const getHomeFeed = async (id) => {
     // console.log(response)
     
     return response
-
 }
 
 const getAllData = async (id) => {
     const arr = await getHomeFeed(id)
     const array = []
-    const result = arr.map(async (item) => 
+    let result = arr.map(async (item) => 
     {
         const liked = await checkLiked(item.postId,id)
         const disliked = await checkDisliked(item.postId,id)
         const saved = await checkSaved(item.postId,id)
-        const obj = {
+        
+        // const obj = 
+        return {
             ...item,
             liked: liked,
             disliked: disliked,
             saved: saved
         }
+        
         // console.log(obj)
-        array.push(obj)
-        return array
+        // array.push(obj)
+        // return array
     })
-    // console.log(result)
+    console.log(result)
+    // return array
 }
 
 

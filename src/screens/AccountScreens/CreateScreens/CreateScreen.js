@@ -9,9 +9,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
 import {createPost} from '../../fetchData/createPost.js';
+import { getProfileData } from '../../fetchData/profileData.js';
 
 const CreateScreen = ({navigation,route,location}) => {
-	console.log(route.params.userId)
+	
+	const [data,setData] = useState('')
+	const [profile,setProfile] = useState('')
+	const [name,setName] = useState('')
 	const [hasGalleryPer,setGalleryPer] = useState(null)
     const [image,setImage] = useState('')
 	const [caption,setCaption] = useState('')
@@ -20,6 +24,16 @@ const CreateScreen = ({navigation,route,location}) => {
 	const [longitude,setLongitude] = useState(55.2708)
 	const [postType,setPostType] = useState(1)
 	const [taggedUsers,setTaggedUsers] = useState([])
+	if(!data)
+	{
+		getProfileData(route.params.userId).then((data)=>{
+			setData(data)
+			setProfile(data.profilePhoto)
+			setName(data.firstName+" "+data.lastName)
+		})
+	}
+	
+	
 
     useEffect(()=>{
         (async ()=>{
@@ -75,11 +89,11 @@ const CreateScreen = ({navigation,route,location}) => {
 			<ScrollView style={style.mainDown}>
 				<View style={styles.userPosting}>
 					<Image 
-						source={require('../../../images/ProfileImages/profile8.jpg')}
+						source={{uri:profile}}
 						style={styles.userProfile}
 					/>
 					<Text style={styles.userText}>
-						John Thomas
+						{name}
 					</Text>
 				</View>
 				<View style={styles.postCaption}>

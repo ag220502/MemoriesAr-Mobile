@@ -30,7 +30,7 @@ const MainScreen = ({navigation}) => {
 			Number.isInteger(id) &&
 				<>
 					<StatusBar barStyle="dark"/>
-					<TopNavBar navigation={navigation}/>
+					<TopNavBar navigation={navigation} userId={id}/>
 					<UserFeed navigation={navigation} userId={id}/>
 					<BottomNavBar navigation={navigation} userId={id}/>
 				</>

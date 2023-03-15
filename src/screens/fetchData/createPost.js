@@ -6,6 +6,7 @@ const createPost = async (
   flag,
   postImage
 ) => {
+  console.log("Creating Post")
   const formData = new FormData();
   formData.append("userId", userId);
   formData.append("caption", caption);
@@ -20,6 +21,8 @@ const createPost = async (
     },
     body: formData,
   });
+  console.log("Response is ")
+  console.log(response)
   const data = await response.json();
   console.log(data)
   return data;

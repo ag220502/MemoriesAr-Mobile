@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,FlatList,Image, Pressable } from 'react-native'
+import { StyleSheet, Text, View,FlatList,Image, Pressable,ScrollView } from 'react-native'
 import React,{useState} from 'react'
 import Ionicons from "@expo/vector-icons/Ionicons"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
@@ -6,35 +6,43 @@ import { Entypo } from '@expo/vector-icons';
 import Color from '../ColourThemes/theme1'
 
 import { getHomeFeed,getAllData } from '../screens/fetchData/homeScreenData';
+import { checkLiked, checkSaved } from '../screens/fetchData/viewPost';
 
 
 const UserFeed = ({navigation,userId}) => {
-
 	const [postInfo,setPostInfo] = useState([])
 	if(!postInfo.length)
 	{
-		// getAllData(userId).then((data)=>{
-		// 	// setPostInfo(data)
-		// })
-		getHomeFeed(userId).then((data)=>{
-			setPostInfo(data)
+		getHomeFeed(userId).then((res)=>{
+			setPostInfo(res)
 		})
 	}
 	return (
-		<View style={styles.container}>
-			<FlatList
-            data={postInfo}
-            renderItem={
-                (element)=>{
-                    return(
-                        <View style={styles.userPost}>
-                            <View style={styles.postUserDetails}>
+		<ScrollView style={styles.container}>
+			{	
+				postInfo.map((item,index)=>{
+					let liked=false;
+					let saved = false;
+					Promise.all(checkLiked(item.postId,userId)).then(
+						(res)=>{
+							liked = res
+						}
+					)
+					Promise.all(checkSaved(item.postId,userId)).then(
+						(res)=>{
+							saved = res
+						}
+					)
+
+					return (
+						<View style={styles.userPost} key={index}>
+							<View style={styles.postUserDetails}>
 								<View style={styles.userDetails}>
 									<Image
-										source={{uri:element.item.profilePhoto}}
+										source={{uri:item.profilePhoto}}
 										style={styles.userProfile}
 									/>
-									<Text style={styles.userName}>{element.item.firstName + " "} {element.item.lastName?element.item.lastName:""}</Text>
+									<Text style={styles.userName}>{item.firstName + " "} {item.lastName?item.lastName:""}</Text>
 								</View>
 								<View style={styles.moreOptions}>
 									<Entypo name="dots-three-horizontal" size={24} color="black" />
@@ -42,17 +50,15 @@ const UserFeed = ({navigation,userId}) => {
 							</View>
 							<View style={styles.userPostPic}>
 								<Image
-									source={{uri:element.item.PhotoLink}}
+									source={{uri:item.PhotoLink}}
 									style={styles.postImage}
 								/>
 								<Pressable 
 									style={styles.postBtn}
 									onPress={()=>{
-										console.log(element.item.postId)
 										navigation.navigate("ViewPost",{
-											postId:element.item.postId
-										})
-										
+											postId:item.postId
+										})	
 									}
 								}
 								>
@@ -61,23 +67,35 @@ const UserFeed = ({navigation,userId}) => {
 							</View>
 							<View style={styles.postOptions}>
 								<Pressable style={styles.postOpt}>
-									<Entypo 
-										name={"heart-outlined"} 
-										size={30} 
-										color={Color.textMidColor}
-									/>
-									<Text style={styles.optionNum}>{element.item.PostLikes}</Text>
+									{
+										liked ? 
+										<Entypo 
+											name="heart" 
+											size={30} 
+											color="black" 
+										/>
+										:
+										<Entypo 
+											name={"heart-outlined"} 
+											size={30} 
+											color={Color.textMidColor}
+											onPress={()=>{
+												console.log("Liked")
+											}}
+										/>
+									}
+									<Text style={styles.optionNum}>{item.PostLikes}</Text>
 								</Pressable>
 								<Pressable 
 									style={styles.postOpt}
-									onPress={()=>{navigation.navigate("Comments",{postId:element.item.postId,userId:userId})}}
+									onPress={()=>{navigation.navigate("Comments",{postId:item.postId,userId:userId})}}
 								>
 									<FontAwesome 
 										name="commenting" 
 										size={24} 
 										color={Color.textMidColor} 
 									/>
-									<Text style={styles.optionNum}>{element.item.PostComments}</Text>
+									<Text style={styles.optionNum}>{item.PostComments}</Text>
 								</Pressable>
 								<Pressable style={styles.postOpt}>
 								<Ionicons 
@@ -87,12 +105,11 @@ const UserFeed = ({navigation,userId}) => {
 								/>
 								</Pressable>
 							</View>
-                        </View>
-                    )
-                }
-            }
-        />
-		</View>
+						</View>
+					)
+				})
+			}
+		</ScrollView>
 	)
 }
 

@@ -5,6 +5,7 @@ import React from 'react'
 import MainScreen from '../AccountScreens/MainScreen.js';
 import ViewPost from '../AccountScreens/ViewScreens/ViewPost.js';
 import Comments from '../AccountScreens/ViewScreens/Comments.js';
+import FriendRequest from '../AccountScreens/Request/FriendRequest.js';
 
 //Create Post Screens
 import CreateScreen from '../AccountScreens/CreateScreens/CreateScreen.js';
@@ -54,6 +55,10 @@ const AppStack = () => {
             <Stack.Screen 
                 name="Comments"
                 component={Comments}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="FriendRequest"
+                component={FriendRequest}
                 options={{headerShown:false}} />
                 
             <Stack.Screen 

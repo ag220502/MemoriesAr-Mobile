@@ -4,8 +4,9 @@ import logo from '../images/HomeImages/logo.png'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Color from '../ColourThemes/theme1';
 
-const TopNavBar = ({navigation}) => {
-  return (
+const TopNavBar = ({navigation,userId}) => {
+    
+    return (
     <View style={styles.container}>
         {/* <Image
             source={logo}
@@ -14,7 +15,7 @@ const TopNavBar = ({navigation}) => {
         <Text style={styles.name}>Memories AR</Text>
         <View style={{flexDirection:'row'}}>
         <Pressable 
-            onPress={()=>navigation.navigate("ChatScreen")}
+            onPress={()=>navigation.navigate("FriendRequest",{userId:userId})}
             >
             <Ionicons name="notifications-outline" size={32} color="black" style={{paddingRight:10}}/>
         </Pressable>
