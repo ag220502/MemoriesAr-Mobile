@@ -8,10 +8,18 @@ import Color from '../../../ColourThemes/theme1.js'
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
+import {createPost} from '../../fetchData/createPost.js';
 
-const CreateScreen = ({navigation,location}) => {
+const CreateScreen = ({navigation,route,location}) => {
+	console.log(route.params.userId)
 	const [hasGalleryPer,setGalleryPer] = useState(null)
-    const [image,setImage] = useState()
+    const [image,setImage] = useState('')
+	const [caption,setCaption] = useState('')
+	const [postLocation,setPostLocation] = useState('')
+	const [lattitude,setLattitude] = useState(25.2048)
+	const [longitude,setLongitude] = useState(55.2708)
+	const [postType,setPostType] = useState(1)
+	const [taggedUsers,setTaggedUsers] = useState([])
 
     useEffect(()=>{
         (async ()=>{
@@ -19,8 +27,6 @@ const CreateScreen = ({navigation,location}) => {
             const galleryPermission = await ImagePicker.requestCameraPermissionsAsync()
             console.log("Asking Permission")
             setGalleryPer(galleryPermission === 'granted');
-            console.log(setGalleryPer)
-
         })()
     },[])
 
@@ -31,14 +37,21 @@ const CreateScreen = ({navigation,location}) => {
             aspect:[4,3],
             quality:1
         })
-
         if(!result.canceled)
         {
             setImage(result.assets[0].uri)
             console.log("Image Added")
+			console.log("Image is "+image)
         }
 
     }
+
+	const createNew = async ()=>{
+		console.log("Creating New Post")
+		const result = await createPost(route.params.userId,caption,lattitude,longitude,postType,image)
+		console.log("Result is "+result)
+	}
+
 	return (
 		<View style={style.container}>
 			<StatusBar barStyle={"light-content"}/>
@@ -52,9 +65,9 @@ const CreateScreen = ({navigation,location}) => {
 						<Entypo name="cross" size={24} color={Color.textDarkColor} />
 					</Pressable>
 					<Text style={styles.userName}>Create Memory</Text>
-					<Pressable style={styles.buttonView} onPress={()=>navigation.dispatch(
-							StackActions.replace('MainScreen')
-						)}>
+					<Pressable style={styles.buttonView} onPress={()=>{
+						createNew()
+					}}>
 						<Text color={Color.textDarkColor} style={{fontWeight:'700'}}>Post</Text>
 					</Pressable>
 				</View>
@@ -70,7 +83,13 @@ const CreateScreen = ({navigation,location}) => {
 					</Text>
 				</View>
 				<View style={styles.postCaption}>
-					<TextInput multiline style={styles.caption} placeholder="What's in your mind?"/>
+					<TextInput 
+						multiline style={styles.caption} 
+						placeholder="What's in your mind?"
+						value={caption}
+						onChangeText={(text)=>setCaption(text)}
+						blurOnSubmit = {true}
+					/>
 				</View>
 				<View style={styles.postOptions}>
 					<Pressable 
@@ -99,11 +118,14 @@ const CreateScreen = ({navigation,location}) => {
 						<Text style={styles.contentHead}>Select Content Type</Text>
 						<View style={styles.typeOptions}>
 							<Pressable style={styles.typeOption}>
-								<Text style={styles.typeText}>Opinion</Text>
-							</Pressable>
-							<Pressable style={styles.typeOption}>
 								<Text style={styles.typeText}>Fictional</Text>
 							</Pressable>
+							<Pressable 
+								style={styles.typeOption}
+							>
+								<Text style={styles.typeText}>Opinion</Text>
+							</Pressable>
+							
 						</View>
 					</View>
 				</View>

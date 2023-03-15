@@ -5,6 +5,7 @@ import * as Location from 'expo-location';
 import Color from '../../../ColourThemes/theme1';
 import { StackActions } from '@react-navigation/native';
 
+
 const AddLocation = ({navigation}) => {
 	const [mapRegion, setMapRegion] = useState(null)
 	const userLocation = async () => {

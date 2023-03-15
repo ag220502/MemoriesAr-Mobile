@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View,ScrollView,TextInput,KeyboardAvoidingView, SafeAreaView, FlatList,Image } from 'react-native'
+import { Pressable, StyleSheet, Text, View,ScrollView,TextInput,KeyboardAvoidingView, SafeAreaView, FlatList,Image, Alert } from 'react-native'
 import React from 'react'
 import style from '../../../StyleSheets/main.js'
 import { StatusBar } from 'expo-status-bar';
@@ -16,8 +16,7 @@ const Comments = ({navigation,route}) => {
             if(data!=="No comments found")
             {
                 setComment(data)
-            }
-            
+            } 
         })
     }
 
@@ -73,6 +72,11 @@ const Comments = ({navigation,route}) => {
                 <Pressable 
                     style={styles.sendBtn}
                     onPress={()=>{
+                        if(newComment==="" || newComment.trim()==="") 
+                        {
+                            Alert.alert("Please enter a comment")
+                            return
+                        }
                         createComment(route.params.postId,route.params.userId,newComment).then((data)=>{
                             getAllComments(route.params.postId).then((data)=>{
                                 setComment(data)
