@@ -4,7 +4,8 @@ const createPost = async (
   lattitude,
   longitude,
   flag,
-  postImage
+  postImage,
+  tag
 ) => {
   console.log("Creating Post")
   const formData = new FormData();
@@ -14,6 +15,8 @@ const createPost = async (
   formData.append("longitude", longitude);
   formData.append("flag", flag);
   formData.append("postImage", postImage);
+  formData.append("tag", tag);
+  formData.app
   const response = await fetch("http://localhost:3000/api/posts/createPost", {
     method: "POST",
     headers: {
