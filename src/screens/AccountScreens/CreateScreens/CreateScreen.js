@@ -16,7 +16,7 @@ const CreateScreen = ({navigation,route,location}) => {
 	const [data,setData] = useState('')
 	const [profile,setProfile] = useState('')
 	const [name,setName] = useState('')
-	const [hasGalleryPer,setGalleryPer] = useState(null)
+	const [hasGalleryPer,setGalleryPer] = useState(false)
     const [image,setImage] = useState('')
 	const [caption,setCaption] = useState('')
 	const [postLocation,setPostLocation] = useState('')
@@ -37,10 +37,12 @@ const CreateScreen = ({navigation,route,location}) => {
 
     useEffect(()=>{
         (async ()=>{
-            
-            const galleryPermission = await ImagePicker.requestCameraPermissionsAsync()
-            console.log("Asking Permission")
-            setGalleryPer(galleryPermission === 'granted');
+            if(!hasGalleryPer)
+			{
+				const galleryPermission = await ImagePicker.requestCameraPermissionsAsync()
+				console.log("Asking Permission")
+				setGalleryPer(galleryPermission === 'granted');
+			}
         })()
     },[])
 
@@ -62,7 +64,7 @@ const CreateScreen = ({navigation,route,location}) => {
 
 	const createNew = async ()=>{
 		console.log("Creating New Post")
-		const result = await createPost(route.params.userId,caption,lattitude,longitude,postType,image)
+		const result = await createPost(route.params.userId,caption,lattitude,longitude,postType,image,taggedUsers)
 		console.log("Result is "+result)
 	}
 
@@ -88,10 +90,15 @@ const CreateScreen = ({navigation,route,location}) => {
 			</View>
 			<ScrollView style={style.mainDown}>
 				<View style={styles.userPosting}>
-					<Image 
-						source={{uri:profile}}
-						style={styles.userProfile}
-					/>
+					{
+						profile? <Image
+							source={{uri:profile}}
+							style={styles.userProfile}
+						/> : <Image
+							source={require('../../../images/ProfileImages/default.png')}
+							style={styles.userProfile}
+						/>
+					}
 					<Text style={styles.userText}>
 						{name}
 					</Text>
@@ -144,7 +151,7 @@ const CreateScreen = ({navigation,route,location}) => {
 					</View>
 				</View>
 			</ScrollView>
-			<BottomNavBar navigation={navigation}/>
+			<BottomNavBar navigation={navigation} userId={route.params.userId}/>
 		</View>
 	)
 }
