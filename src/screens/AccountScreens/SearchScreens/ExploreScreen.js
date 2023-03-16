@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, TextInput, View, ScrollView,FlatList,Image } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, View, ScrollView,FlatList,Image,Alert } from 'react-native'
 import React,{useState} from 'react'
 import BottomNavBar from '../../../components/BottomNavBar'
 import Color from '../../../ColourThemes/theme1'
@@ -7,9 +7,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar'
-import { recentSearch, searchUser } from '../../fetchData/searchData.js'
-
-
+import { recentSearch, searchUser,suggetUser } from '../../fetchData/searchData.js'
+import { sendRequest } from '../../fetchData/requestData.js'
 const ExploreScreen = ({navigation,route}) => 
 {
     const data=
@@ -47,18 +46,30 @@ const ExploreScreen = ({navigation,route}) =>
     const [searchText,setSearchText] = useState("")
 	const [searchedUser,setSearchedUser] = useState([])
 	const [recent,setRecent] = useState([])
-	const searchByName = (searchText) => {
+	const [suggUser,setSuggUser] = useState([])
+	const searchByName =async (searchText) => {
 		setSearchText(searchText)
-		const users = searchUser(searchText)
+		const users = await searchUser(searchText)
+		console.log(users)
 		setSearchedUser(users)
-		console.log(searchedUser)
 	}
-	setRecent(recentSearch(route.params.userId))
-	console.log(recent)
-    return (
+	if(!recent.length)
+	{
+		recentSearch(route.params.userId).then((data)=>{
+			setRecent(data)
+		})
+	}
+	if(!suggUser.length)
+	{
+		suggetUser(route.params.userId).then((data)=>{
+			setSuggUser(data)
+		})
+	}
+	return (
         <View style={Style.container}>
             <StatusBar style="light" />
-            <View style={[Style.downMain]}>
+            <View style={[Style.downMain,{flexDirection:'row'}]}>
+			
                 <TextInput
                     style={styles.searchBar}
                     value={searchText}
@@ -74,80 +85,110 @@ const ExploreScreen = ({navigation,route}) =>
                             setFocus(false)
                         }}
                 />
-                <Pressable/>
+				
+					{/* <Pressable style={styles.btnView} onPress={()=>{
+						navigation.navigate('SearchScreen',{userId:route.params.userId})
+					}}>
+						<Ionicons name="search" size={24} color="black" />
+					</Pressable> */}
+
+	
             </View>
             <View style={Style.mainDown}>
-                {isFocus ? 
-					<></>
-					// <FlatList
-					// 	data={searchedUser}
-					// 	renderItem={({item}) => {
-					// 		return (
-					// 			<Pressable style={styles.userDetails}>
-					// 				<Image source={item.profile} style={styles.profile_img}/>
-					// 				<Text style={[{alignSelf:'center',paddingVertical:5}]}>{item.name}</Text>
-					// 			</Pressable>
-					// 		)
-					// 	}}
-					// 	keyExtractor={(item,index) => index.toString()}
-					// />
-					:
-                <View>
-                    <ScrollView style={styles.dataView}>
-                        <Text style={[styles.viewHead]}>Recent Searches</Text>
-                        <ScrollView horizontal={true} style={styles.recentSearchView}>
-                            {
-                                data.map((item,index)=>{
-                                    return(
-                                        <Pressable style={styles.userDetails} key={index}>
-                                            <Image source={item.profile} style={styles.profile_img}/>
-                                            <Text style={[{alignSelf:'center',paddingVertical:5}]}>{item.name}</Text>
-                                        </Pressable>	
-                                    )
-                                })
-                            }
-                        </ScrollView>
-                        <Text style={styles.viewHead}>Suggested Users</Text>
-                        <ScrollView style={styles.suggView} horizontal={true}>
-                            {
-                                data.map((item,index)=>{
-                                    return(
-                                        <View style={styles.suggUser} key={index}>
-                                            <Image source={item.profile} style={styles.suggProfileImg}/>
-                                            <Text style={styles.usrText}>{item.name}</Text>
-                                            <View style={styles.btnMainView}>
-                                                <Pressable style={styles.btnView}>
-                                                    <Text style={styles.btnText}>Add Firend</Text>
-                                                </Pressable>
-                                                <Pressable style={styles.btnView}>
-                                                    <Text style={styles.btnText}>Remove</Text>
-                                                </Pressable>
-                                            </View>
-                                        </View>	
-                                    )
-                                })
-                            }
-                            
-                        </ScrollView>
-                        {/* <View style={{justifyContent:'space-between',flexDirection:'row'}}>
-                            <Text style={styles.viewHead}>Suggested Memories</Text>
-                            <Text style={styles.viewAllLink}>View All</Text>
-                        </View>
-                        <View style={styles.suggView}>
-                            <View style={[{flexWrap:'wrap'}]}>
-                                
-                            </View>
-                        </View>
-                        <View style={{justifyContent:'space-between',flexDirection:'row'}}>
-                            <Text style={styles.viewHead}>Suggested Scrapbooks</Text>
-                            <Text style={styles.viewAllLink}>View All</Text>
-                        </View>
-                        <View style={[styles.suggView,{marginBottom:80}]}>
+				{
+					isFocus ?
+					<>
+						<ScrollView style={{marginTop:30,marginBottom:80}}>
+							<Text style={[styles.viewHead]}>Search Results</Text>
 
-                        </View> */}
-                    </ScrollView>
-                </View>}
-            </View>
+								{
+								searchedUser.map((item,index)=>{
+									return(
+										<Pressable 
+											style={[styles.userDetails,{flexDirection:'row',width:'100%',marginVertical:20}]} 
+											key={index}
+											onPress={()=>{
+												navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.id,backTo:'ExploreScreen'})
+											}}
+										>
+											<Image source={{uri:item.profilePhoto}} style={[styles.profile_img,{paddingHorizontal:20}]}/>
+											<Text style={[{alignSelf:'center',paddingVertical:5,paddingHorizontal:20,fontWeight:'600',fontSize:16}]}>{item.firstName} {item.lastName?item.lastName:""}</Text>
+										</Pressable>	
+									)
+								}
+							)}
+
+						</ScrollView>
+					</>
+					:
+					<View>
+						<ScrollView style={styles.dataView}>
+							<Text style={[styles.viewHead]}>Recent Searches</Text>
+							<ScrollView horizontal={true} style={styles.recentSearchView}>
+								{
+									recent.map((item,index)=>{
+										return(
+											<Pressable 
+												style={styles.userDetails} 
+												key={index}
+												onPress={()=>{
+													navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.userId,backTo:'ExploreScreen'})
+												}}
+											>
+												<Image source={{uri:item.profilePhoto}} style={styles.profile_img}/>
+												<Text style={[{alignSelf:'center',paddingVertical:5}]}>{item.firstName}</Text>
+											</Pressable>	
+										)
+									})
+								}
+							</ScrollView>
+							<Text style={styles.viewHead}>Suggested Users</Text>
+							<ScrollView style={styles.suggView} horizontal={true}>
+								{
+									suggUser.map((item,index)=>{
+										return(
+											<View style={styles.suggUser} key={index}>
+												{
+													item.profilePhoto == null 
+													? 
+													<Image source={require("../../../images/ProfileImages/default.png")} style={styles.suggProfileImg}/>
+													:
+													<Image source={{uri:item.profilePhoto}} style={styles.suggProfileImg}/>
+												}
+												<Text style={styles.usrText}>{item.firstName}</Text>
+												<View style={styles.btnMainView}>
+													<Pressable 
+														style={styles.btnView}
+														onPress={async ()=>{
+															sendRequest(route.params.userId,item.id).then((data)=>{
+																if(data == 'Request Sent Successfully')
+																{
+																	Alert.alert("Request Sent Successfully")
+																}
+															})
+														}}
+													>
+														<Text style={styles.btnText}> Add Firend </Text>
+													</Pressable>
+													<Pressable 
+														style={styles.btnView}
+														onPress={()=>{
+															navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.id,backTo:'ExploreScreen'})
+														}}
+													>
+														<Text style={styles.btnText}> Profile </Text>
+													</Pressable>
+												</View>
+											</View>	
+										)
+									})
+								}
+								
+							</ScrollView>
+						</ScrollView>
+					</View>
+				}
+           </View>
         <BottomNavBar navigation={navigation} userId={route.params.userId}/>
         </View>
     )
@@ -168,6 +209,14 @@ const styles = StyleSheet.create({
     },
     dataView:{
 		marginTop:50
+	},
+	btnView:{
+		width:45,
+		height:45,
+		backgroundColor:Color.lightColor,
+		borderRadius:10,
+		justifyContent:'center',
+		alignItems:'center'
 	},
 	recentSearchView:{
 		width:'100%',

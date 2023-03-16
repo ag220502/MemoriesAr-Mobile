@@ -10,4 +10,11 @@ const recentSearch = async (search) => {
     return data;
 }
 
-module.exports = {searchUser,recentSearch}
+const suggetUser = async (search) => {
+    const response = await fetch("http://localhost:3000/api/recentSearches/suggestedUsers/" + search);
+    const data = await response.json();
+    return data;
+}
+
+
+module.exports = {searchUser,recentSearch,suggetUser}

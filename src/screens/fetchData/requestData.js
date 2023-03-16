@@ -32,8 +32,20 @@ const declineRequest = async (id,recId) => {
         })
 
     }).then ((response) => response.json());
-    
-    
 }
 
-module.exports = {requestData, acceptRequest, declineRequest}
+const sendRequest = async (id,recId) => {
+    return await fetch("http://localhost:3000/api/requests/sendRequest",{
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userId: id,
+                recId: recId
+            })
+    }).then((response) => response.json());
+}
+
+module.exports = {requestData, acceptRequest, declineRequest, sendRequest}
