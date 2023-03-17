@@ -38,10 +38,10 @@ const UserFeed = ({navigation,userId}) => {
 						<View style={styles.userPost} key={index}>
 							<View style={styles.postUserDetails}>
 								<View style={styles.userDetails}>
-									<Image
-										source={{uri:item.profilePhoto}}
-										style={styles.userProfile}
-									/>
+									{
+										item.profilePhoto==null || item.profilePhoto==="" ? <Image style={styles.userProfile} source={require('../images/ProfileImages/default.png')}/> : <Image style={styles.userProfile} source={{uri:item.profilePhoto}}/>
+									}
+									
 									<Text style={styles.userName}>{item.firstName + " "} {item.lastName?item.lastName:""}</Text>
 								</View>
 								<View style={styles.moreOptions}>
@@ -49,6 +49,7 @@ const UserFeed = ({navigation,userId}) => {
 								</View>
 							</View>
 							<View style={styles.userPostPic}>
+								
 								<Image
 									source={{uri:item.PhotoLink}}
 									style={styles.postImage}

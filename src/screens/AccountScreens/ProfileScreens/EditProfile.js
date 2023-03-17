@@ -7,11 +7,17 @@ import { StackActions } from '@react-navigation/native';
 
 const EditProfile = (props) => {
     const [id,setId] = useState(props.route.params.userId)
-    console.log(id)
     const [fName,setFName] = useState(props.route.params.fname)
     const [lName,setLName] = useState(props.route.params.lname)
     const [bio,setBio] = useState(props.route.params.bio)
+    
     const updateData=()=>{
+        console.log(id)
+        if(fName==="" || fName.trim()==="")
+        {
+            Alert.alert("Please fill First Name")
+            return
+        }
         fetch("http://localhost:3000/api/users/updateProfile",{
             method:"PATCH",
             headers:{
@@ -32,7 +38,7 @@ const EditProfile = (props) => {
                     text:"Ok",
                     onPress:()=>{
                         props.navigation.dispatch(
-                            StackActions.replace('ProfileScreen')
+                            StackActions.replace('ProfileScreen',{userId:id})
                         )
                     }
                 }])
@@ -45,7 +51,7 @@ const EditProfile = (props) => {
         <View style={styles.container}>
             <View style={styles.search}>
                 <Pressable style={styles.buttonView}
-                    onPress={()=>props.navigation.navigate("ProfileScreen")}
+                    onPress={()=>props.navigation.navigate("ProfileScreen",{userId:id})}
                 >
                     <Text style={styles.btnText}>Cancel</Text>
                 </Pressable>
