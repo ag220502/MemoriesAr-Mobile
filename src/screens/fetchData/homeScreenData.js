@@ -4,7 +4,7 @@ import {WEB} from "../../../var.js"
 const getHomeFeed = async (id) => {
     // const [liked, setLiked] = useState(false);
     const array = [];
-    const response = await fetch('https://memoriesar.onrender.com/api/homePage/usersFeed/'+id,
+    const response = await fetch(WEB+'/api/homePage/usersFeed/'+id,
     {
         method: 'GET',
         headers: {

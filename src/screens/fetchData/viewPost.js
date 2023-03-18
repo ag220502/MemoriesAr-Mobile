@@ -1,7 +1,7 @@
 import {WEB} from "../../../var.js"
 const viewPostById = async (id) => {
     const response = await fetch(
-      "http://localhost:3000/api/posts/getPostById/" + id
+      WEB+"/api/posts/getPostById/" + id
     );
     const data = await response.json();
     return new Promise((resolve,reject)=>{
@@ -11,7 +11,7 @@ const viewPostById = async (id) => {
 
 const checkLiked = async (postId, userId) => {
   Promise.all(await fetch(
-    "http://localhost:3000/api/posts/checkLiked/" + postId + "/" + userId
+    WEB+"/api/posts/checkLiked/" + postId + "/" + userId
   )
   .then((response) => response.json())
   .then((res) => 
@@ -22,7 +22,7 @@ const checkLiked = async (postId, userId) => {
 
 const checkDisliked = async (postId, userId) => {
   const response = await fetch(
-    "http://localhost:3000/api/posts/checkDisliked/" + postId + "/" + userId
+    WEB+"/api/posts/checkDisliked/" + postId + "/" + userId
   );
   const data = await response.json();
   return data;
@@ -30,7 +30,7 @@ const checkDisliked = async (postId, userId) => {
 
 const checkSaved = async (postId, userId) => {
   const response = await fetch(
-    "http://localhost:3000/api/posts/checkSaved/" + postId + "/" + userId
+    WEB+"/api/posts/checkSaved/" + postId + "/" + userId
   );
   const data = await response.json();
   return new Promise((resolve,reject)=>{

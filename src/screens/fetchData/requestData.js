@@ -1,12 +1,12 @@
 import {WEB} from "../../../var.js"
 const requestData = async (id) => {
-    const response = await fetch("http://localhost:3000/api/requests/getAllRequests/" + id);
+    const response = await fetch(WEB+"/api/requests/getAllRequests/" + id);
     const data = await response.json();
     return data;
 }
 
 const acceptRequest = async (id,recId) => {
-    return await fetch("http://localhost:3000/api/requests/acceptRequest",{
+    return await fetch(WEB+"/api/requests/acceptRequest",{
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -21,7 +21,7 @@ const acceptRequest = async (id,recId) => {
 }
 
 const declineRequest = async (id,recId) => {
-    return await fetch("http://localhost:3000/api/requests/declineRequest/",{
+    return await fetch(WEB+"/api/requests/declineRequest/",{
         method: "DELETE",
         headers: {
             Accept: "application/json",
@@ -36,7 +36,7 @@ const declineRequest = async (id,recId) => {
 }
 
 const sendRequest = async (id,recId) => {
-    return await fetch("http://localhost:3000/api/requests/sendRequest",{
+    return await fetch(WEB+"/api/requests/sendRequest",{
         method: "POST",
         headers: {
             Accept: "application/json",

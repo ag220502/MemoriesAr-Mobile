@@ -18,7 +18,7 @@ const createPost = async (
   formData.append("flag", flag);
   formData.append("postImage", postImage);
   formData.append("tag", tag);
-  const response = await fetch("http://localhost:3000/api/posts/createPost", {
+  const response = await fetch(WEB+"/api/posts/createPost", {
     method: "POST",
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
