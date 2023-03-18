@@ -35,7 +35,6 @@ const MainScreen = ({navigation}) => {
 					<BottomNavBar navigation={navigation} userId={id}/>
 				</>
 			}
-			
 		</SafeAreaView>
   	)
 }
