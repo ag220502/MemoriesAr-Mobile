@@ -1,5 +1,7 @@
+import {WEB} from "../../../var.js"
 const createComment = async (postId, userId, comment) => {
-    const response = await fetch("http://localhost:3000/api/comment/post", {
+    
+    const response = await fetch(WEB+"/api/comment/post", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -14,4 +16,11 @@ const createComment = async (postId, userId, comment) => {
     return data;
 };
 
-module.exports = { createComment };
+const getAllComments = async (postId) => {
+    const response = await fetch(`${WEB}/api/comment/allComments/${postId}}`);
+    const data = await response.json();
+    return data;
+};
+
+
+module.exports = { createComment,getAllComments };

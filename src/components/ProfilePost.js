@@ -2,11 +2,11 @@ import { StyleSheet, Text, View,Image } from 'react-native'
 import React from 'react'
 
 const ProfilePost = (data) => {
-
     return (
-    
         <View style={styles.allPosts}>
+            
             {
+                data.data!=="No Posts Available" &&
                 data.data.length ?
                 data.data.map((data,index)=>{
                     return(
@@ -14,7 +14,7 @@ const ProfilePost = (data) => {
                             <Image source={{uri:data.photo}} style={styles.pic}/>
                         </View>
                     )
-                }) : <Text>No Memories Uploaded</Text>
+                }) : <Text style={{fontWeight:'700',fontSize:16,paddingVertical:10}}>No Memories Uploaded</Text>
                 }
         </View>
     )

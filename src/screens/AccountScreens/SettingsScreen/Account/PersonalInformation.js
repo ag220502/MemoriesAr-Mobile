@@ -1,14 +1,18 @@
-import { StyleSheet, Text, View, Image, Pressable,TextInput,Alert  } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable,TextInput,Alert,Modal  } from 'react-native'
 import React, { useState } from 'react'
 import Color from './../../../../ColourThemes/theme1.js'
 import { StackActions } from '@react-navigation/native';
+import DatePicker from 'react-native-modern-datepicker'
+import { getToday,getFormatedDate } from 'react-native-modern-datepicker';
+import moment from 'moment';
 const PersonalInformation = ({navigation,route}) => {
 	const [id,setId] = useState(route.params.userId)
 	const [email,setEmail] = useState("")
 	const [mobile,setMobile] = useState(null)
 	const [dob,setDob] = useState(null)
 	const [gender,setGen] = useState("")
-
+    const [open,setOpen] = useState(false)
+    const [profile,setProfile] = useState(null)
 	const [getData,setGetData] = useState(false)
 	const getUserData= async()=>
 	{
@@ -24,12 +28,14 @@ const PersonalInformation = ({navigation,route}) => {
 					if(res.status===200)
 					{
 						res.json().then((data)=>{
+                    
 							if(data[0].id)
 							{
 								setEmail(data[0].email)
 								setMobile(data[0].mobile)
-								setDob(data[0].dob)
+								setDob(moment.utc(data[0].dob).add(1,'days').format('YYYY/MM/DD'))
 								setGen(data[0].gender)
+                                setProfile(data[0].profilePhoto)
 							}
 						})
 					}
@@ -48,9 +54,35 @@ const PersonalInformation = ({navigation,route}) => {
 	{
 		getUserData()
 		setGetData(true)
+
 	}
 
 	const updateData=()=>{
+        if(mobile!=null && mobile.length!=10)
+        {   
+            Alert.alert("Invalid Mobile Number","Please Enter Valid Mobile Number",[{
+                text:"Ok",
+                onPress:()=>{}
+            }])
+            return
+        }
+        if(mobile.trim().length==0)
+        {
+            Alert.alert("Invalid Mobile Number","Please Enter Valid Mobile Number",[{
+                text:"Ok",
+                onPress:()=>{}
+            }])
+            return
+        }
+        if(dob==null)
+        {
+            Alert.alert("Invalid Date Of Birth","Please Enter Valid Date Of Birth",[{
+                text:"Ok",
+                onPress:()=>{}
+            }])
+            return
+        }
+
         fetch("http://localhost:3000/api/users/updatePersonal",{
             method:"PATCH",
             headers:{
@@ -78,7 +110,13 @@ const PersonalInformation = ({navigation,route}) => {
             }
         })
     }
-	
+    const handleOnPress = () => {
+        setOpen(!open)
+    }
+    const handleChange = (date) => {
+        setDob(date)
+        setOpen(!open)
+    }
 
 	return (
 		<View style={styles.container}>
@@ -97,7 +135,12 @@ const PersonalInformation = ({navigation,route}) => {
 			</View>
 			<View style={styles.main}>
 				<View style={styles.profile_img}>
-					<Image style={styles.pofile} source={require('../../../../images/ProfileImages/profile.png')}/>
+
+                {
+                    profile==null || profile==="" ? <Image style={styles.pofile} source={require('../../../../images/ProfileImages/default.png')}/> : <Image style={styles.pofile}  source={{uri:profile}}/>
+                }
+
+					
 				</View>
 				<View style={styles.detailsView}>
 					<View style={styles.inputView}>
@@ -119,11 +162,31 @@ const PersonalInformation = ({navigation,route}) => {
 					</View>
 					<View style={styles.inputView}>
 						<Text style={styles.label}>Date Of Birth</Text>
-						<TextInput 
-							style={styles.input}
-							value={dob}
-							onChangeText={(text)=>{setDob(text)}}
-						/>
+						<Pressable 
+							style={styles.input}	
+                            onPress={handleOnPress}
+						>
+                            <Text>{dob}</Text>
+                        </Pressable>
+                        <Modal
+                            animationType='slide'
+                            transparent={true}
+                            visible={open}
+                        >
+                            <View style={styles.modalView}>
+                                <View style={styles.modal}>
+                                    <DatePicker
+                                        selected={dob}
+                                        locale="en"
+                                        mode="calender"
+                                        onDateChange={handleChange}
+                                        
+                                    />
+
+                                    {/* <Pressable onPress={handleOnPress}><Text>Close</Text></Pressable> */}
+                                </View>
+                            </View>
+                        </Modal>
 					</View>
 					{/* <View style={styles.inputView}>
 						<Text style={styles.label}>Country</Text>
@@ -152,6 +215,29 @@ const styles = StyleSheet.create({
         height:'100%',
         backgroundColor:Color.darkColor
     },
+    modalView:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:22
+    },
+    modal:{
+        margin:10,
+        backgroundColor:Color.whiteColor,
+        borderRadius:20,
+        padding:15,
+        alignItems:'center',
+        width:'90%',
+        shadowColor:Color.midColor,
+        shadowOffset:{
+            width:0,
+            height:2
+        },
+        shadowOpacity:0.25,
+        shadowRadius:4,
+        elevation:5
+    },
+
     search:{
         width:'100%',
         top:40,
@@ -196,6 +282,10 @@ const styles = StyleSheet.create({
     },
     pofile:{
         alignSelf:'center',
+        width:100,
+        height:100,
+
+        borderRadius:100
     },
     profile_img:{
         position:'absolute',

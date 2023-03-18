@@ -14,7 +14,7 @@ export const AuthProvider= ({children})=>{
         setLoading(true)
         try
         {
-            fetch ('http://localhost:3000/api/auth/login',{
+            fetch ('https://memoriesar.onrender.com/api/auth/login',{
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({email:userEmail,password:userPass})
@@ -77,7 +77,7 @@ export const AuthProvider= ({children})=>{
         setLoading(true)
         try
         {
-            fetch ('http://localhost:3000/api/auth/logout',{
+            fetch ('https://memoriesar.onrender.com/api/auth/logout',{
                 method: 'GET',
             }).then(
                 res => {res.json().then(async data => {

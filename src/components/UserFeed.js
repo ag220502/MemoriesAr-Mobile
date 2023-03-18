@@ -1,55 +1,104 @@
-import { StyleSheet, Text, View,FlatList,Image, Pressable } from 'react-native'
+import { StyleSheet, Text, View,FlatList,Image, Pressable,ScrollView,Modal } from 'react-native'
 import React,{useState} from 'react'
 import Ionicons from "@expo/vector-icons/Ionicons"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import { Entypo } from '@expo/vector-icons';
 import Color from '../ColourThemes/theme1'
 
-import { getHomeFeed } from '../screens/fetchData/homeScreenData';
+import { getHomeFeed,getAllData } from '../screens/fetchData/homeScreenData';
+import { checkLiked, checkSaved } from '../screens/fetchData/viewPost';
 
 
 const UserFeed = ({navigation,userId}) => {
-
 	const [postInfo,setPostInfo] = useState([])
+	const [openModel,setOpenModel] = useState(false)
+	const handleOnPress = () => {
+        setOpenModel(!openModel)
+    }
+
 	if(!postInfo.length)
 	{
-		getHomeFeed(userId).then((data)=>{
-			setPostInfo(data)
+		getHomeFeed(userId).then((res)=>{
+			setPostInfo(res)
 		})
 	}
 	return (
-		<View style={styles.container}>
-			<FlatList
-            data={postInfo}
-            renderItem={
-                (element)=>{
-                    return(
-                        <View style={styles.userPost}>
-                            <View style={styles.postUserDetails}>
+		<ScrollView style={styles.container}>
+			{	
+				postInfo.map((item,index)=>{
+					let liked=false;
+					let saved = false;
+					Promise.all(checkLiked(item.postId,userId)).then(
+						(res)=>{
+							liked = res
+						}
+					)
+					Promise.all(checkSaved(item.postId,userId)).then(
+						(res)=>{
+							saved = res
+						}
+					)
+
+					return (
+						<View style={styles.userPost} key={index}>
+							<View style={styles.postUserDetails}>
 								<View style={styles.userDetails}>
-									<Image
-										source={{uri:element.item.profilePhoto}}
-										style={styles.userProfile}
-									/>
-									<Text style={styles.userName}>{element.item.firstName + " "} {element.item.lastName?element.item.lastName:""}</Text>
+									{
+										item.profilePhoto==null || item.profilePhoto==="" ? <Image style={styles.userProfile} source={require('../images/ProfileImages/default.png')}/> : <Image style={styles.userProfile} source={{uri:item.profilePhoto}}/>
+									}
+									
+									<Text style={styles.userName}>{item.firstName + " "} {item.lastName?item.lastName:""}</Text>
 								</View>
-								<View style={styles.moreOptions}>
+								<Pressable 
+									style={styles.moreOptions}
+									onPress={()=>{
+										handleOnPress()
+									}}
+								>
 									<Entypo name="dots-three-horizontal" size={24} color="black" />
-								</View>
+								</Pressable>
 							</View>
+							<Modal
+								animationType='slide'
+								transparent={true}
+								visible={openModel}
+							>
+                            	<View style={styles.modalView}>
+                                	<View style={styles.modal}>
+										<Pressable style={styles.modalOption}>
+											<Text>Report User</Text>
+										</Pressable>
+										<Pressable style={styles.modalOption}>
+											<Text>Report User</Text>
+										</Pressable>
+										<Pressable style={styles.modalOption}>
+											<Text>View Profile</Text>
+										</Pressable>
+										<Pressable 
+											style={styles.modalOption}
+											onPress={()=>{
+												handleOnPress()
+											}}
+										>
+											<Text>Close</Text>
+										</Pressable>
+										
+									</View>
+								</View>
+							</Modal>
+
 							<View style={styles.userPostPic}>
+								
 								<Image
-									source={{uri:element.item.PhotoLink}}
+									source={{uri:item.PhotoLink}}
 									style={styles.postImage}
 								/>
 								<Pressable 
 									style={styles.postBtn}
 									onPress={()=>{
-										console.log(element.item.postId)
 										navigation.navigate("ViewPost",{
-											postId:element.item.postId
-										})
-										
+											postId:item.postId
+										})	
 									}
 								}
 								>
@@ -58,20 +107,35 @@ const UserFeed = ({navigation,userId}) => {
 							</View>
 							<View style={styles.postOptions}>
 								<Pressable style={styles.postOpt}>
-									<Entypo 
-										name={"heart-outlined"} 
-										size={30} 
-										color={Color.textMidColor}
-									/>
-									<Text style={styles.optionNum}>{element.item.PostLikes}</Text>
+									{
+										liked ? 
+										<Entypo 
+											name="heart" 
+											size={30} 
+											color="black" 
+										/>
+										:
+										<Entypo 
+											name={"heart-outlined"} 
+											size={30} 
+											color={Color.textMidColor}
+											onPress={()=>{
+												console.log("Liked")
+											}}
+										/>
+									}
+									<Text style={styles.optionNum}>{item.PostLikes}</Text>
 								</Pressable>
-								<Pressable style={styles.postOpt}>
+								<Pressable 
+									style={styles.postOpt}
+									onPress={()=>{navigation.navigate("Comments",{postId:item.postId,userId:userId})}}
+								>
 									<FontAwesome 
 										name="commenting" 
 										size={24} 
 										color={Color.textMidColor} 
 									/>
-									<Text style={styles.optionNum}>{element.item.PostComments}</Text>
+									<Text style={styles.optionNum}>{item.PostComments}</Text>
 								</Pressable>
 								<Pressable style={styles.postOpt}>
 								<Ionicons 
@@ -81,12 +145,11 @@ const UserFeed = ({navigation,userId}) => {
 								/>
 								</Pressable>
 							</View>
-                        </View>
-                    )
-                }
-            }
-        />
-		</View>
+						</View>
+					)
+				})
+			}
+		</ScrollView>
 	)
 }
 
@@ -98,6 +161,40 @@ const styles = StyleSheet.create({
 		marginVertical:50,
 		backgroundColor:Color.lightColor
 	},
+	modalView:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:22
+    },
+	// closeBtn:{
+	// 	position:'absolute',
+	// 	top:10,
+	// 	right:10
+	// },
+	modalOption:{
+		padding:15,
+		borderBottomWidth:0.3,
+		width:'100%',
+		borderBottomColor:Color.midColor,
+	},
+    modal:{
+        margin:10,
+        backgroundColor:Color.whiteColor,
+        borderRadius:20,
+        padding:15,
+        alignItems:'center',
+        width:'70%',
+        shadowColor:Color.midColor,
+        shadowOffset:{
+            width:0,
+            height:2
+        },
+        shadowOpacity:0.5,
+        shadowRadius:4,
+        elevation:5
+    },
+
 	userPost:{
 		width:'90%',
 		alignSelf:'90%',

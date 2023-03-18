@@ -1,5 +1,6 @@
+import {WEB} from "../../../var.js"
 const getProfileData = async (id) => {
-    const response = await fetch('http://localhost:3000/api/users/profile/'+id, {
+    const response = await fetch(WEB+'/api/users/profile/'+id, {
         method: 'GET',
         headers: {
         Accept: 'application/json',
@@ -11,7 +12,7 @@ const getProfileData = async (id) => {
 }
 
 const checkIsFriend = async (id,logged) => {
-    const response = await fetch('http://localhost:3000/api/usersfriends/checkIsfriends/'+id+'/'+logged, 
+    const response = await fetch(WEB+'/api/usersfriends/checkIsfriends/'+id+'/'+logged, 
     {
         method: 'GET',
         headers: {
@@ -24,7 +25,7 @@ const checkIsFriend = async (id,logged) => {
 }
 
 const getNumPosts = async (id) => {
-    const response = await fetch('http://localhost:3000/api/users/profile/postNum/'+id,
+    const response = await fetch(WEB+'/api/users/profile/postNum/'+id,
     {
         method: 'GET',
         headers: {
@@ -37,7 +38,7 @@ const getNumPosts = async (id) => {
 }
 
 const getNumFriends = async (id) => {
-    const response = await fetch('http://localhost:3000/api/users/profile/friendsNum/'+id,
+    const response = await fetch(WEB+'/api/users/profile/friendsNum/'+id,
     {
         method: 'GET',
         headers: {
@@ -51,7 +52,7 @@ const getNumFriends = async (id) => {
 }
 
 const getUserPosts = async (id) => {
-    const response = await fetch('http://localhost:3000/api/posts/getAllPosts/'+id,
+    const response = await fetch(WEB+'/api/posts/getAllPosts/'+id,
     {
         method: 'GET',
         headers: {

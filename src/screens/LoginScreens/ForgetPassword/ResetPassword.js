@@ -25,11 +25,9 @@ const ResetPassword = ({navigation}) => {
                 Alert.alert("OTP Sent Successfully","Please check your email",[{
                     text:"Ok",
                     onPress:()=>{
-                        navigation.dispatch(
-                            StackActions.replace('ForPassVerification',{
+                        navigation.navigate('ForPassVerification',{
                                 email:email
                             })
-                        )
                     }
                 }])
             }
@@ -60,6 +58,17 @@ const ResetPassword = ({navigation}) => {
             onPress={()=>validateAndSendOTP()}
         >
             <Text style={styles.buttonText}>Send Code</Text>
+        </Pressable>
+        <Pressable
+            style={[styles.buttonView,{backgroundColor:Color.lightColor,borderColor:Color.textDarkColor,borderWidth:1}]}
+            onPress={()=>navigation.navigate('SignIn')
+              }
+        >
+            <Text 
+                style={[styles.buttonText,{color:Color.textDarkColor}]}
+            >
+                Go Back
+            </Text>
         </Pressable>
     </SafeAreaView>
   )

@@ -22,11 +22,14 @@ const ProfileScreen = ({navigation,route}) => {
 	const [userPosts,setUserPosts] = useState([]);
 	if(!fname)
 	{
+		
 		getProfileData(id).then((data)=>{
 			setFName(data.firstName)
 			setLName(data.lastName)
 			setBio(data.bio)
+			console.log("Profile is"+data.profilePhoto)
 			setProfilePic(data.profilePhoto)
+			
 		});
 	}
 	
@@ -52,7 +55,7 @@ const ProfileScreen = ({navigation,route}) => {
 	
 	return (
 	<View>
-		<StatusBar barStyle="light"/>
+		<StatusBar style="light"/>
 		<View style={styles.container}>
 		<View style={styles.search}>
 			<Pressable style={styles.buttonView}
@@ -70,7 +73,10 @@ const ProfileScreen = ({navigation,route}) => {
 		</View>
 		<View style={styles.main}>
 			<View style={styles.profile_img}>
-			<Image style={styles.pofile} source={{uri:profilePic}}/>
+				{
+					profilePic==null || profilePic==="" ? <Image style={styles.pofile} source={require('../../../images/ProfileImages/default.png')}/> : <Image style={styles.pofile} source={{uri:profilePic}}/>
+				}
+			
 			</View>
 			<View style={styles.profile_data}>
 			<Pressable style={styles.dataView} onPress={

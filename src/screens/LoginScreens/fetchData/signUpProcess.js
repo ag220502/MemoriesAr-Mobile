@@ -1,5 +1,7 @@
+import {WEB} from "../../../../var.js"
+
 const checkUser = async (email) => {
-    const response = await fetch('http://localhost:3000/api/auth/checkUser/'+email)
+    const response = await fetch(WEB+'/api/auth/checkUser/'+email)
     const data = await response.json()
     if (data) {
         return true
@@ -8,7 +10,7 @@ const checkUser = async (email) => {
 }
 
 const sendOTP = async (email) => {
-    const response = await fetch('http://localhost:3000/api/auth/sendOTP/'+email)
+    const response = await fetch(WEB+'/api/auth/sendOTP/'+email)
     const data = await response.json()
     if (data) {
         return true
@@ -17,7 +19,7 @@ const sendOTP = async (email) => {
 }
 
 const verifyOTP = async (email,otp) => {
-    const response = await fetch('http://localhost:3000/api/auth/verifyOtp/'+email+'/'+otp)
+    const response = await fetch(WEB+'/api/auth/verifyOtp/'+email+'/'+otp)
     const data = await response.json()
     if (data) {
         return true
@@ -26,7 +28,7 @@ const verifyOTP = async (email,otp) => {
 }
 
 const registerUser = async (name,email,password) => {
-    const response = await fetch('http://localhost:3000/api/auth/register',{
+    const response = await fetch(WEB+'/api/auth/register',{
         method:'POST',
         headers:{
             'Content-Type':'application/json'

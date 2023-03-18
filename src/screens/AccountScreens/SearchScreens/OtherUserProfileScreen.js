@@ -1,4 +1,4 @@
-import { Pressable, ScrollView,  StyleSheet, Text, View, Image } from 'react-native'
+import { Pressable, ScrollView,  StyleSheet, Text, View, Image,Alert } from 'react-native'
 import React,{useEffect, useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons';
@@ -7,7 +7,7 @@ import Scrapbooks from '../../../components/ProfileScrapbooks';
 import { getProfileData,getNumPosts,getNumFriends, getUserPosts, checkIsFriend } from '../../fetchData/profileData';
 import { Feather } from '@expo/vector-icons';
 import Color from '../../../ColourThemes/theme1';
-
+import { sendRequest } from '../../fetchData/requestData.js';
 const OtherUserProfileScreen = ({navigation,route}) => {
 	const [showPosts,setShowPosts] = useState(true);
 	const [loggedUserId,setLoggedUserId] = useState(route.params.logged);
@@ -34,7 +34,6 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 			setName(data.firstName+" "+data.lastName)
 		}
 		setBio(data.bio)
-		console.log(data.profilePhoto)
 		setProfilePhoto(data.profilePhoto)
 		getNumPosts(profileUserId).then((data)=>{
 			setNumPosts(data)
@@ -97,20 +96,43 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 						}
 						
 						<View style={styles.followButtonView}>
-							<Pressable style={styles.FollowbuttonView}>
-								<Text style={styles.btnText}>
+							
 									{isFriend 
 										? 
-										<><Text>Friends</Text>
-										<Feather name="user-check" size={20} color={Color.textLightColor} />
+										<>
+											<Pressable 
+												style={styles.FollowbuttonView}
+
+											>
+												<Text style={styles.btnText}>
+													<Text>Friends</Text>
+													<Feather name="user-check" size={20} color={Color.textLightColor} />
+												</Text>
+											</Pressable>
 										</>
 										:
-										<><Text>Add Friend</Text>
-										<Ionicons name="person-add-sharp" size={24} color={Color.textLightColor} />
+										<>
+											<Pressable 
+												style={styles.FollowbuttonView}
+												onPress={
+													()=>{
+														sendRequest(route.params.logged,route.params.userId).then((data)=>{
+															if(data == 'Request Sent Successfully')
+															{
+																Alert.alert("Request Sent Successfully")
+															}
+														})
+													}
+												}
+											>
+												<Text style={styles.btnText}>
+													<Text>Add Friend</Text>
+													<Ionicons name="person-add-sharp" size={24} color={Color.textLightColor} />
+												</Text>
+											</Pressable>
 										</>
 									}
-								</Text>
-							</Pressable>
+								
 							<Pressable style={styles.FollowbuttonView} >
 								<Text  style={styles.btnText}>Message</Text>
 							</Pressable>
