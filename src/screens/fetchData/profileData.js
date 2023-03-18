@@ -1,3 +1,4 @@
+import {WEB} from "../../../var.js"
 const getProfileData = async (id) => {
     const response = await fetch('http://localhost:3000/api/users/profile/'+id, {
         method: 'GET',

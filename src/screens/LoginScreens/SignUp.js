@@ -49,7 +49,7 @@ const SignUp = ({navigation}) => {
     //     })
     // }
 
-    const validateData = () => {
+    const validateData = async () => {
         if(userName==="" || userEmail==="" || pass==="" ||confirmPass==="" )
         {
             Alert.alert("Please Fill All The Fields","")
@@ -81,14 +81,14 @@ const SignUp = ({navigation}) => {
                 Alert.alert("You have entered an invalid email address!","")
                 return
             }
-            // if(checkUser(userEmail))
-            // {
-            //     Alert.alert("User Already Exists","Please Sign In!",[{
-            //         text:"Ok"
-            //     }]
-            //     )
-            //     return
-            // }
+            if(await checkUser(userEmail))
+            {
+                Alert.alert("User Already Exists","Please Sign In!",[{
+                    text:"Ok"
+                }]
+                )
+                return
+            }
             setValid(true)
             if(!sendMail)
             {
@@ -97,16 +97,15 @@ const SignUp = ({navigation}) => {
                     sendOTP(userEmail)
                 }
                 setSendMail(true)
+                
                 Alert.alert("OTP Sent Successfully!!","Please check mail!",[{
                     text:"Verify",
                     onPress:()=>{
-                        navigation.dispatch(
-                            StackActions.replace('SignUpVerification',{
+                        navigation.navigate('SignUpVerification',{
                                 name:userName,
                                 email:userEmail,
                                 password:pass
                             })
-                        )
                     }
                 }])
             }
@@ -173,10 +172,9 @@ const SignUp = ({navigation}) => {
                     <Pressable 
                         style={[style.logInButtonView,{marginVertical:20}]}
                         onPress={()=>
-                        // navigation.dispatch(
-                        //     StackActions.replace('SignUpVerification')
-                        // )
-                            validateData()
+                            {
+                                setSendMail(false)
+                                validateData()}
                     }
                         >
                         <Text style={style.logInButtonText}>Sign Up</Text>

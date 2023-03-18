@@ -1,3 +1,4 @@
+import {WEB} from "../../../var.js"
 const getSavedPosts = async (id) => {
   const response = await fetch(
     "http://localhost:3000/api/savedposts/usersSavedPosts/" + id

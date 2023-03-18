@@ -1,5 +1,6 @@
+import {WEB} from "../../../../var.js"
 const forgetPass = async (email,pass) => {
-    const response = await fetch('http://localhost:3000/api/auth/updatePassByEmail',{
+    const response = await fetch(WEB+'/api/auth/updatePassByEmail',{
         method:'PATCH',
         headers:{
             'Content-Type':'application/json'

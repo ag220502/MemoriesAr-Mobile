@@ -64,6 +64,17 @@ const ForPassVerification = ({navigation,route}) => {
         >
             <Text style={styles.buttonText}>Verify</Text>
         </Pressable>
+        <Pressable
+            style={[styles.buttonView,{backgroundColor:Color.lightColor,borderColor:Color.textDarkColor,borderWidth:1}]}
+            onPress={()=>navigation.navigate('ResetPassword')
+              }
+        >
+            <Text 
+                style={[styles.buttonText,{color:Color.textDarkColor}]}
+            >
+                Go Back
+            </Text>
+        </Pressable>
     </SafeAreaView>
   )
 }

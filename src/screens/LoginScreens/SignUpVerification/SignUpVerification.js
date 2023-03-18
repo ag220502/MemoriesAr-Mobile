@@ -52,7 +52,7 @@ const Verification = ({navigation,route}) => {
                 onChangeText={(text)=>setOtp(text)}
             />
             <Text style={styles.para}>We have sent the verification code to your email {route.params.email}. Please check your inbox.</Text>
-            <Text style={styles.label1}>Didn't received the code? 
+            <Text style={styles.label1}>Didn't received the code? &nbsp;
                 <Text 
                     style={[styles.label1,{fontWeight:'700',color:Color.textDarkColor}]}
                     onPress={()=>(sendAgain())}
@@ -73,6 +73,17 @@ const Verification = ({navigation,route}) => {
                 onPress={()=>{verifyData()}}
             >
                 Verify
+            </Text>
+        </Pressable>
+        <Pressable
+            style={[styles.buttonView,{backgroundColor:Color.lightColor,borderColor:Color.textDarkColor,borderWidth:1}]}
+            onPress={()=>navigation.navigate('SignUp')
+              }
+        >
+            <Text 
+                style={[styles.buttonText,{color:Color.textDarkColor}]}
+            >
+                Go Back
             </Text>
         </Pressable>
     </SafeAreaView>

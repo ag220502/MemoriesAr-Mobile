@@ -1,4 +1,6 @@
+import {WEB} from "../../../var.js"
 const createPost = async (
+
   userId,
   caption,
   lattitude,

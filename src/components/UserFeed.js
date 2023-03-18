@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,FlatList,Image, Pressable,ScrollView } from 'react-native'
+import { StyleSheet, Text, View,FlatList,Image, Pressable,ScrollView,Modal } from 'react-native'
 import React,{useState} from 'react'
 import Ionicons from "@expo/vector-icons/Ionicons"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
@@ -11,6 +11,11 @@ import { checkLiked, checkSaved } from '../screens/fetchData/viewPost';
 
 const UserFeed = ({navigation,userId}) => {
 	const [postInfo,setPostInfo] = useState([])
+	const [openModel,setOpenModel] = useState(false)
+	const handleOnPress = () => {
+        setOpenModel(!openModel)
+    }
+
 	if(!postInfo.length)
 	{
 		getHomeFeed(userId).then((res)=>{
@@ -44,10 +49,44 @@ const UserFeed = ({navigation,userId}) => {
 									
 									<Text style={styles.userName}>{item.firstName + " "} {item.lastName?item.lastName:""}</Text>
 								</View>
-								<View style={styles.moreOptions}>
+								<Pressable 
+									style={styles.moreOptions}
+									onPress={()=>{
+										handleOnPress()
+									}}
+								>
 									<Entypo name="dots-three-horizontal" size={24} color="black" />
-								</View>
+								</Pressable>
 							</View>
+							<Modal
+								animationType='slide'
+								transparent={true}
+								visible={openModel}
+							>
+                            	<View style={styles.modalView}>
+                                	<View style={styles.modal}>
+										<Pressable style={styles.modalOption}>
+											<Text>Report User</Text>
+										</Pressable>
+										<Pressable style={styles.modalOption}>
+											<Text>Report User</Text>
+										</Pressable>
+										<Pressable style={styles.modalOption}>
+											<Text>View Profile</Text>
+										</Pressable>
+										<Pressable 
+											style={styles.modalOption}
+											onPress={()=>{
+												handleOnPress()
+											}}
+										>
+											<Text>Close</Text>
+										</Pressable>
+										
+									</View>
+								</View>
+							</Modal>
+
 							<View style={styles.userPostPic}>
 								
 								<Image
@@ -122,6 +161,40 @@ const styles = StyleSheet.create({
 		marginVertical:50,
 		backgroundColor:Color.lightColor
 	},
+	modalView:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:22
+    },
+	// closeBtn:{
+	// 	position:'absolute',
+	// 	top:10,
+	// 	right:10
+	// },
+	modalOption:{
+		padding:15,
+		borderBottomWidth:0.3,
+		width:'100%',
+		borderBottomColor:Color.midColor,
+	},
+    modal:{
+        margin:10,
+        backgroundColor:Color.whiteColor,
+        borderRadius:20,
+        padding:15,
+        alignItems:'center',
+        width:'70%',
+        shadowColor:Color.midColor,
+        shadowOffset:{
+            width:0,
+            height:2
+        },
+        shadowOpacity:0.5,
+        shadowRadius:4,
+        elevation:5
+    },
+
 	userPost:{
 		width:'90%',
 		alignSelf:'90%',

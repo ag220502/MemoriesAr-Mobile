@@ -1,3 +1,4 @@
+import {WEB} from "../../../var.js"
 const likePost = async (userId, postId) => {
   const response = await fetch("http://localhost:3000/api/likes/like/", {
     method: "POST",
