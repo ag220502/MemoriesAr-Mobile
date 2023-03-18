@@ -23,12 +23,13 @@ const createPost = async (
   // formData.append("flag", flag);
   // formData.append("postImage", postImage);
   // formData.append("tag", tag);
-  const response = await fetch(WEB+"/api/posts/createPost", {
+  const response = await fetch(WEB+"/api/posts/create", {
     method: "POST",
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
     },
-    body: {
+    body: JSON.stringify({
         userId: userId,
         caption: caption,
         lattitude: lattitude,
@@ -36,10 +37,11 @@ const createPost = async (
         flag: flag,
         postImage: postImage,
         tag: tag
-    }
+    })
   });
-  // console.log("Response is ")
-  // console.log(response)
+  
+  console.log("Response is ")
+  console.log(response)
   // const data = await response.json();
   // console.log(data)
   // return data;
