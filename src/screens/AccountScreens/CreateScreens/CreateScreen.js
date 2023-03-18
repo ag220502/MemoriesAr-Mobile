@@ -10,6 +10,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
 import {createPost} from '../../fetchData/createPost.js';
 import { getProfileData } from '../../fetchData/profileData.js';
+import * as FileSystem from 'expo-file-system';
 
 const CreateScreen = ({navigation,route,location}) => {
 	
@@ -56,16 +57,25 @@ const CreateScreen = ({navigation,route,location}) => {
         if(!result.canceled)
         {
             setImage(result.assets[0].uri)
-            console.log("Image Added")
-			console.log("Image is "+image)
         }
 
     }
 
 	const createNew = async ()=>{
 		console.log("Creating New Post")
-		const result = await createPost(route.params.userId,caption,lattitude,longitude,postType,image,taggedUsers)
-		console.log("Result is "+result)
+		if (image) {
+			const base64 = await FileSystem.readAsStringAsync(image, {
+				encoding: FileSystem.EncodingType.Base64,
+			});
+			const result = await createPost(route.params.userId,caption,lattitude,longitude,postType,base64,taggedUsers)
+			console.log("Result is "+result)
+			// Convert the image to a base64-encoded string
+			// RNImageToBase64(response.uri)
+			//   	.then(async (base64String) => {
+					// 
+			//   	})
+		}
+		
 	}
 
 	return (

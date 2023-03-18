@@ -1,5 +1,5 @@
 import {WEB} from "../../../var.js"
-import {uploadImage} from "../../../firebase/functions/index.js"
+// import {uploadImagex} from "../../../firebase/functions/index.js"r
 
 const createPost = async (
 
@@ -23,13 +23,21 @@ const createPost = async (
   // formData.append("flag", flag);
   // formData.append("postImage", postImage);
   // formData.append("tag", tag);
-  // const response = await fetch(WEB+"/api/posts/createPost", {
-  //   method: "POST",
-  //   headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded'
-  //   },
-  //   body: formData,
-  // });
+  const response = await fetch(WEB+"/api/posts/createPost", {
+    method: "POST",
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: {
+        userId: userId,
+        caption: caption,
+        lattitude: lattitude,
+        longitude: longitude,
+        flag: flag,
+        postImage: postImage,
+        tag: tag
+    }
+  });
   // console.log("Response is ")
   // console.log(response)
   // const data = await response.json();
