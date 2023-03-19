@@ -45,6 +45,10 @@ import DeleteAccount from '../AccountScreens/SettingsScreen/Account/DeleteAccoun
 import UserFriends from '../AccountScreens/SettingsScreen/Account/UserFriends.js'
 import BlockedAccount from '../AccountScreens/SettingsScreen/Privacy/BlockedAccount.js';
 import ChangePassword from '../AccountScreens/SettingsScreen/SecurityScreen/ChangePassword.js';
+import ChangeVisibility from '../AccountScreens/SettingsScreen/Privacy/ChangeVisibility.js';
+import SelectTheme from '../AccountScreens/SettingsScreen/Account/SelectTheme.js';
+
+
 
 const Stack = createNativeStackNavigator();
 const AppStack = () => {
@@ -132,6 +136,11 @@ const AppStack = () => {
                 component={Settings}
                 options={{headerShown:false}} />
             <Stack.Screen 
+                name="SelectTheme"
+                component={SelectTheme}
+                options={{headerShown:false}} />
+                
+            <Stack.Screen 
                 name="PersonalInformation"
                 component={PersonalInformation}
                 options={{headerShown:false}} />
@@ -146,6 +155,10 @@ const AppStack = () => {
             <Stack.Screen 
                 name="DeleteAccount"
                 component={DeleteAccount}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="ChangeVisibility"
+                component={ChangeVisibility}
                 options={{headerShown:false}} />
             <Stack.Screen 
                 name="UserFriends"
