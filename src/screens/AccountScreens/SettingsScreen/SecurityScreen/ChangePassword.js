@@ -3,6 +3,7 @@ import React,{useContext, useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import Color from './../../../../ColourThemes/theme1.js'
 import { AuthContext } from '../../../context/AuthContext.js';
+import { WEB } from '../../../../../var.js';
 const ChangePassword = ({navigation,route}) => {
 	const [password, setPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -11,7 +12,7 @@ const ChangePassword = ({navigation,route}) => {
 
 	const changePassword= async ()=>{
 		try{
-			await fetch('http://localhost:3000/api/auth/updatePass',{
+			await fetch(WEB+'/api/auth/updatePass',{
 				method:"PATCH",
 				headers: {
 					'Accept': 'application/json',
@@ -28,9 +29,9 @@ const ChangePassword = ({navigation,route}) => {
 					if(res.status===200)
 					{
 						res.json().then((data)=>{
-							if(data=="Password Updated")
+							if(data=="Password Updated Successfully.")
 							{
-								Alert.alert("Password Changed Successfully","",[{
+								Alert.alert(data,"",[{
 									text:"Ok",
 									onPress:()=>{
 										Alert.alert("Please Sign In Again","",[{
@@ -46,7 +47,7 @@ const ChangePassword = ({navigation,route}) => {
 					}
 					else if(res.status==400)
 					{
-						Alert.alert("Wrong Password","",[{
+						Alert.alert("Error! Please Check Password","",[{
 							text:"Ok"
 						}])
 					}
@@ -70,6 +71,10 @@ const ChangePassword = ({navigation,route}) => {
 					if(password=="" || newPassword=="" || confirmPassword=="")
 					{
 						Alert.alert("Please fill all the fields")
+					}
+					else if(newPassword.trim().length<6)
+					{
+						Alert.alert("Password must be at least 6 characters long")
 					}
 					else if(newPassword!=confirmPassword)
 					{
