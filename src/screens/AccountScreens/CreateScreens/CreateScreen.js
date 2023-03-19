@@ -33,9 +33,6 @@ const CreateScreen = ({navigation,route,location}) => {
 			setName(data.firstName+" "+data.lastName)
 		})
 	}
-	
-	
-
     useEffect(()=>{
         (async ()=>{
             if(!hasGalleryPer)

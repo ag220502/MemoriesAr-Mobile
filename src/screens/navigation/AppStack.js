@@ -16,6 +16,7 @@ import CreateOption from '../AccountScreens/CreateScreens/CreateOption.js';
 import CreateScrapImages from '../AccountScreens/CreateScreens/CreateScrapImages.js';
 import CreateScrapDetails from '../AccountScreens/CreateScreens/CreateScrapDetails.js';
 import SelectTemplate from '../AccountScreens/CreateScreens/SelectTemplate.js';
+import CoverPage from '../AccountScreens/CreateScreens/CoverPage.js';
 //Menu Screens
 import MenuScreen from '../AccountScreens/MapScreens/PostsMap'
 import UserPosts from '../AccountScreens/MenuScreens/UserPosts.js';
@@ -97,6 +98,10 @@ const AppStack = () => {
             <Stack.Screen 
                 name="CreateScrapDetails"
                 component={CreateScrapDetails}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="CoverPage"
+                component={CoverPage}
                 options={{headerShown:false}} />
             <Stack.Screen 
                 name="SelectTemplate"

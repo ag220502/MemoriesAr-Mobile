@@ -32,6 +32,7 @@ const CreateScrapbooks = ({navigation,route}) => {
 					</Pressable>
 					<Text style={styles.userName}>Create Scrapbook</Text>
 					<Pressable style={styles.buttonView} onPress={()=>{
+						navigation.navigate("CoverPage")
 					}}>
 						<Text color={Color.textDarkColor} style={{fontWeight:'700'}}>Next</Text>
 					</Pressable>
