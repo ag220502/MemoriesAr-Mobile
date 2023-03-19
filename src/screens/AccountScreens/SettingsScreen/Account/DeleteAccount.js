@@ -3,8 +3,7 @@ import React,{useState,useContext} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import deletePic from '../../../../images/SettingImages/delete.png'
 import Color from './../../../../ColourThemes/theme1.js'
-import SimpleModal from '../../../../components/Modals/SimpleModal';
-
+import { WEB } from '../../../../../var';
 import { AuthContext } from '../../../context/AuthContext.js';
 
 
@@ -12,7 +11,7 @@ const DeleteAccount = ({navigation,route}) => {
 	const {logout} = useContext(AuthContext)
 	const deleteAcc= async()=>{
 		try{
-			await fetch ('http://localhost:3000/api/users/delete',{
+			await fetch (WEB+'/api/users/delete',{
 				method:"DELETE",
 				headers: {
 					'Accept': 'application/json',
