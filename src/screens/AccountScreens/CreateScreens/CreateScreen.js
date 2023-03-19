@@ -58,7 +58,6 @@ const CreateScreen = ({navigation,route,location}) => {
         {
             setImage(result.assets[0].uri)
         }
-
     }
 
 	const createNew = async ()=>{
@@ -85,7 +84,7 @@ const CreateScreen = ({navigation,route,location}) => {
 				<View style={styles.userDetails}>
 					<Pressable style={styles.buttonView}
 						onPress={()=>navigation.dispatch(
-							StackActions.replace('MainScreen')
+							StackActions.replace('CreateOption',{userId:route.params.userId})
 						)}
 					>
 						<Entypo name="cross" size={24} color={Color.textDarkColor} />
@@ -161,7 +160,7 @@ const CreateScreen = ({navigation,route,location}) => {
 					</View>
 				</View>
 			</ScrollView>
-			<BottomNavBar navigation={navigation} userId={route.params.userId}/>
+			{/* <BottomNavBar navigation={navigation} userId={route.params.userId}/> */}
 		</View>
 	)
 }

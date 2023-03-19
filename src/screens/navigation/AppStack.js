@@ -6,11 +6,16 @@ import MainScreen from '../AccountScreens/MainScreen.js';
 import ViewPost from '../AccountScreens/ViewScreens/ViewPost.js';
 import Comments from '../AccountScreens/ViewScreens/Comments.js';
 import FriendRequest from '../AccountScreens/Request/FriendRequest.js';
+import ReportPost from '../AccountScreens/ReportObjs/ReportPost.js';
+import ReportUsers from '../AccountScreens/ReportObjs/ReportUsers.js';
 
 //Create Post Screens
 import CreateScreen from '../AccountScreens/CreateScreens/CreateScreen.js';
 import AddLocation from '../AccountScreens/CreateScreens/AddLocation.js';
-
+import CreateOption from '../AccountScreens/CreateScreens/CreateOption.js';
+import CreateScrapImages from '../AccountScreens/CreateScreens/CreateScrapImages.js';
+import CreateScrapDetails from '../AccountScreens/CreateScreens/CreateScrapDetails.js';
+import SelectTemplate from '../AccountScreens/CreateScreens/SelectTemplate.js';
 //Menu Screens
 import MenuScreen from '../AccountScreens/MapScreens/PostsMap'
 import UserPosts from '../AccountScreens/MenuScreens/UserPosts.js';
@@ -60,6 +65,14 @@ const AppStack = () => {
                 name="FriendRequest"
                 component={FriendRequest}
                 options={{headerShown:false}} />
+            <Stack.Screen 
+                name="ReportPost"
+                component={ReportPost}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="ReportUsers"
+                component={ReportUsers}
+                options={{headerShown:false}} />
                 
             <Stack.Screen 
                 name="ChatScreen"
@@ -72,6 +85,22 @@ const AppStack = () => {
             <Stack.Screen 
                 name="CreateScreen"
                 component={CreateScreen}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="CreateOption"
+                component={CreateOption}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="CreateScrapImages"
+                component={CreateScrapImages}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="CreateScrapDetails"
+                component={CreateScrapDetails}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="SelectTemplate"
+                component={SelectTemplate}
                 options={{headerShown:false}} />
             <Stack.Screen 
                 name="MenuScreen"
