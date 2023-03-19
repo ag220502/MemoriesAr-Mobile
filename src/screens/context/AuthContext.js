@@ -25,6 +25,7 @@ export const AuthProvider= ({children})=>{
                         Alert.alert("Invalid Credentials","Please Check Your Email And Password",[{
                             text:"Ok"
                         }])
+                        setLoading(false)
                         return
                     }
                     else if(data=="Account Deactivated!")
@@ -32,13 +33,13 @@ export const AuthProvider= ({children})=>{
                         Alert.alert("Account Deactivated","Please Activate Your Account",[{
                             text:"Ok"
                         }])
-                        return
                     }
                     else if(data=="Account Banned!")
                     {
                         Alert.alert("Account Banned","Please Contact Admin",[{
                             text:"Ok"
                         }])
+                        setLoading(false)
                         return
                     }
                     try {
