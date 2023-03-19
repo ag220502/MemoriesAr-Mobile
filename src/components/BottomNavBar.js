@@ -24,7 +24,7 @@ const BottomNavBar = ({navigation,userId}) => {
             </Pressable>
             <Pressable
                 style={styles.IconBehave}
-                onPress={()=>navigation.navigate('CreateScreen',{userId:userId})}
+                onPress={()=>navigation.navigate('CreateOption',{userId:userId})}
             >
                 <MaterialIcons name="post-add" size={32} color={Color.textLightColor} />
             </Pressable>

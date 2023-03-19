@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,FlatList,Image, Pressable,ScrollView,Modal } from 'react-native'
+import { StyleSheet, Text, View,FlatList,Image, Pressable,ScrollView,Modal,Alert } from 'react-native'
 import React,{useState} from 'react'
 import Ionicons from "@expo/vector-icons/Ionicons"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
@@ -7,7 +7,7 @@ import Color from '../ColourThemes/theme1'
 
 import { getHomeFeed,getAllData } from '../screens/fetchData/homeScreenData';
 import { checkLiked, checkSaved } from '../screens/fetchData/viewPost';
-
+import {reportPost} from '../screens/fetchData/report.js'
 
 const UserFeed = ({navigation,userId}) => {
 	const [postInfo,setPostInfo] = useState([])
@@ -65,13 +65,42 @@ const UserFeed = ({navigation,userId}) => {
 							>
                             	<View style={styles.modalView}>
                                 	<View style={styles.modal}>
-										<Pressable style={styles.modalOption}>
-											<Text>Report User</Text>
+
+										<Pressable 
+											style={styles.modalOption}
+											onPress={async ()=>{
+												setOpenModel(!openModel)
+											navigation.navigate('ReportPost',{
+												postId:item.postId,
+												userId:userId,
+												backTo:'MainScreen'
+											})
+											}}
+										>
+											<Text>Report Memory</Text>
 										</Pressable>
 										<Pressable style={styles.modalOption}>
 											<Text>Report User</Text>
 										</Pressable>
-										<Pressable style={styles.modalOption}>
+										<Pressable 
+											style={styles.modalOption}
+											onPress={()=>{
+												setOpenModel(!openModel)
+												if(item.userId===userId)
+												{
+													navigation.navigate('ProfileScreen',{
+														userId:userId,
+														backTo:'MainScreen'
+													})
+													return
+												}
+												navigation.navigate('OtherUserProfileScreen',{
+													logged:userId,
+													userId:item.userId,
+													backTo:'MainScreen'
+												})
+											}}
+										>
 											<Text>View Profile</Text>
 										</Pressable>
 										<Pressable 
@@ -82,7 +111,6 @@ const UserFeed = ({navigation,userId}) => {
 										>
 											<Text>Close</Text>
 										</Pressable>
-										
 									</View>
 								</View>
 							</Modal>

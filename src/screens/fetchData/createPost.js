@@ -2,7 +2,6 @@ import {WEB} from "../../../var.js"
 // import {uploadImagex} from "../../../firebase/functions/index.js"r
 
 const createPost = async (
-
   userId,
   caption,
   lattitude,
@@ -13,16 +12,6 @@ const createPost = async (
 ) => {
   console.log("Creating Post")
   console.log("Image in func is "+postImage)
-
-  // console.log("Creating Post")
-  // const formData = new FormData();
-  // formData.append("userId", userId);
-  // formData.append("caption", caption);
-  // formData.append("lattitude", lattitude);
-  // formData.append("longitude", longitude);
-  // formData.append("flag", flag);
-  // formData.append("postImage", postImage);
-  // formData.append("tag", tag);
   const response = await fetch(WEB+"/api/posts/create", {
     method: "POST",
     headers: {
