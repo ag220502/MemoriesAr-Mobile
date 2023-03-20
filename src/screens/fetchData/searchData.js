@@ -33,6 +33,8 @@ const deleteSearch = async (userId, searchedUserId) => {
       searchedUserId,
     }),
   });
+  const data = await response.json();
+  return data;
 };
 
 const createRecentSearch = async (userId, searchedUserId, statusTime) => {

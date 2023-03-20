@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar'
-import { recentSearch, searchUser,suggetUser,createRecentSearch } from '../../fetchData/searchData.js'
+import { recentSearch, searchUser,suggetUser,createRecentSearch,deleteSearch } from '../../fetchData/searchData.js'
 import { sendRequest,checkUser } from '../../fetchData/requestData.js'
 const ExploreScreen = ({navigation,route}) => 
 {
@@ -159,6 +159,21 @@ const ExploreScreen = ({navigation,route}) =>
 													navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.userId,backTo:'ExploreScreen'})
 												}}
 											>
+												<Pressable 
+													style={{position:'absolute',top:0,right:2,backgroundColor:Color.darkColor,zIndex:10,borderRadius:10}}
+													onPress={async ()=>{
+														const res = await deleteSearch(route.params.userId,item.searchedUserId)
+														if(res=="Search Deleted Successfully")
+														{
+															const recData = await recentSearch(route.params.userId)
+															setRecent(recData)
+														}
+													}}
+													>
+													<Entypo name="cross" size={20} color={Color.lightColor}
+													
+													/>
+												</Pressable>
 												{
 													item.profilePhoto == null || item.profilePhoto==""
 													?
