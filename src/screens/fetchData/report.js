@@ -1,6 +1,6 @@
 import { WEB } from "../../../var.js";
 
-const reportMem = async (postID, userID, reason) => {
+const reportMem = async (userId, postId, reason) => {
   const result = await fetch(WEB + "/api/report/repPost", {
     method: "POST",
     headers: {
@@ -8,17 +8,16 @@ const reportMem = async (postID, userID, reason) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      postId: postID,
-      userId: userID,
+      userId: userId,
+      postId: postId,
       reason: reason,
     }),
-  })
-  const res = await result.json()
-  console.log(res)
-  return res
+  });
+  const res = await result.json();
+  return res;
 };
 
-const reportAccount = async (userID, reason) => {
+const reportAccount = async (userId, repUsrId, reason) => {
   return await fetch(WEB + "/api/report/repAccount", {
     method: "POST",
     headers: {
@@ -26,7 +25,8 @@ const reportAccount = async (userID, reason) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      userID: userID,
+      userId: userId,
+      repUsrId: repUsrId,
       reason: reason,
     }),
   }).then((response) => response.json());
