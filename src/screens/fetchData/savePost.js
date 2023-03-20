@@ -23,12 +23,18 @@ const savePost = async (userId, postId) => {
 };
 
 const unsavePost = async (userId, postId) => {
-  const element = document.querySelector("#delete-request-async-await .status");
-  await fetch(
-    WEB+"/api/savedposts/unsave/" + userId + "/" + postId + "/",
-    { method: "DELETE" }
-  );
-  return (element.innerHTML = "Delete successful");
+  const response = await fetch(WEB+"/api/savedposts/unsave/", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId,
+      postId,
+    }),
+  });
+  const data = await response.json();
+  return data;
 };
 
 module.exports = { getSavedPosts, savePost, unsavePost };

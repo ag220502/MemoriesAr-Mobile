@@ -10,14 +10,13 @@ const viewPostById = async (id) => {
 };
 
 const checkLiked = async (postId, userId) => {
-  Promise.all(await fetch(
+  const response = await fetch(
     WEB+"/api/posts/checkLiked/" + postId + "/" + userId
   )
-  .then((response) => response.json())
-  .then((res) => 
-  {
-    return res
-  }));
+  const data= await response.json();
+  return new Promise((resolve,reject)=>{
+    resolve(data)
+  })
 };
 
 const checkDisliked = async (postId, userId) => {

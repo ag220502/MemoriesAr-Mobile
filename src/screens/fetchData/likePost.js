@@ -15,12 +15,18 @@ const likePost = async (userId, postId) => {
 };
 
 const unlikePost = async (userId, postId) => {
-  const element = document.querySelector("#delete-request-async-await .status");
-  await fetch(
-    WEB+"/api/likes/unlike/" + userId + "/" + postId + "/",
-    { method: "DELETE" }
-  );
-  return (element.innerHTML = "Delete successful");
+  const response = await fetch(WEB+"/api/likes/unlike/", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId,
+      postId,
+    }),
+  });
+  const data = await response.json();
+  return data;
 };
 
 module.exports = { likePost, unlikePost };
