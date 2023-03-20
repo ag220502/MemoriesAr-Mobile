@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,StatusBar,Pressable,Image,ScrollView } from 'react-native'
+import { StyleSheet, Text, View,StatusBar,Pressable,Image,ScrollView,ActivityIndicator } from 'react-native'
 import React,{useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import Color from './../../../../ColourThemes/theme1.js'
@@ -7,20 +7,25 @@ import {getSavedPosts,unsavePost} from '../../../fetchData/savePost.js'
 const SavedMemories = ({navigation,route}) => {
 	const [post,setPost] = useState([])
 	const [getData,setGetData] = useState(false)
-	
+	const [loading,setLoading] = useState(true)
 	const getUserData = async () => 
 	{
 		const data = await getSavedPosts(route.params.userId)
-		console.log(data)
 		setPost(data)
 	}
-
-
 	if(!getData)
 	{
 		getUserData()
 		setGetData(true)
+		setLoading(false)
 	}
+	if(loading)
+	{
+		return(<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+			<ActivityIndicator size={"large"}/>
+		</View>)
+	}
+
 	return (
 		
 		<View style={styles.container}>

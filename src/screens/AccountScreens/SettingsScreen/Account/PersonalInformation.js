@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, Image, Pressable,TextInput,Alert,Modal  } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable,TextInput,Alert,Modal,ActivityIndicator  } from 'react-native'
 import React, { useState } from 'react'
 import Color from './../../../../ColourThemes/theme1.js'
 import { StackActions } from '@react-navigation/native';
 import DatePicker from 'react-native-modern-datepicker'
 import { getToday,getFormatedDate } from 'react-native-modern-datepicker';
 import moment from 'moment';
+import { WEB } from '../../../../../var.js';
 const PersonalInformation = ({navigation,route}) => {
 	const [id,setId] = useState(route.params.userId)
 	const [email,setEmail] = useState("")
@@ -14,6 +15,7 @@ const PersonalInformation = ({navigation,route}) => {
     const [open,setOpen] = useState(false)
     const [profile,setProfile] = useState(null)
 	const [getData,setGetData] = useState(false)
+    const [loading,setLoading] = useState(true)
 	const getUserData= async()=>
 	{
 		try
@@ -54,9 +56,10 @@ const PersonalInformation = ({navigation,route}) => {
 	{
 		getUserData()
 		setGetData(true)
-
+        setLoading(false)
 	}
 
+    
 	const updateData=()=>{
         if(mobile!=null && mobile.length!=10)
         {   
@@ -83,7 +86,7 @@ const PersonalInformation = ({navigation,route}) => {
             return
         }
 
-        fetch("http://localhost:3000/api/users/updatePersonal",{
+        fetch(WEB+"/api/users/updatePersonal",{
             method:"PATCH",
             headers:{
                 'Content-Type':'application/json'
@@ -118,6 +121,12 @@ const PersonalInformation = ({navigation,route}) => {
         setOpen(!open)
     }
 
+    if(loading)
+    {
+        return(<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+			<ActivityIndicator size={"large"}/>
+		</View>)
+    }
 	return (
 		<View style={styles.container}>
 			<View style={styles.search}>
@@ -178,7 +187,7 @@ const PersonalInformation = ({navigation,route}) => {
                                     <DatePicker
                                         selected={dob}
                                         locale="en"
-                                        mode="calender"
+                                        mode={"calender"}
                                         onDateChange={handleChange}
                                         
                                     />
