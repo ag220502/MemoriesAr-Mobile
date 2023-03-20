@@ -49,4 +49,18 @@ const sendRequest = async (id,recId) => {
     }).then((response) => response.json());
 }
 
-module.exports = {requestData, acceptRequest, declineRequest, sendRequest}
+const checkRequest = async (id, recId) => {
+    const res = await fetch(WEB + "/api/requests/checkRequest/"+id+"/"+recId, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }
+    })
+    const data = await res.json();
+    return data;
+}
+
+
+
+module.exports = {requestData, acceptRequest, checkRequest, declineRequest, sendRequest}

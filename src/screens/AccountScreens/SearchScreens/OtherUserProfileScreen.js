@@ -1,4 +1,4 @@
-import { Pressable, ScrollView,  StyleSheet, Text, View, Image,Alert } from 'react-native'
+import { Pressable, ScrollView,  StyleSheet, Text, View, Image,Alert ,Modal} from 'react-native'
 import React,{useEffect, useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons';
@@ -7,11 +7,15 @@ import Scrapbooks from '../../../components/ProfileScrapbooks';
 import { getProfileData,getNumPosts,getNumFriends, getUserPosts, checkIsFriend } from '../../fetchData/profileData';
 import { Feather } from '@expo/vector-icons';
 import Color from '../../../ColourThemes/theme1';
-import { sendRequest } from '../../fetchData/requestData.js';
+import { sendRequest,checkRequest,declineRequest } from '../../fetchData/requestData.js';
+import {blockUser} from '../../fetchData/block.js'
+import { FontAwesome5 } from '@expo/vector-icons';
+
 const OtherUserProfileScreen = ({navigation,route}) => {
 	const [showPosts,setShowPosts] = useState(true);
 	const [loggedUserId,setLoggedUserId] = useState(route.params.logged);
 	const [profileUserId,setProfileUserId] = useState(route.params.userId);
+	const [isPublic,setIsPublic] = useState(0);
 	const [name,setName] = useState('');
 	const [numFriends,setNumFriends] = useState(0);
 	const [numPosts,setNumPosts] = useState(0);
@@ -20,11 +24,17 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 	const [bio,setBio] = useState('');
 	const [isLoaded,setIsLoaded] = useState(false);
 	const [userPosts,setUserPosts] = useState([]);
+	const [openModel,setOpenModel] = useState(false)
+	const [sentRequest,setSentRequest] = useState(false)
 
+	const handleOnPress = () => {
+        setOpenModel(!openModel)
+    }
 	useEffect(()=>{
 		if(!isLoaded){
 	getProfileData(profileUserId).then((data)=>{
 		setIsLoaded(false)
+		setIsPublic(data.isPublic)
 		if(data.lastName==null)
 		{
 			setName(data.firstName)
@@ -47,7 +57,16 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 		checkIsFriend(loggedUserId,profileUserId).then((data)=>{
 			setIsFriend(data)
 		})
-
+		checkRequest(loggedUserId,profileUserId).then((data)=>{
+			if(data==="No Data Found.")
+			{
+				setSentRequest(false)
+			}
+			else if(data==="Request Sent")
+			{
+				setSentRequest(true)
+			}
+		})
 		setIsLoaded(true)
 	})
 }
@@ -65,15 +84,89 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 							<Ionicons name="chevron-back" size={30} color={Color.textDarkColor} />
 						</Pressable>
 						<Pressable style={styles.buttonView}
-							onPress={()=>navigation.navigate("MainScreen")}
+							onPress={()=>{
+								handleOnPress()
+							}}
 						>
 							<Entypo name="dots-three-horizontal" size={24} color={Color.textDarkColor} />
 						</Pressable>
 					</View>
-					<View style={styles.main}>
-						<View style={styles.profile_img}>
-							<Image source={{uri:profilePhoto}} style={styles.pofile}/>
+					<Modal
+						animationType='slide'
+						transparent={true}
+						visible={openModel}
+					>
+						<View style={styles.modalView}>
+							<View style={styles.modal}>
+								<Pressable 
+									style={styles.modalOption}
+									onPress={()=>{
+										Alert.alert("Report Account","Are you sure you want to report this account?",[
+											{
+												text:"Yes",
+												onPress:()=>{
+													handleOnPress()
+													navigation.navigate("ReportUsers",{reportedId:profileUserId,userId:loggedUserId})
+												}
+											},
+											{
+												text:"No",
+												onPress:()=>{
+													handleOnPress()
+												}
+											}
+										])
+									}}
+								>
+									<Text>Report Account</Text>
+								</Pressable>
+								<Pressable 
+									style={styles.modalOption}
+									onPress={()=>{
+										Alert.alert("Blocked User","Are you sure you want to block this user?",[
+											{
+												text:"Yes",
+												onPress:async()=>{
+													const res = await blockUser(loggedUserId,profileUserId)
+													if(res==="User Blocked Successfully")
+													{
+														Alert.alert("User Blocked","User has been blocked successfully")
+														navigation.navigate(route.params.backTo,{userId:route.params.logged})
+													}
+												}
+											},
+											{
+												text:"No",
+												onPress:()=>{
+													handleOnPress()
+												}
+
+											}
+										])
+									}}
+								>
+									<Text>Block User</Text>
+								</Pressable>
+								<Pressable 
+									style={styles.modalOption}
+									onPress={()=>{
+										handleOnPress()
+									}}
+								>
+									<Text>Close</Text>
+								</Pressable>
 							</View>
+						</View>
+					</Modal>
+					<View style={styles.main}>
+					<View style={styles.profile_img}>
+						{
+							profilePhoto==null || profilePhoto===""?
+							<Image source={require("../../../images/ProfileImages/default.png")} style={styles.pofile}/>
+							:
+							<Image source={{uri:profilePhoto}} style={styles.pofile}/>
+						}
+						</View>
 						<View style={styles.profile_data}>
 						<View style={styles.dataView}>
 							<Text style={styles.dataNum}>{numFriends}</Text>
@@ -111,6 +204,38 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 											</Pressable>
 										</>
 										:
+										sentRequest ?
+										<>
+											<Pressable 
+												style={styles.FollowbuttonView}
+												onPress={
+													()=>{
+														declineRequest(route.params.logged,route.params.userId).then((data)=>{
+															if(data == 'Request Deleted Successfully')
+															{
+																Alert.alert("Request Cancelled Successfully","",[{
+																	text:"Ok",
+																	onPress:()=>{
+																		checkRequest(route.params.logged,route.params.userId).then((data)=>{
+																			if(data == 'No Data Found.')
+																			{
+																				setSentRequest(false)
+																			}
+																		})
+																	}
+																}])
+																
+															}
+														})
+													}
+												}
+											>
+												<Text style={styles.btnText}>
+													<Text>Cancel Request</Text>
+												</Text>
+											</Pressable>
+										</>
+										:
 										<>
 											<Pressable 
 												style={styles.FollowbuttonView}
@@ -119,15 +244,25 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 														sendRequest(route.params.logged,route.params.userId).then((data)=>{
 															if(data == 'Request Sent Successfully')
 															{
-																Alert.alert("Request Sent Successfully")
+																Alert.alert("Request Sent Successfully","",[{
+																	text:"Ok",
+																	onPress:()=>{
+
+																checkRequest(route.params.logged,route.params.userId).then((data)=>{
+																	if(data == 'Request Sent')
+																	{
+																		setSentRequest(true)
+																	}
+																})
+															}}])
 															}
 														})
 													}
 												}
 											>
 												<Text style={styles.btnText}>
-													<Text>Add Friend</Text>
-													<Ionicons name="person-add-sharp" size={24} color={Color.textLightColor} />
+													<Text style={{paddingHorizontal:10}}>Add Friend </Text>
+													<Ionicons name="person-add-sharp" style={{padding:5}} size={20} color={Color.textLightColor} />
 												</Text>
 											</Pressable>
 										</>
@@ -137,25 +272,39 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 								<Text  style={styles.btnText}>Message</Text>
 							</Pressable>
 						</View>
-						<View style={styles.tabView}>
-							<View style={{flexDirection:'row'}}>
-								<Text style={
-								showPosts? styles.tabTextActive: styles.tabText}
-								onPress={()=>setShowPosts(true)}
-								>Memories</Text>
-							</View>
-							<View style={{flexDirection:'row'}}>
-								<Text style={
-								showPosts? styles.tabText: styles.tabTextActive}
-								onPress={()=>setShowPosts(false)}
-								> Scrapbooks</Text>
-							</View>
-						</View>
-						<View style={styles.postsView}>
 						{
-							showPosts ? <Post data={userPosts}/> : <Scrapbooks/>
+							isFriend || isPublic==0 ?
+							<>
+								<View style={styles.tabView}>
+									<View style={{flexDirection:'row'}}>
+										<Text style={
+										showPosts? styles.tabTextActive: styles.tabText}
+										onPress={()=>setShowPosts(true)}
+										>Memories</Text>
+									</View>
+									<View style={{flexDirection:'row'}}>
+										<Text style={
+										showPosts? styles.tabText: styles.tabTextActive}
+										onPress={()=>setShowPosts(false)}
+										> Scrapbooks</Text>
+									</View>
+								</View>
+								<View style={styles.postsView}>
+								{
+									showPosts ? <Post data={userPosts}/> : <Scrapbooks/>
+								}
+								</View>
+							</>
+							:
+							<>
+								<View>
+									<FontAwesome5 name="user-lock" style={{alignSelf:'center',paddingTop:40}} size={24} color={Color.darkColor} />
+									<Text style={{textAlign:'center',fontSize:20,fontWeight:'600',marginTop:20}}>This account is private</Text>
+									<Text style={{textAlign:'center',fontSize:20,fontWeight:'300',marginTop:20}}>Send Request to see their Memories</Text>
+								</View>
+							</>
 						}
-						</View>
+						
 					</View>
 				</View>
 			</View>)
@@ -173,10 +322,39 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 export default OtherUserProfileScreen
 
 const styles = StyleSheet.create({
+	modalView:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:22
+    },
+	modalOption:{
+		padding:15,
+		borderBottomWidth:0.3,
+		width:'100%',
+		borderBottomColor:Color.midColor,
+	},
+    modal:{
+        margin:10,
+        backgroundColor:Color.whiteColor,
+        borderRadius:20,
+        padding:15,
+        alignItems:'center',
+        width:'70%',
+        shadowColor:Color.midColor,
+        shadowOffset:{
+            width:0,
+            height:2
+        },
+        shadowOpacity:0.5,
+        shadowRadius:4,
+        elevation:5
+    },
+
   container:{
     width:'100%',
     height:'100%',
-    backgroundColor:'#F50057',
+    backgroundColor:Color.darkColor,
     alignItems:'center',
     justifyContent:'center'
   },
@@ -192,14 +370,14 @@ const styles = StyleSheet.create({
   buttonView:{
     width:45,
     height:45,
-    backgroundColor:'#F5F6FA',
+    backgroundColor:Color.lightColor,
     borderRadius:10,
     justifyContent:'center',
     alignItems:'center'
   },
   main:{
     flexDirection:'column',
-    backgroundColor:"#F5F6FA",
+    backgroundColor:Color.lightColor,
     width:'100%',
     height:'85%',
     borderTopLeftRadius:'60',
@@ -208,23 +386,27 @@ const styles = StyleSheet.create({
   },
   FollowbuttonView:{
     height:45,
-    backgroundColor:'#F50057',
+    backgroundColor:Color.darkColor,
     borderRadius:10,
     justifyContent:'center',
     alignItems:'center',
     padding:10
   },
   FollowText:{
-    color:'#F50057'
+    color:Color.darkColor
   },
   pofile:{
     alignSelf:'center',
+	width:100,
+    height:100,
+
+    borderRadius:100
   },
   profile_img:{
     position:'absolute',
     width:100,
     height:100,
-    backgroundColor:'black',
+    backgroundColor:Color.blackColor,
     alignSelf:'center',
     marginTop:-50,
     borderRadius:100
@@ -274,7 +456,7 @@ const styles = StyleSheet.create({
     marginTop:10
   },
   btnText:{
-    color:'#F5F6FA',
+    color:Color.lightColor,
     fontWeight:'500',
     fontSize:16
   },

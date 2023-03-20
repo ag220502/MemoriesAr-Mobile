@@ -44,10 +44,19 @@ const Comments = ({navigation,route}) => {
                             return(
                                 <View style={styles.comment}>
                                     <View style={styles.commentUser}>
+                                        {
+                                            element.item.profilePhoto==="" || element.item.profilePhoto===null?
+                                            <Image
+                                                source={require("../../../images/ProfileImages/default.png")}
+                                                style={styles.commentUserPic}
+                                            />
+                                            :
                                         <Image
                                             source={{uri:element.item.profilePhoto}}
                                             style={styles.commentUserPic}
                                         />
+                                            
+                                        }
                                         
                                     </View>
                                     <View style={styles.commentText}>
@@ -142,7 +151,8 @@ const styles = StyleSheet.create({
         width:'90%',
         alignSelf:'center',
         marginVertical:10,
-        
+        borderBottomColor:Color.midColor,
+        borderBottomWidth:0.2,        
         flexDirection:'row'
     },
     commentUser:{
@@ -153,7 +163,8 @@ const styles = StyleSheet.create({
         width:40,
         height:40,
         borderRadius:20,
-        marginRight:10
+        marginRight:15,
+        
     },
     commentUserName:{
         fontSize:16,
@@ -162,8 +173,7 @@ const styles = StyleSheet.create({
     },
     commentText:{
         width:'80%',
-        borderBottomColor:Color.midColor,
-        borderBottomWidth:0.2,        
+        
         borderRadius:10
     }
 

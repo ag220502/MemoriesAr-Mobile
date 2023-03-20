@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View,FlatList,Image, Pressable,ScrollView,Modal,Alert } from 'react-native'
-import React,{useState} from 'react'
-import Ionicons from "@expo/vector-icons/Ionicons"
-import FontAwesome from "@expo/vector-icons/FontAwesome"
+import React,{useState,useEffect} from 'react'
+
 import { Entypo } from '@expo/vector-icons';
 import Color from '../ColourThemes/theme1'
 
@@ -12,6 +11,7 @@ import {reportPost} from '../screens/fetchData/report.js'
 const UserFeed = ({navigation,userId}) => {
 	const [postInfo,setPostInfo] = useState([])
 	const [openModel,setOpenModel] = useState(false)
+	const [loading,setLoading] = useState(false)
 	const handleOnPress = () => {
         setOpenModel(!openModel)
     }
@@ -22,15 +22,30 @@ const UserFeed = ({navigation,userId}) => {
 			setPostInfo(res)
 		})
 	}
+	useEffect(() => {
+		if(loading)
+		{
+			return (
+				<View style={styles.loading}>
+					<Text>Loading...</Text>
+				</View>
+			)
+		}
+	}, [loading])
+	
+	
 	return (
 		<ScrollView style={styles.container}>
 			{	
 				postInfo.map((item,index)=>{
+					
 					let liked=false;
 					let saved = false;
+					
 					Promise.all(checkLiked(item.postId,userId)).then(
 						(res)=>{
 							liked = res
+							
 						}
 					)
 					Promise.all(checkSaved(item.postId,userId)).then(
@@ -125,52 +140,13 @@ const UserFeed = ({navigation,userId}) => {
 									style={styles.postBtn}
 									onPress={()=>{
 										navigation.navigate("ViewPost",{
-											postId:item.postId
+											postId:item.postId,
+											userId:userId,
 										})	
 									}
 								}
 								>
 									<Text style={styles.postBtnText}>View Post</Text>
-								</Pressable>
-							</View>
-							<View style={styles.postOptions}>
-								<Pressable style={styles.postOpt}>
-									{
-										liked ? 
-										<Entypo 
-											name="heart" 
-											size={30} 
-											color="black" 
-										/>
-										:
-										<Entypo 
-											name={"heart-outlined"} 
-											size={30} 
-											color={Color.textMidColor}
-											onPress={()=>{
-												console.log("Liked")
-											}}
-										/>
-									}
-									<Text style={styles.optionNum}>{item.PostLikes}</Text>
-								</Pressable>
-								<Pressable 
-									style={styles.postOpt}
-									onPress={()=>{navigation.navigate("Comments",{postId:item.postId,userId:userId})}}
-								>
-									<FontAwesome 
-										name="commenting" 
-										size={24} 
-										color={Color.textMidColor} 
-									/>
-									<Text style={styles.optionNum}>{item.PostComments}</Text>
-								</Pressable>
-								<Pressable style={styles.postOpt}>
-								<Ionicons 
-									name="bookmark-outline" 
-									size={24} 
-									color={Color.textMidColor}
-								/>
 								</Pressable>
 							</View>
 						</View>
@@ -279,23 +255,5 @@ const styles = StyleSheet.create({
 		fontWeight:'800',
 		paddingHorizontal:8
 	},
-	postOptions:{
-		width:'60%',
-		flexDirection:'row',
-		justifyContent:'space-between',
-		paddingVertical:5,
-		paddingBottom:20
-	},
-	postOpt:{
-		flexDirection:'row',
-		justifyContent:'center',
-		alignItems:'center',
-	},
-	optionNum:{
-		paddingHorizontal:5,
-		fontWeight:'400',
-		color:Color.blackColor,
-		fontSize:16,
-		
-	}
+	
 })
