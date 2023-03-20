@@ -57,13 +57,15 @@ const updateTemplate = async(templateId, templateName, templateDescription, cate
 }
 
 const deleteTemplate = async (templateId) => {
-    const element = document.querySelector("#delete-request-async-await .status");
-    await fetch(
-      WEB+"/api/scrapbooks/deleteTemplate/" + templateId,
-      { method: "DELETE" }
-    );
-    return (element.innerHTML = "Delete successful");
-  };
+    const response = await fetch(WEB+"/api/scrapbooks/deleteTemplate/" + templateId, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const data = await response.json();
+    return data;
+}
 
 // categories
 
@@ -118,12 +120,14 @@ const updateCategory = async(categoryId, categoryName) => {
 }
 
 const deleteCategory = async(categoryId) => {
-    const element = document.querySelector("#delete-request-async-await .status");
-    await fetch(
-        WEB+"/api/scrapbooks/deleteCategory/" + categoryId,
-        { method: "DELETE" }
-    );
-    return (element.innerHTML = "Delete successful");
+    const response = await fetch(WEB+"/api/scrapbooks/deleteCategory/"+categoryId, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const data = await response.json();
+    return data;
 }
 
 module.exports = { createTemplate, getTemplateById , getAllTemplates, updateTemplate, deleteTemplate,
