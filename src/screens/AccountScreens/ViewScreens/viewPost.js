@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, View,Image, ImageBackground,Pressable,ScrollView } from 'react-native'
+import { Dimensions, StyleSheet, Text, View,Image, ImageBackground,Pressable,ScrollView,ActivityIndicator } from 'react-native'
 import React from 'react'
 import Color from '../../../ColourThemes/theme1'
 import { StatusBar } from 'expo-status-bar'
@@ -28,8 +28,7 @@ const ViewPost =  ({navigation,route}) => {
 		
 		setLiked(await checkLiked(postId,userId))
 		console.log(liked)
-		console.log(await checkSaved(postId,userId))
-		setSaved(saved)
+		setSaved(await checkSaved(postId,userId))
 		setLoading(false)
 	}
 	if(!loadData)
@@ -39,11 +38,9 @@ const ViewPost =  ({navigation,route}) => {
 	}
 	if(loading)
 	{
-		return (
-			<View style={styles.loading}>
-				<Text>Loading...</Text>
-			</View>
-		)
+		return(<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+			<ActivityIndicator size={"large"}/>
+		</View>)
 	}
 	return (
 		<>
