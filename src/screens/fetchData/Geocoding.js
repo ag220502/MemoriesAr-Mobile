@@ -8,4 +8,4 @@ const getCoordinates = async (cityName, stateCode, countryCode) => {
     .then((response) => response.json());
 }
 
-module.exports = {getAddress} 
+module.exports = {getAddress, getCoordinates} 
