@@ -2,84 +2,25 @@ import { StyleSheet, Text, View,StatusBar,Pressable,Image,ScrollView } from 'rea
 import React,{useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import Color from './../../../../ColourThemes/theme1.js'
+import {getSavedPosts,unsavePost} from '../../../fetchData/savePost.js'
 
 const SavedMemories = ({navigation,route}) => {
 	const [post,setPost] = useState([])
 	const [getData,setGetData] = useState(false)
-	const getUserData= async()=>
+	
+	const getUserData = async () => 
 	{
-		try
-		{
-			await fetch ('http://localhost:3000/api/savedposts/usersSavedPosts/'+route.params.userId,{
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				}
-			}).then(
-				res => {
-					if(res.status===200)
-					{
-						res.json().then((data)=>{
-							if(data[0])
-							{
-								setPost(data)
-							}
-						})
-					}
-					else if(res.status==404)
-					{
-						console.log("Res"+res)
-					}
-			})
-		}
-		catch(err)
-		{
-			console.log(err)
-		}
+		const data = await getSavedPosts(route.params.userId)
+		console.log(data)
+		setPost(data)
 	}
+
+
 	if(!getData)
 	{
 		getUserData()
 		setGetData(true)
 	}
-	const postInfo = [
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-		postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		},
-		{
-			postProfile:require('../../../../images/ProfileImages/posts.png'),
-		}
-	]
 	return (
 		
 		<View style={styles.container}>
@@ -95,10 +36,10 @@ const SavedMemories = ({navigation,route}) => {
 		<ScrollView style={styles.main}>
 			<View style={styles.allPosts}>
 			{
-				postInfo.map((data,index)=>{
+				post.map((data,index)=>{
 				return(
 					<View style={styles.post} key={index}>
-						<Image source={data.postProfile} style={styles.pic}/>
+						<Image source={{uri:data.photo}} style={styles.pic}/>
 					</View>
 				)
 				})
