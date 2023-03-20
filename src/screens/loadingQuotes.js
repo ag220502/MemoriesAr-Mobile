@@ -31,4 +31,9 @@ const randNum = (array) => {
     return rand;
 }
 
-export default array[randNum(array)]
+
+const getRandQuote = () => {
+    return array[randNum(array)]
+}
+
+module.exports = { getRandQuote }
