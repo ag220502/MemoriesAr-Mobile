@@ -21,6 +21,7 @@ const suggetUser = async (search) => {
   return data;
 };
 
+
 const deleteSearch = async (userId, searchedUserId) => {
   const response = await fetch(WEB + "/api/recentSearches/deleteSearch/", {
     method: "PATCH",
@@ -34,4 +35,22 @@ const deleteSearch = async (userId, searchedUserId) => {
   });
 };
 
-module.exports = { searchUser, recentSearch, suggetUser, deleteSearch };
+const createRecentSearch = async (userId, searchedUserId, statusTime) => {
+  const response = await fetch(WEB + "/api/recentSearches/createSearch", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userId: userId,
+      searchedUserId: searchedUserId,
+      statusTime: statusTime,
+    }),
+  });
+  const data = await response.json();
+  return data;
+};
+
+module.exports = { searchUser, recentSearch, suggetUser, createRecentSearch, deleteSearch };
+

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React,{createContext, useEffect, useState} from "react";
 import {Alert} from "react-native";
-
+import { WEB } from "../../../var";
 export const AuthContext = createContext();
 
 export const AuthProvider= ({children})=>{
@@ -14,7 +14,7 @@ export const AuthProvider= ({children})=>{
         setLoading(true)
         try
         {
-            fetch ('https://memoriesar.onrender.com/api/auth/login',{
+            fetch (WEB+'/api/auth/login',{
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({email:userEmail,password:userPass})
@@ -25,6 +25,7 @@ export const AuthProvider= ({children})=>{
                         Alert.alert("Invalid Credentials","Please Check Your Email And Password",[{
                             text:"Ok"
                         }])
+                        setLoading(false)
                         return
                     }
                     else if(data=="Account Deactivated!")
@@ -32,13 +33,13 @@ export const AuthProvider= ({children})=>{
                         Alert.alert("Account Deactivated","Please Activate Your Account",[{
                             text:"Ok"
                         }])
-                        return
                     }
                     else if(data=="Account Banned!")
                     {
                         Alert.alert("Account Banned","Please Contact Admin",[{
                             text:"Ok"
                         }])
+                        setLoading(false)
                         return
                     }
                     try {
@@ -77,7 +78,7 @@ export const AuthProvider= ({children})=>{
         setLoading(true)
         try
         {
-            fetch ('https://memoriesar.onrender.com/api/auth/logout',{
+            fetch (WEB+'/api/auth/logout',{
                 method: 'GET',
             }).then(
                 res => {res.json().then(async data => {

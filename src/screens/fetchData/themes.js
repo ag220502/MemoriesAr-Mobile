@@ -6,6 +6,12 @@ const getAllThemes = async () => {
   return json;
 };
 
+const getUserTheme = async (userId) => {
+  const res = await fetch(WEB + "/api/themes/getUserTheme/" + userId);
+  const json = await res.json();
+  return json;
+};
+
 const selectUserTheme = async (userId, themeId) => {
   const res = await fetch(WEB + "/api/themes/selectUserTheme", {
     method: "PATCH",
@@ -22,4 +28,4 @@ const selectUserTheme = async (userId, themeId) => {
   return json;
 };
 
-module.exports = { getAllThemes, selectUserTheme };
+module.exports = { getAllThemes, selectUserTheme, getUserTheme };

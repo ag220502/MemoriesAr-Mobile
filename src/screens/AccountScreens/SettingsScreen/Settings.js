@@ -11,7 +11,7 @@ const Settings = ({navigation,route}) => {
     const {logout} = useContext(AuthContext)
     const data = [
         {
-            name:"Account",
+            name:"General",
             subSettings:[
                 {
                     name:"Personal Information",
@@ -24,6 +24,15 @@ const Settings = ({navigation,route}) => {
                 {
                     name:"Your Friends",
                     link:"UserFriends"
+                },
+            ]
+        },
+        {
+            name:"Account",
+            subSettings:[
+                {
+                    name:"Change Theme",
+                    link:"SelectTheme"
                 },
                 {
                     name:"Deactivate Account",
@@ -42,6 +51,10 @@ const Settings = ({navigation,route}) => {
                     name:"Blocked Accounts",
                     link:"BlockedAccount"
                 },
+                {
+                    name:"Account Visibility",
+                    link:"ChangeVisibility"
+                }
             ]
         },
         {

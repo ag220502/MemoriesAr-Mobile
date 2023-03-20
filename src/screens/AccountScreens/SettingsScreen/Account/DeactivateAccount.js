@@ -6,12 +6,12 @@ import Color from './../../../../ColourThemes/theme1.js'
 import { StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../../../context/AuthContext.js';
-
+import { WEB } from '../../../../../var';
 const DeactivateAccount = ({navigation,route}) => {
 	const {logout} = useContext(AuthContext)
 	const deactivateAcc= async()=>{
 		try{
-			await fetch ('http://localhost:3000/api/users/deactivate',{
+			await fetch (WEB+'/api/users/deactivate',{
 				method:"PATCH",
 				headers: {
 					'Accept': 'application/json',

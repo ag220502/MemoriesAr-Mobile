@@ -1,92 +1,37 @@
-import { Pressable, ScrollView, StatusBar, StyleSheet, Text,Image, TextInput, View } from 'react-native'
+import { Pressable, ScrollView, StatusBar, StyleSheet, Text,Image, TextInput, View,ActivityIndicator } from 'react-native'
 import React,{useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import Color from './../../../../ColourThemes/theme1.js'
-
+import { WEB } from '../../../../../var.js';
+import {getAllFriends} from "../../../fetchData/friendsData.js"
 
 const UserFriends = ({navigation,route}) => {
-
+	const [loading,setLoading] = useState(true)
 	const [frnd,setFrnd] = useState([])
 	const [getData,setGetData] = useState(false)
-	const getUserData= async()=>{
-		try{
-			await fetch ('http://localhost:3000/api/usersfriends/friends/'+route.params.userId,{
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				}
-			}).then(
-				res => {
-					if(res.status===200)
-					{
-						res.json().then((data)=>{
-							console.log(data)
-							if(data[0])
-							{
-								setFrnd(data)
-							}
-						})
-					}
-					else if(res.status==404)
-					{
-						console.log("Res"+res)
-					}
-			})
-		}
-		catch(err)
-		{
-			console.log(err)
-		}
+	const getAllData = () => {
+		getAllFriends(route.params.userId).then((data)=>{
+			setFrnd(data)
+			setLoading(false)
+		})
 	}
+
 	if(!getData)
 	{
-		getUserData()
+		getAllData()
 		setGetData(true)
-	}	
-
-	let chat = [
-		{
-			id:1,
-			name:'Ken',
-			profile_image:require('../../../../images/ProfileImages/profile10.jpg')
-		},
-		{
-			id:2,
-			name:'Leona',
-			profile_image:require('../../../../images/ProfileImages/profile9.jpg')
-		},
-		{
-			id:3,
-			name:'Kenneth',
-			profile_image:require('../../../../images/ProfileImages/profile8.jpg')
-			},
-			{
-		id:4,
-				name:'Lee',
-				profile_image:require('../../../../images/ProfileImages/profile7.jpg')
-			},
-			{
-		id:5,
-				name:'Alicia',
-				profile_image:require('../../../../images/ProfileImages/profile6.jpg')
-			},
-			{
-		id:6,
-				name:'Harold',
-				profile_image:require('../../../../images/ProfileImages/profile4.jpg')
-			},
-			{
-		id:7,
-				name:'Melissa',
-				profile_image:require('../../../../images/ProfileImages/profile2.jpg')
-			},
-
-	]
+	}
 	const [keyword,setKeyword] = useState('')
 	const [showbar,setShowBar] = useState(false)
 
+	if(loading)
+	{
+		return(<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+			<ActivityIndicator size={"large"}/>
+		</View>)
+	}
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle={"light-content"}/>
@@ -113,8 +58,8 @@ const UserFriends = ({navigation,route}) => {
 			</View>
 			<ScrollView style={styles.main}>
 				{
-					chat.filter((data)=>{
-						if(data.name.toLowerCase().includes(keyword.toLowerCase())){
+					frnd.filter((data)=>{
+						if(data.firstName.toLowerCase().includes(keyword.toLowerCase())){
 							return data
 						}
 						else if(keyword===''){
@@ -124,21 +69,26 @@ const UserFriends = ({navigation,route}) => {
 						return(
 						<Pressable key={index} style={styles.containerUser} onPress={
 							()=>{
-								navigation.navigate("OtherUserProfileScreen")
+								navigation.navigate("OtherUserProfileScreen",{logged:route.params.userId,userId:data.userId,backTo:"UserFriends"})
 							}
 						}>
 						<View style={styles.user_det}>
 							<View>
-								<Image source={data.profile_image} style={styles.profile_img}/>
+								{
+									data.profilePhoto==null || data.profilePhoto===""?
+									<Image source={require('../../../../images/ProfileImages/default.png')} style={styles.profile_img}/>
+									:
+									<Image source={{uri:data.profilePhoto}} style={styles.profile_img}/>
+								}
 							</View>
 							<View>
-								<Text style={styles.user_name}>{data.name}
+								<Text style={styles.user_name}>{data.firstName} {data.lastName}
 								</Text>
 							</View>
 						</View>
 
 						<View style={styles.user_det}>
-						<Entypo name="dots-three-horizontal" size={24} color={Color.blackColor} />
+							<Entypo name="dots-three-horizontal" size={24} color={Color.blackColor} />
 						</View>
 						</Pressable>
 						)

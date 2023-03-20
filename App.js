@@ -4,6 +4,7 @@ import React,{useState} from 	'react';
 import { AuthProvider } from './src/screens/context/AuthContext.js';
 import AppNav from './src/screens/navigation/AppNav.js';
 import ViewScrap from './src/screens/AccountScreens/ViewScreens/ViewScrap.js';
+import CoverPage from './src/screens/AccountScreens/CreateScreens/CoverPage.js';
 export default function App() {
 	const [connection,setConnection] = useState(false)
 	const checkConnection = () => {
@@ -25,7 +26,7 @@ export default function App() {
 	}
 	checkConnection()
 	return (
-		// <ViewScrap/>
+		// <CoverPage/>
 		// <ChangeVisibility/>
 		// <BottomModal/>
 		// <Comments/>

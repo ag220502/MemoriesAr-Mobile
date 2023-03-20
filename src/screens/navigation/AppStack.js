@@ -16,6 +16,7 @@ import CreateOption from '../AccountScreens/CreateScreens/CreateOption.js';
 import CreateScrapImages from '../AccountScreens/CreateScreens/CreateScrapImages.js';
 import CreateScrapDetails from '../AccountScreens/CreateScreens/CreateScrapDetails.js';
 import SelectTemplate from '../AccountScreens/CreateScreens/SelectTemplate.js';
+import CoverPage from '../AccountScreens/CreateScreens/CoverPage.js';
 //Menu Screens
 import MenuScreen from '../AccountScreens/MapScreens/PostsMap'
 import UserPosts from '../AccountScreens/MenuScreens/UserPosts.js';
@@ -44,6 +45,10 @@ import DeleteAccount from '../AccountScreens/SettingsScreen/Account/DeleteAccoun
 import UserFriends from '../AccountScreens/SettingsScreen/Account/UserFriends.js'
 import BlockedAccount from '../AccountScreens/SettingsScreen/Privacy/BlockedAccount.js';
 import ChangePassword from '../AccountScreens/SettingsScreen/SecurityScreen/ChangePassword.js';
+import ChangeVisibility from '../AccountScreens/SettingsScreen/Privacy/ChangeVisibility.js';
+import SelectTheme from '../AccountScreens/SettingsScreen/Account/SelectTheme.js';
+
+
 
 const Stack = createNativeStackNavigator();
 const AppStack = () => {
@@ -99,6 +104,10 @@ const AppStack = () => {
                 component={CreateScrapDetails}
                 options={{headerShown:false}} />
             <Stack.Screen 
+                name="CoverPage"
+                component={CoverPage}
+                options={{headerShown:false}} />
+            <Stack.Screen 
                 name="SelectTemplate"
                 component={SelectTemplate}
                 options={{headerShown:false}} />
@@ -127,6 +136,11 @@ const AppStack = () => {
                 component={Settings}
                 options={{headerShown:false}} />
             <Stack.Screen 
+                name="SelectTheme"
+                component={SelectTheme}
+                options={{headerShown:false}} />
+                
+            <Stack.Screen 
                 name="PersonalInformation"
                 component={PersonalInformation}
                 options={{headerShown:false}} />
@@ -141,6 +155,10 @@ const AppStack = () => {
             <Stack.Screen 
                 name="DeleteAccount"
                 component={DeleteAccount}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="ChangeVisibility"
+                component={ChangeVisibility}
                 options={{headerShown:false}} />
             <Stack.Screen 
                 name="UserFriends"

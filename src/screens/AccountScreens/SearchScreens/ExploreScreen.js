@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text, TextInput, View, ScrollView,FlatList,Image,Alert } from 'react-native'
-import React,{useState} from 'react'
+import { Pressable, StyleSheet, Text, TextInput, View, ScrollView,FlatList,Image,Alert,ActivityIndicator } from 'react-native'
+import React,{useState,useEffect} from 'react'
 import BottomNavBar from '../../../components/BottomNavBar'
 import Color from '../../../ColourThemes/theme1'
 import Style from '../../../StyleSheets/main.js'
@@ -7,92 +7,104 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar'
-import { recentSearch, searchUser,suggetUser } from '../../fetchData/searchData.js'
-import { sendRequest } from '../../fetchData/requestData.js'
+import { recentSearch, searchUser,suggetUser,createRecentSearch } from '../../fetchData/searchData.js'
+import { sendRequest,checkUser } from '../../fetchData/requestData.js'
 const ExploreScreen = ({navigation,route}) => 
 {
-    const data=
-	[
-		{
-			name:'Ken',
-			profile:require('../../../images/ProfileImages/profile10.jpg')
-		},
-		{
-			name:'Leona',
-			profile:require('../../../images/ProfileImages/profile9.jpg')
-		},
-		{
-			name:'Kenneth',
-			profile:require('../../../images/ProfileImages/profile8.jpg')
-		},
-		{
-			name:'Lee',
-			profile:require('../../../images/ProfileImages/profile7.jpg')
-		},
-		{
-			name:'Alicia',
-			profile:require('../../../images/ProfileImages/profile6.jpg')
-		},
-		{
-			name:'Harold',
-			profile:require('../../../images/ProfileImages/profile4.jpg')
-		},
-		{
-			name:'Melissa',
-			profile:require('../../../images/ProfileImages/profile2.jpg')
-		}
-	]
     const [isFocus,setFocus] = useState(false)
     const [searchText,setSearchText] = useState("")
 	const [searchedUser,setSearchedUser] = useState([])
 	const [recent,setRecent] = useState([])
 	const [suggUser,setSuggUser] = useState([])
+	const [loading,setLoading] = useState(false)
+
 	const searchByName =async (searchText) => {
 		setSearchText(searchText)
 		const users = await searchUser(searchText)
 		console.log(users)
-		setSearchedUser(users)
+		setSearchedUser(users)	
 	}
-	if(!recent.length)
-	{
-		recentSearch(route.params.userId).then((data)=>{
-			setRecent(data)
-		})
+	const getAlldata = async ()=>{
+		if(!recent.length)
+		{
+			const recData = await recentSearch(route.params.userId)
+			setRecent(recData)
+			
+		}
+		if(!suggUser.length)
+		{
+			const sugdata = await suggetUser(route.params.userId)
+			console.log(sugdata)
+			if(sugdata.length)
+			{
+				setSuggUser(sugdata)
+			}
+			// setSuggUser(sugdata)
+		}
 	}
-	if(!suggUser.length)
+	useEffect(() => {
+		if(!recent.length||!suggUser.length)
+		{
+			setLoading(true)
+			getAlldata()
+			setLoading(false)
+		}
+	}, [])
+	
+	
+	if(loading)
 	{
-		suggetUser(route.params.userId).then((data)=>{
-			setSuggUser(data)
-		})
+		return(<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+			<ActivityIndicator size={"large"}/>
+		</View>)
 	}
 	return (
         <View style={Style.container}>
             <StatusBar style="light" />
-            <View style={[Style.downMain,{flexDirection:'row'}]}>
-			
-                <TextInput
-                    style={styles.searchBar}
-                    value={searchText}
-                    placeholder="Search"
-                    onFocus={() =>setFocus(true) }
-                    onChangeText={(text)=>{
-						searchByName(text)
-                        
-                    }}
-                    onBlur={()=>
-                        {
-                            setSearchText("")
-                            setFocus(false)
-                        }}
-                />
+            <View style={[Style.downMain,{flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}]}>
+				<View style={{backgroundColor:Color.lightColor,width:45,
+					height:45,
+					borderRadius:10,justifyContent:'center',
+					alignItems:'center',marginTop:30}}>
+					<Entypo name="chevron-left" size={24} color={Color.darkColor} onPress={()=>{
+						setSearchText("")
+						setFocus(false)
+						navigation.goBack()}} />
+				</View>
+				<View style={styles.searchView}>
+					<TextInput
+						style={styles.searchBar}
+						value={searchText}
+						placeholder="Search"
+						onFocus={() =>setFocus(true) }
+						onChangeText={(text)=>{
+							searchByName(text)
+							
+						}}
+						onBlur={()=>
+							{
+								setSearchText("")
+								setFocus(false)
+							}}
+                	/>
+				</View>
+				<View style={[{backgroundColor:Color.lightColor,width:45,
+		height:45,
+		borderRadius:10,justifyContent:'center',
+		alignItems:'center',marginTop:30}]}>
+				{
+					isFocus ?
+					<><Entypo name="cross" size={24} color={Color.darkColor} 
+							onPress={()=>{
+								setSearchText("")
+								setFocus(false)
+							}}
+						/></>
+					:
+					<FontAwesome name="search" size={24} color={Color.darkColor} />
+				}
 				
-					{/* <Pressable style={styles.btnView} onPress={()=>{
-						navigation.navigate('SearchScreen',{userId:route.params.userId})
-					}}>
-						<Ionicons name="search" size={24} color="black" />
-					</Pressable> */}
-
-	
+				</View>
             </View>
             <View style={Style.mainDown}>
 				{
@@ -107,11 +119,22 @@ const ExploreScreen = ({navigation,route}) =>
 										<Pressable 
 											style={[styles.userDetails,{flexDirection:'row',width:'100%',marginVertical:20}]} 
 											key={index}
-											onPress={()=>{
-												navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.id,backTo:'ExploreScreen'})
+											onPress={async ()=>{
+												const res = await createRecentSearch(route.params.userId,item.id,(new Date()).getTime())
+												if(res=="Search Added Successfully")
+												{
+													navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.id,backTo:'ExploreScreen'})
+												}
+												
 											}}
 										>
-											<Image source={{uri:item.profilePhoto}} style={[styles.profile_img,{paddingHorizontal:20}]}/>
+											{
+												item.profilePhoto == null || item.profilePhoto == ""?
+												<Image source={require("../../../images/ProfileImages/default.png")} style={styles.profile_img}/>
+												:
+												<Image source={{uri:item.profilePhoto}} style={[styles.profile_img,{paddingHorizontal:20}]}/>
+											}
+											
 											<Text style={[{alignSelf:'center',paddingVertical:5,paddingHorizontal:20,fontWeight:'600',fontSize:16}]}>{item.firstName} {item.lastName?item.lastName:""}</Text>
 										</Pressable>	
 									)
@@ -126,6 +149,7 @@ const ExploreScreen = ({navigation,route}) =>
 							<Text style={[styles.viewHead]}>Recent Searches</Text>
 							<ScrollView horizontal={true} style={styles.recentSearchView}>
 								{
+									recent.length == 0 ? <Text style={{alignSelf:'center',paddingVertical:10}}>No Recent Searches</Text>:
 									recent.map((item,index)=>{
 										return(
 											<Pressable 
@@ -135,7 +159,13 @@ const ExploreScreen = ({navigation,route}) =>
 													navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.userId,backTo:'ExploreScreen'})
 												}}
 											>
-												<Image source={{uri:item.profilePhoto}} style={styles.profile_img}/>
+												{
+													item.profilePhoto == null || item.profilePhoto==""
+													?
+													<Image source={require("../../../images/ProfileImages/default.png")} style={styles.profile_img}/>
+													:
+													<Image source={{uri:item.profilePhoto}} style={styles.profile_img}/>
+												}
 												<Text style={[{alignSelf:'center',paddingVertical:5}]}>{item.firstName}</Text>
 											</Pressable>	
 										)
@@ -145,11 +175,12 @@ const ExploreScreen = ({navigation,route}) =>
 							<Text style={styles.viewHead}>Suggested Users</Text>
 							<ScrollView style={styles.suggView} horizontal={true}>
 								{
-									suggUser.map((item,index)=>{
+									suggUser.length == 0 ? <Text style={{alignSelf:'center',paddingVertical:10}}>No Suggested Users</Text>:
+									suggUser.map( (item,index)=>{
 										return(
 											<View style={styles.suggUser} key={index}>
 												{
-													item.profilePhoto == null 
+													item.profilePhoto == null || item.profilePhoto==""
 													? 
 													<Image source={require("../../../images/ProfileImages/default.png")} style={styles.suggProfileImg}/>
 													:
@@ -198,25 +229,22 @@ export default ExploreScreen
 
 const styles = StyleSheet.create({
     searchBar:{
-        width:'70%',
-        height:40,
-        backgroundColor:Color.lightColor,
-        borderRadius:10,
-        alignSelf:'center',
-        marginTop:30,
-        padding:10,
-        fontSize:16
-    },
+		width:'100%',
+		height:50,
+		padding:10,
+		fontSize:16
+		
+	},
+	searchView:{
+		width:'60%',
+		height:50,
+		borderRadius:10,
+		backgroundColor:Color.lightColor,
+		marginTop:30,
+		marginHorizontal:10
+	},
     dataView:{
 		marginTop:50
-	},
-	btnView:{
-		width:45,
-		height:45,
-		backgroundColor:Color.lightColor,
-		borderRadius:10,
-		justifyContent:'center',
-		alignItems:'center'
 	},
 	recentSearchView:{
 		width:'100%',
