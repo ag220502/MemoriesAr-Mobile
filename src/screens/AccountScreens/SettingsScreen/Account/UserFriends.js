@@ -14,7 +14,6 @@ const UserFriends = ({navigation,route}) => {
 	const getAllData = () => {
 		getAllFriends(route.params.userId).then((data)=>{
 			setFrnd(data)
-			console.log(data)
 			setLoading(false)
 		})
 	}
@@ -23,47 +22,7 @@ const UserFriends = ({navigation,route}) => {
 	{
 		getAllData()
 		setGetData(true)
-	}	
-
-
-	let chat = [
-		{
-			id:1,
-			name:'Ken',
-			profile_image:require('../../../../images/ProfileImages/profile10.jpg')
-		},
-		{
-			id:2,
-			name:'Leona',
-			profile_image:require('../../../../images/ProfileImages/profile9.jpg')
-		},
-		{
-			id:3,
-			name:'Kenneth',
-			profile_image:require('../../../../images/ProfileImages/profile8.jpg')
-			},
-			{
-		id:4,
-				name:'Lee',
-				profile_image:require('../../../../images/ProfileImages/profile7.jpg')
-			},
-			{
-		id:5,
-				name:'Alicia',
-				profile_image:require('../../../../images/ProfileImages/profile6.jpg')
-			},
-			{
-		id:6,
-				name:'Harold',
-				profile_image:require('../../../../images/ProfileImages/profile4.jpg')
-			},
-			{
-		id:7,
-				name:'Melissa',
-				profile_image:require('../../../../images/ProfileImages/profile2.jpg')
-			},
-
-	]
+	}
 	const [keyword,setKeyword] = useState('')
 	const [showbar,setShowBar] = useState(false)
 
