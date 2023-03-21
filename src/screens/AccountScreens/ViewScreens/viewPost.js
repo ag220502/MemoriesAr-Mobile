@@ -68,7 +68,14 @@ const ViewPost =  ({navigation,route}) => {
 							Go Back
 						</Text>
 					</Pressable>
-					<Pressable style={styles.btnView}>
+					<Pressable 
+						style={styles.btnView}
+						onPress={
+							()=>{
+								navigation.navigate("ViewInAr",{image:postInfo.photo})
+							}
+						}
+					>
 						<Text style={styles.viewBtn}>
 							View In AR
 						</Text>

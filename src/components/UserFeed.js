@@ -162,8 +162,8 @@ export default UserFeed
 const styles = StyleSheet.create({
 	container:{
 		width:'100%',
-		marginVertical:50,
-		backgroundColor:Color.lightColor
+		backgroundColor:Color.lightColor,
+		marginBottom:50
 	},
 	modalView:{
         flex:1,

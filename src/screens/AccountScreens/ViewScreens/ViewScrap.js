@@ -1,33 +1,232 @@
-import { StyleSheet, Text, View,FlatList,Dimensions,Pressable } from 'react-native'
+import { StyleSheet, Text, View,FlatList,Dimensions,Pressable,Image,ScrollView } from 'react-native'
 import React,{useState} from 'react'
+import { Entypo } from '@expo/vector-icons';
+import Ionicons from "@expo/vector-icons/Ionicons"
+import FontAwesome from "@expo/vector-icons/FontAwesome"
 const {width,height} = Dimensions.get('window')
-const ViewScrap = () => {
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Color from '../../../ColourThemes/theme1';
+const ViewScrap = ({navigation}) => {
+	const [image,setImage] = useState(null)
+	const [name,setName] = useState('Scrapbook Title')
+	const [liked,setLiked] = React.useState(false)
+	const [saved,setSaved] = React.useState(false)
+	const [description,setDescription] = useState('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum')
+	const dat = [
+		{
+			id:0,
+			title:'Scrapbook Name',
+			image:'',
+			description:'Scrapbook Description',
+		}
+	]
 	const [data,setData] = React.useState([2,2,2,2,2])
 	const [currentIndex,setCurrentIndex]=useState(0)
 	return (
-		<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-			<View style={{height:height/2}}>
-			<FlatList data={data} showsHorizontalScrollIndicator={false} pagingEnabled onScroll={e=>{ const x=e.nativeEvent.contentOffset.x; setCurrentIndex((x / width),toFixed(0)) }} horizontal renderItems={({item,index})=>{
-				return(
-					<View key={index} style={{width: width - 50,height: currentIndex == index? (height/2)+50: height / 2 ,justifyContent:'Center',alignItems:'Center'}}>
-			<TouchableOpacity disabled={true} style={{width:'90%', height:'90%',backgroundColor:'green',borderRadius:10}}>
-			</TouchableOpacity>
-					</View>
-				)
-				}} />
-			</View>
-			<View style={{flexDirection:'row',width:width,justifyContent:'center',alignItems:'center'}}>
+		<View style={{flex:1}}>
+			<View style={
 					{
-						data.map((item,index) => {
-							return (
-								<View style={{width:10,height:10,borderRadius:5,backgroundColor:'black',margin:5}}>
+						width:'95%',
+						alignSelf:'center',
+						height:70,
+						marginTop:50,
+						flexDirection:'row',
+						justifyContent:'space-evenly',
+						alignItems:'center',
+						shadowOffset: {width: 3, height: 5},  
+						shadowColor: Color.midColor,  
+						shadowOpacity: 1,
+						shadowRadius: 5,
+					}}>
+					<Pressable 
+						style={[styles.btnView,{backgroundColor:Color.lightColor,borderWidth:1}]}
+						onPress={()=>navigation.goBack()}
+					>
+						<Text style={[styles.viewBtn,{color:Color.darkColor}]}>
+							Go Back
+						</Text>
+					</Pressable>
+					<Pressable style={styles.btnView}>
+						<Text style={styles.viewBtn}>
+							View In AR
+						</Text>
+					</Pressable>
+					<Pressable style={styles.btnView}>
+						<Text style={styles.viewBtn}>
+							View Map
+						</Text>
+					</Pressable>
+			</View>
+			<ScrollView style={{height:height*0.65}}>
+				<FlatList
+					data={data}
+					horizontal
+					pagingEnabled
+					showsHorizontalScrollIndicator={false}
+					onScroll={(event)=>{
+						const x = event.nativeEvent.contentOffset.x
+						setCurrentIndex((x/width).toFixed(0))
+					}}
+					renderItem={({item,index})=>{
+						
+						return(
+							index==0?
+							<View style={{width:width,height:height*0.65,justifyContent:'center',alignItems:'center'}}
+							key={index}
+							>
+								<Pressable
+									style={{width:'95%',height:'90%',backgroundColor:'green',borderRadius:10}}
+								>
+									<View style={{width:'85%',height:'10%',marginTop:20,alignSelf:'center',borderRadius:10}}>
+										<Text style={styles.scrapTitle}>{name}</Text>
+									</View>
+									<Pressable 
+										style={{width:'85%',height:'55%',marginTop:30,backgroundColor:Color.lightColor,marginTop:20,alignSelf:'center',borderRadius:10}}
+									>
+										{
+											image ? 
+											<Image source={{uri:image}} style={{width:'100%',height:'100%',borderRadius:10}} /> 
+											: 
+											<Image
+												source={require("../../../images/HomeImages/post6.jpg")}
+												style={{width:'100%',height:'100%',borderRadius:10}}
+											/>
+										}
+									</Pressable>
+
+									<View style={{width:'85%',height:'20%',alignSelf:'flex-end',marginTop:20,alignSelf:'center',borderRadius:10}}>
+										<Text style={styles.scrapDescription}>{description}</Text>
+									</View>
+								</Pressable>
+							</View>
+							:
+							<View style={{width:width,height:height*0.65,justifyContent:'center',alignItems:'center'}}>
+								<Pressable
+									disabled={true}
+									style={{width:'95%',height:'90%',backgroundColor:'green',borderRadius:10,flexDirection:(index%2==0)?'column':'column-reverse'}}
+								>
+									<View style={styles.imgObject}>
+										<Image
+											source={require("../../../images/HomeImages/post6.jpg")}
+											style={{width:'50%',height:'70%',borderRadius:10}}
+										/>
+										<View style={styles.imgDet}>
+											<Text style={styles.imgTitle}>Scrapbook Name</Text>
+											<Text style={styles.imgDescription}>Scrapbook Description</Text>
+										</View>
+									</View>
+									<View style={[styles.imgObject,{flexDirection:'row-reverse'}]}>
+										<Image
+											source={require("../../../images/HomeImages/post6.jpg")}
+											style={{width:'50%',height:'70%',borderRadius:10}}
+										/>
+										<View style={styles.imgDet}>
+											<Text style={styles.imgTitle}>Scrapbook Name</Text>
+											<Text style={styles.imgDescription}>Scrapbook Description</Text>
+										</View>
+									</View>
+									<View style={{position:'absolute',top:0,right:0,overflow:'hidden',transform: [{rotateX:'95deg'}]}}>
+										<Image
+											style={{width:width,height:height,borderRadius:10}}
+										/>
+									</View>
+								</Pressable>
+							</View>
+						)
+					}}
+				/>
+				{/* <View style={{flexDirection:'row',width:width,justifyContent:'center',alignItems:'center'}}>
+					{
+						data.map((item,index)=>{
+							return(
+								<View style={
+									{
+										width:currentIndex==index?50:10,
+										height:currentIndex==index?10:10,
+										borderRadius:currentIndex==index?50:10,
+										backgroundColor:currentIndex==index?'green':'grey',
+										marginHorizontal:5}
+									}>
 
 								</View>
 							)
 						})
-
 					}
-			</View>
+				</View> */}
+				<View style={styles.postOptions}>
+						<View style={{flexDirection:'row'}}>
+						<Pressable style={styles.postOpt}>
+							{
+								liked ? 
+								<Entypo 
+									name="heart" 
+									size={30} 
+									color={Color.darkColor}
+									onPress={async ()=>{
+										const res = await unlikePost(userId,postId)
+										const liked = await checkLiked(postId,userId)
+										setLiked(liked)
+										}
+									}
+								/>
+								:
+								<Entypo 
+									name={"heart-outlined"} 
+									size={30} 
+									color={Color.textMidColor}
+									onPress={async ()=>{
+										const res = await likePost(userId,postId)
+										const liked = await checkLiked(postId,userId)
+										setLiked(liked)
+
+									}}
+								/>
+							}
+							<Text style={styles.optionNum}></Text>
+						</Pressable>
+						<Pressable 
+							style={styles.postOpt}
+							onPress={()=>{navigation.navigate("Comments",{postId:postId,userId:userId})}}
+						>
+							<FontAwesome 
+								name="commenting" 
+								size={24} 
+								color={Color.textMidColor} 
+							/>
+							<Text style={styles.optionNum}></Text>
+						</Pressable>
+						</View>
+						<Pressable style={styles.postOpt}>
+							{
+								saved ?
+									<Ionicons 
+										name="bookmark" 
+										size={24} 
+										color={Color.darkColor}
+										onPress={async ()=>{
+											const res = await unsavePost(userId,postId)
+											const saved = await checkSaved(postId,userId)
+											setSaved(saved)
+										}}
+									/>
+									:
+									<Ionicons 
+										name="bookmark-outline" 
+										size={24} 
+										color={Color.textMidColor}
+										onPress={async ()=>{
+											const res = await savePost(userId,postId)
+											const saved = await checkSaved(postId,userId)
+											setSaved(saved)
+										}}
+									/>
+
+							}
+						</Pressable>
+					</View>
+				
+			</ScrollView>
+
 		</View>
 	)
 }
@@ -35,5 +234,89 @@ const ViewScrap = () => {
 export default ViewScrap
 
 const styles = StyleSheet.create({
+	scrapTitle:{
+		fontSize:30,
+		fontStyle:'italic',
+		fontWeight:'600',
+		color:Color.lightColor,
+		textAlign:'center',
+		paddingVertical:10
+	},
+	scrapDescription:{
+		fontSize:20,
+		fontStyle:'italic',
+		fontWeight:'600',
+		color:Color.lightColor,
+		textAlign:'center',
+		paddingVertical:10
+	},
+	btnView:{
+		width:110,
+		height:40,
+		backgroundColor:Color.darkColor,
+		marginHorizontal:20,
+		borderRadius:13,
+		justifyContent:'center',
+		alignItems:'center'
+	},
+	viewBtn:{
+		color:Color.lightColor,
+		fontSize:15,
+		fontWeight:'600'
+	},
+	imgObject:{
+		width:'90%',
+		height:'45%',
+		marginTop:30,
+		marginTop:20,
+		alignSelf:'center',
+		borderRadius:10,
+		justifyContent:'center',
+		flexDirection:'row',
+		alignItems:'center'
+	},
+	imgDet:{
+		width:'50%',
+		height:'60%',
+		borderRadius:10
+	},
+	imgTitle:{
+		fontSize:18,
+		fontStyle:'italic',
+		fontWeight:'600',
+		color:Color.lightColor,
+		textAlign:'center',
+		padding:10
+	},
+	imgDescription:{
+		fontSize:15,
+		fontStyle:'italic',
+		fontWeight:'600',
+		color:Color.lightColor,
+		textAlign:'center',
+		padding:10
+	},
+	postOptions:{
+		width:'80%',
+		flexDirection:'row',
+		alignSelf:'center',
+		justifyContent:'space-between',
+		paddingTop:20,
+		paddingBottom:10,
+	},
+	postOpt:{
+		flexDirection:'row',
+		justifyContent:'center',
+		alignItems:'center',
+		paddingHorizontal:20
+	},
+	optionNum:{
+		paddingHorizontal:5,
+		fontWeight:'400',
+		color:Color.blackColor,
+		fontSize:16,	
+	}
+
+
 
 })

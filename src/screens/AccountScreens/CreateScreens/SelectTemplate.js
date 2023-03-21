@@ -1,54 +1,71 @@
-import { StyleSheet, Text, View,Pressable,FlatList } from 'react-native'
+import { StyleSheet, Text, View,Pressable,FlatList,ActivityIndicator } from 'react-native'
 import React,{useState} from 'react'
 import style from '../../../StyleSheets/main.js'
 import Color from '../../../ColourThemes/theme1.js'
 import { StatusBar } from 'expo-status-bar'
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons';
+import {getTemplatesByCategory,getAllCategories} from "../../fetchData/scrapbooks.js"
 
+function Temp({id}){
+    const [data,setData] = useState(null)
+    const [loading,setLoading] = useState(false)
+    const [getData,setGetData] = useState(false)
+    if(!getData)
+    {
+        getTemplatesByCategory(id).then((data)=>{
+            console.log(data)
+            setData(data)
+            setGetData(true)
+        })
+    }
+    if(!getData)
+    {
+        return (<View style={styles.subListView}>
+        <ActivityIndicator size={"large"}/>
+    </View>)
+    }
+    return (
+        <View style={styles.subListView}>
+            {/* <FlatList
+                data={item.subSettings}
+                renderItem={({ item }) => {
+                    return (
+                            <Pressable 
+                                onPress={()=>{
+                                    navigation.navigate('CoverPage',{
+                                        templateId:item.id,
+                                        userId:route.params.userId
+                                    })}}
+                                style={styles.subListTextView}>
+                                
+                                <Text style={styles.subListText}>{item.name}</Text>
+                                    <Entypo name="chevron-right" size={24} color={Color.blackColor} />
+                            </Pressable>
+                        )}}
+            />         */}
+        </View>)
+}
 const SelectTemplate = ({navigation,route}) => {
-	const data = [
-        {
-            name:"Sports",
-            subSettings:[
-                {
-					id:1,
-                    name:"Sports Template 1",
-                },
-				{
-					id:2,
-                    name:"Sports Template 2",
-                }
-            ]
-        },
-        {
-            name:"Education",
-            subSettings:[
-                {
-					id:1,
-                    name:"Education Template 1",
-                },
-				{
-					id:2,
-                    name:"Education Template 2",
-                }
-            ]
-        },
-        {
-            name:"Tourism",
-            subSettings:[
-                {
-					id:1,
-                    name:"Tourism Template 1",
-                },
-				{
-					id:2,
-                    name:"Tourism Template 2",
-                }
-            ]
-        }
-    ]
-	const [curIndex,setCurIndex] = useState(null)
+    const [catg,setCatg] = useState(null)
+    const [loading,setLoading] = useState(false)
+    const [getData,setGetData] = useState(false)
+    const [curIndex,setCurIndex] = useState(null)
+    if(!getData)
+    {
+        getAllCategories().then((data)=>{
+            console.log(data)
+            setCatg(data)
+            setGetData(true)
+        })
+    }
+    if(!getData)
+    {
+        return (<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+        <ActivityIndicator size={"large"}/>
+    </View>)
+    }
+	
 	return (
 		<View style={style.container}>
             <StatusBar style="light"/>
@@ -58,7 +75,8 @@ const SelectTemplate = ({navigation,route}) => {
 			<View style={style.mainDown}>
 			<View style={styles.listView}>
                     {
-                        data.map((item,index)=>{
+                        catg.map((item,index)=>{
+                            console.log(item)
                             return (
                                 <View key={index}>
                                 <Pressable 
@@ -68,7 +86,7 @@ const SelectTemplate = ({navigation,route}) => {
                                     }}
                                     style={styles.nameBtn}
                                 >
-                                    <Text style={styles.name}>{item.name}</Text>
+                                    <Text style={styles.name}>{item.categoryName}</Text>
                                     <Text>
                                     {
                                         index === curIndex ? 
@@ -79,27 +97,9 @@ const SelectTemplate = ({navigation,route}) => {
                                     </Text>
                                 </Pressable>
                                 <View>
-                                {   index === curIndex&&
-                                    (
-                                    <View style={styles.subListView}>
-                                        <FlatList
-                                            data={item.subSettings}
-                                            renderItem={({ item }) => {
-                                                return (
-                                                        <Pressable 
-															onPress={()=>{
-																navigation.navigate('CreateScrapDetails',{
-																	templateId:item.id,
-																	userId:route.params.userId
-																})}}
-                                                            style={styles.subListTextView}>
-                                                            
-                                                            <Text style={styles.subListText}>{item.name}</Text>
-                                                                <Entypo name="chevron-right" size={24} color={Color.blackColor} />
-                                                        </Pressable>
-                                                    )}}
-                                        />        
-                                    </View>)
+                                {   index === curIndex ?
+                                     <Temp id={item.categoryId}/>         
+                                     : null
                                 }                                    
                                 </View>
                                 </View>
