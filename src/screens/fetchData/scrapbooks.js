@@ -52,7 +52,7 @@ const getTemplatesByCategory = async(categoryId) => {
     const data = await response.json();
     return data;
 }
-
+// comment out for now
 // const updateTemplate = async(templateId, templateName, templateDescription, categoryId) => {
 //     const response = await fetch(WEB+"/api/scrapbooks/updateTemplate/"+templateId, {
 //         method: "PATCH",
