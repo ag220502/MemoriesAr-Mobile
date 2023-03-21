@@ -42,6 +42,17 @@ const getAllTemplates = async() => {
     return data;
 }
 
+const getTemplatesByCategory = async(categoryId) => {
+    const response = await fetch(WEB+"/api/scrapbooks/getTemplatesByCategory/"+categoryId, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const data = await response.json();
+    return data;
+}
+
 // const updateTemplate = async(templateId, templateName, templateDescription, categoryId) => {
 //     const response = await fetch(WEB+"/api/scrapbooks/updateTemplate/"+templateId, {
 //         method: "PATCH",
@@ -338,7 +349,8 @@ const reportScrapbook = async (userId, scrapId, reason) => {
 
 module.exports = {
   getTemplateById, 
-  getAllTemplates, 
+  getAllTemplates,
+  getTemplatesByCategory, 
   getCategory, 
   getAllCategories, 
   createScrapbook,
