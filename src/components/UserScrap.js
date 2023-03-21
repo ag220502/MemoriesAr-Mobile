@@ -4,22 +4,23 @@ import React,{useState,useEffect} from 'react'
 import { Entypo } from '@expo/vector-icons';
 import Color from '../ColourThemes/theme1'
 
-import { getHomeFeed,getAllData } from '../screens/fetchData/homeScreenData';
+import { getHomeScrap } from '../screens/fetchData/homeScreenData';
 import { checkLiked, checkSaved } from '../screens/fetchData/viewPost';
 import {reportPost} from '../screens/fetchData/report.js'
 
 const UserScrap = ({navigation,userId}) => {
-	const [postInfo,setPostInfo] = useState([])
+	console.log(userId)
+	const [scrapInfo,setscrapInfo] = useState([])
 	const [openModel,setOpenModel] = useState(false)
 	const [loading,setLoading] = useState(false)
 	const handleOnPress = () => {
         setOpenModel(!openModel)
     }
 
-	if(!postInfo.length)
+	if(!scrapInfo.length)
 	{
-		getHomeFeed(userId).then((res)=>{
-			setPostInfo(res)
+		getHomeScrap(userId).then((res)=>{
+			setscrapInfo(res)
 		})
 	}
 	useEffect(() => {
@@ -37,23 +38,7 @@ const UserScrap = ({navigation,userId}) => {
 	return (
 		<ScrollView style={styles.container}>
 			{	
-				postInfo.map((item,index)=>{
-					
-					let liked=false;
-					let saved = false;
-					
-					Promise.all(checkLiked(item.postId,userId)).then(
-						(res)=>{
-							liked = res
-							
-						}
-					)
-					Promise.all(checkSaved(item.postId,userId)).then(
-						(res)=>{
-							saved = res
-						}
-					)
-
+				scrapInfo.map((item,index)=>{
 					return (
 						<View style={styles.userPost} key={index}>
 							<View style={styles.postUserDetails}>
@@ -86,7 +71,7 @@ const UserScrap = ({navigation,userId}) => {
 											onPress={async ()=>{
 												setOpenModel(!openModel)
 											navigation.navigate('ReportScrap',{
-												scrapId:1,
+												scrapId:item.scrapId,
 												userId:userId,
 												backTo:'MainScreen'
 											})
@@ -131,16 +116,16 @@ const UserScrap = ({navigation,userId}) => {
 							</Modal>
 
 							<View style={styles.userPostPic}>
-								
-								<Image
-									source={{uri:item.PhotoLink}}
-									style={styles.postImage}
-								/>
+								{
+									item.coverPhoto==null || item.coverPhoto==="" ? 
+									<Image style={styles.postImage} source={require('../images/ProfileImages/default.png')}/> : 
+									<Image style={styles.postImage} source={{uri:item.coverPhoto}}/>
+								}
 								<Pressable 
 									style={styles.postBtn}
 									onPress={()=>{
 										navigation.navigate("ViewScrap",{
-											postId:item.postId,
+											scrapId:item.scrapId,
 											userId:userId,
 										})	
 									}
