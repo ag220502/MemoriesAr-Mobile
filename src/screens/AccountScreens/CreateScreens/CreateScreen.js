@@ -218,7 +218,6 @@ const CreateScreen = ({navigation,location,route}) => {
 					</View>
 				</View>
 			</ScrollView>
-			{/* <BottomNavBar navigation={navigation} userId={route.params.userId}/> */}
 		</View>
 	)
 }

@@ -33,6 +33,7 @@ function Temp({id,navigation,route}){
                     return (
                             <Pressable 
                                 onPress={()=>{
+                                        console.log(item)
                                     navigation.navigate('CoverPage',{
                                         templateId:item.templateId,
                                         userId:route.params.userId
