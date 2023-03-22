@@ -7,7 +7,6 @@ const createScrapbook = (
   caption,
   lattitude,
   longitude,
-  uploadTime,
   contentFlag,
   coverPhoto,
   templateId
@@ -24,7 +23,6 @@ const createScrapbook = (
       caption,
       lattitude,
       longitude,
-      uploadTime,
       contentFlag,
       coverPhoto,
       templateId,
