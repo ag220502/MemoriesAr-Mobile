@@ -30,4 +30,19 @@ const createPost = async (
   return data;
 };
 
-module.exports = { createPost };
+const deletePost = async (postId,userId) => {
+  const response = await fetch(WEB + "/api/posts/delete/"+userId+"/"+postId, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    }
+  });
+  const data = await response.json();
+  return data;
+};
+
+
+
+
+module.exports = { createPost,deletePost };

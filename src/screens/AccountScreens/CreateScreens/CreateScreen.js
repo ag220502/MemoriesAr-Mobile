@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,StatusBar, Pressable, TextInput, ScrollView,Image } from 'react-native'
+import { StyleSheet, Text, View,StatusBar, Pressable, TextInput, ScrollView,Image, Alert } from 'react-native'
 import React,{useState,useEffect} from 'react'
 import BottomNavBar from '../../../components/BottomNavBar.js'
 import { Entypo } from '@expo/vector-icons';
@@ -79,11 +79,35 @@ const CreateScreen = ({navigation,location,route}) => {
 	},[])
 
 	const createNew = async ()=>{
+		if(!image)
+		{
+			Alert.alert("Please upload an image")
+			return
+		}
+		if(!caption || caption.trim() == "")
+		{
+			Alert.alert("Please enter a caption")
+			return
+		}
 		if (image) {
 			const base64 = await FileSystem.readAsStringAsync(image, {
 				encoding: FileSystem.EncodingType.Base64,
 			});
 			const result = await createPost(route.params.userId,caption,lattitude,longitude,postType,base64,taggedUsers)
+			if(result=="Post was created successfully.")
+			{
+				Alert.alert("Post Created","Post was created successfully.",[{
+					text:"OK",
+					onPress:()=>navigation.dispatch(
+						StackActions.replace('MainScreen',{userId:route.params.userId})
+					)
+				}])
+			}
+			else
+			{
+				Alert.alert("Post was not created")
+
+			}
 		}
 	}
 

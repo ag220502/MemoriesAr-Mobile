@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 const CoverPage = ({navigation,route}) => {
+
 	const [name,setName] = useState('')
 	const [description,setDescription] = useState('')
 	const [image,setImage] = useState(null)
@@ -94,7 +95,7 @@ const CoverPage = ({navigation,route}) => {
 					</Pressable>
 					<Pressable 
 						style={styles.btnView}
-						onPress={()=>{navigation.navigate('CreateScrapImages',{userId:route.params.userId,name:name,description:description,image:image,lattitude:lattitude,longitude:longitude})}}
+						onPress={()=>{navigation.navigate('CreateScrapImages',{userId:route.params.userId,name:name,description:description,image:image,lattitude:lattitude,longitude:longitude,template:route.params.templateId})}}
 					>
 						<Text style={styles.btnText}>
 							Next

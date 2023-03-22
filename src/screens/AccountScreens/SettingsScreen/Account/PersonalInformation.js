@@ -187,7 +187,7 @@ const PersonalInformation = ({navigation,route}) => {
                                     <DatePicker
                                         selected={dob}
                                         locale="en"
-                                        mode={"calender"}
+                                        mode={"datepicker"}
                                         onDateChange={handleChange}
                                         
                                     />

@@ -9,7 +9,6 @@ import { checkLiked, checkSaved } from '../screens/fetchData/viewPost';
 import {reportPost} from '../screens/fetchData/report.js'
 
 const UserScrap = ({navigation,userId}) => {
-	console.log(userId)
 	const [scrapInfo,setscrapInfo] = useState([])
 	const [openModel,setOpenModel] = useState(false)
 	const [loading,setLoading] = useState(false)
@@ -38,7 +37,9 @@ const UserScrap = ({navigation,userId}) => {
 	return (
 		<ScrollView style={styles.container}>
 			{	
+				scrapInfo.length>0?
 				scrapInfo.map((item,index)=>{
+					
 					return (
 						<View style={styles.userPost} key={index}>
 							<View style={styles.postUserDetails}>
@@ -49,14 +50,17 @@ const UserScrap = ({navigation,userId}) => {
 									
 									<Text style={styles.userName}>{item.firstName + " "} {item.lastName?item.lastName:""}</Text>
 								</View>
-								<Pressable 
+								{
+									item.userId===userId ? null : <Pressable 
 									style={styles.moreOptions}
 									onPress={()=>{
 										handleOnPress()
 									}}
-								>
-									<Entypo name="dots-three-horizontal" size={24} color="black" />
-								</Pressable>
+										>
+											<Entypo name="dots-three-horizontal" size={24} color="black" />
+										</Pressable>
+										}
+								
 							</View>
 							<Modal
 								animationType='slide'
@@ -79,7 +83,16 @@ const UserScrap = ({navigation,userId}) => {
 										>
 											<Text>Report Scrapbook</Text>
 										</Pressable>
-										<Pressable style={styles.modalOption}>
+										<Pressable style={styles.modalOption}
+											onPress={async ()=>{
+												setOpenModel(!openModel)
+											navigation.navigate('ReportUsers',{
+												userId:userId,
+												reportedId:item.userId,
+												backTo:'MainScreen'
+											})
+											}}
+										>
 											<Text>Report User</Text>
 										</Pressable>
 										<Pressable 
@@ -137,6 +150,10 @@ const UserScrap = ({navigation,userId}) => {
 						</View>
 					)
 				})
+				:
+				<Text style={{fontWeight:'600',alignSelf:'center',padding:20,fontSize:17}}>
+					No Scrapbooks Uploaded
+				</Text>
 			}
 		</ScrollView>
 	)

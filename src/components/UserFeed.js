@@ -7,20 +7,36 @@ import Color from '../ColourThemes/theme1'
 import { getHomeFeed,getAllData } from '../screens/fetchData/homeScreenData';
 import { checkLiked, checkSaved } from '../screens/fetchData/viewPost';
 import {reportPost} from '../screens/fetchData/report.js'
-
+import {suggetUser} from "./../screens/fetchData/searchData.js"
 const UserFeed = ({navigation,userId}) => {
 	const [postInfo,setPostInfo] = useState([])
 	const [openModel,setOpenModel] = useState(false)
 	const [loading,setLoading] = useState(false)
+	const [suggUser,setSuggUser] = useState([])
 	const handleOnPress = () => {
         setOpenModel(!openModel)
     }
 
+	const allSuggData = async () => {
+		if(!suggUser.length)
+		{
+			const sugdata = await suggetUser(userId)
+			if(sugdata.length)
+			{
+				setSuggUser(sugdata)
+			}
+			// setSuggUser(sugdata)
+		}
+	}
 	if(!postInfo.length)
 	{
 		getHomeFeed(userId).then((res)=>{
 			setPostInfo(res)
 		})
+		if(!postInfo.length)
+		{
+			allSuggData()
+		}
 	}
 	useEffect(() => {
 		if(loading)
@@ -36,7 +52,7 @@ const UserFeed = ({navigation,userId}) => {
 	
 	return (
 		<ScrollView style={styles.container}>
-			{	
+			{ 	userId && postInfo.length ?
 				postInfo.map((item,index)=>{
 					
 					let liked=false;
@@ -64,14 +80,16 @@ const UserFeed = ({navigation,userId}) => {
 									
 									<Text style={styles.userName}>{item.firstName + " "} {item.lastName?item.lastName:""}</Text>
 								</View>
-								<Pressable 
+								{
+									item.userId===userId ? null : <Pressable 
 									style={styles.moreOptions}
 									onPress={()=>{
 										handleOnPress()
 									}}
-								>
-									<Entypo name="dots-three-horizontal" size={24} color="black" />
-								</Pressable>
+										>
+											<Entypo name="dots-three-horizontal" size={24} color="black" />
+										</Pressable>
+										}
 							</View>
 							<Modal
 								animationType='slide'
@@ -94,7 +112,17 @@ const UserFeed = ({navigation,userId}) => {
 										>
 											<Text>Report Memory</Text>
 										</Pressable>
-										<Pressable style={styles.modalOption}>
+										<Pressable 
+											style={styles.modalOption}
+											onPress={async ()=>{
+												setOpenModel(!openModel)
+											navigation.navigate('ReportUsers',{
+												userId:userId,
+												reportedId:item.userId,
+												backTo:'MainScreen'
+											})
+											}}
+										>
 											<Text>Report User</Text>
 										</Pressable>
 										<Pressable 
@@ -152,6 +180,58 @@ const UserFeed = ({navigation,userId}) => {
 						</View>
 					)
 				})
+				:
+				userId && suggUser.length ?
+				<ScrollView>
+					<Text style={styles.viewHead}>Suggested Users</Text>
+						<ScrollView style={styles.suggView} horizontal={true}>
+							{
+								suggUser.length == 0 ? <Text style={{alignSelf:'center',paddingVertical:10}}>No Suggested Users</Text>:
+								suggUser.map( (item,index)=>{
+									return(
+										<View style={styles.suggUser} key={index}>
+											{
+												item.profilePhoto == null || item.profilePhoto==""
+												? 
+												<Image source={require("../images/ProfileImages/default.png")} style={styles.suggProfileImg}/>
+												:
+												<Image source={{uri:item.profilePhoto}} style={styles.suggProfileImg}/>
+											}
+											<Text style={styles.usrText}>{item.firstName}</Text>
+											<View style={styles.btnMainView}>
+												<Pressable 
+													style={styles.btnView}
+													onPress={async ()=>{
+														sendRequest(route.params.userId,item.id).then((data)=>{
+															if(data == 'Request Sent Successfully')
+															{
+																Alert.alert("Request Sent Successfully")
+															}
+														})
+													}}
+												>
+													<Text style={styles.btnText}> Add Firend </Text>
+												</Pressable>
+												<Pressable 
+													style={styles.btnView}
+													onPress={()=>{
+														navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.id,backTo:'ExploreScreen'})
+													}}
+												>
+													<Text style={styles.btnText}> Profile </Text>
+												</Pressable>
+											</View>
+										</View>	
+									)
+								})
+							}
+							
+						</ScrollView>
+				</ScrollView>
+				:
+				<View >
+					<Text style={{fontSize:17,alignSelf:'center',fontWeight:'700'}}>No Posts Available</Text>
+				</View>
 			}
 		</ScrollView>
 	)
@@ -255,5 +335,53 @@ const styles = StyleSheet.create({
 		fontWeight:'800',
 		paddingHorizontal:8
 	},
-	
+	suggView:{
+		width:'100%',
+		height:300,
+		marginVertical:10,
+	},
+	suggUser:{
+		width:200,
+		height:250,
+		borderWidth:0.5,
+		borderRadius:10,
+		marginHorizontal:15,
+		marginVertical:15,
+		justifyContent:'center',
+		alignItems:'center'
+	},
+	usrText:{
+		marginVertical:10,
+		fontSize:16,
+		fontWeight:'700'
+	},
+	btnMainView:{
+		width:'100%',
+		flexDirection:'row',
+		justifyContent:'space-between',
+		paddingHorizontal:10,
+		marginVertical:15
+	},
+	btnView:{
+		backgroundColor:Color.darkColor,
+
+		padding:7,
+		borderRadius:7
+	},
+	btnText:{
+		color:Color.textLightColor,
+		fontSize:16,
+		
+	},
+	suggProfileImg:{
+		width:100,
+		height:100,
+		borderRadius:100
+	},
+	viewHead:{
+		fontSize:18,
+		fontWeight:'700',
+		paddingHorizontal:15,
+		marginTop:10
+	},
 })

@@ -11,6 +11,9 @@ import ReportUsers from '../AccountScreens/ReportObjs/ReportUsers.js';
 import ViewInAr from '../AccountScreens/ViewScreens/ViewInAr.js';
 import ReportScrap from '../AccountScreens/ReportObjs/ReportScrap.js';
 import ViewScrap from '../AccountScreens/ViewScreens/ViewScrap.js';
+import CommentScrap from '../AccountScreens/ViewScreens/CommentScrap.js';
+
+
 //Create Post Screens
 import CreateScreen from '../AccountScreens/CreateScreens/CreateScreen.js';
 import AddLocation from '../AccountScreens/CreateScreens/AddLocation.js';
@@ -71,6 +74,10 @@ const AppStack = () => {
             <Stack.Screen 
                 name="ViewScrap"
                 component={ViewScrap}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="CommentScrap"
+                component={CommentScrap}
                 options={{headerShown:false}} />
             <Stack.Screen 
                 name="ReportScrap"

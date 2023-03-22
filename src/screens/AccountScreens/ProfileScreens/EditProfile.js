@@ -1,24 +1,59 @@
 import { StyleSheet, Text, View, Image, Pressable,TextInput,Alert  } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import editPic from '../../../images/ProfileImages/editProfile.png'
 import { Ionicons } from '@expo/vector-icons'; 
 import Color from './../../../ColourThemes/theme1.js'
 import { StackActions } from '@react-navigation/native';
+import { WEB } from '../../../../var';
+import * as ImagePicker from 'expo-image-picker'
+import * as FileSystem from 'expo-file-system';
+
 
 const EditProfile = (props) => {
     const [id,setId] = useState(props.route.params.userId)
     const [fName,setFName] = useState(props.route.params.fname)
     const [lName,setLName] = useState(props.route.params.lname)
     const [bio,setBio] = useState(props.route.params.bio)
-    
-    const updateData=()=>{
+    const [profilePic,setProfilePic] = useState(props.route.params.profilePic)
+    const [hasGalleryPer,setGalleryPer] = useState(false)
+    const [hasChanged,setChanged] = useState(false)
+    useEffect(()=>{
+        (async ()=>{
+            if(!hasGalleryPer)
+			{
+				const galleryPermission = await ImagePicker.requestCameraPermissionsAsync()
+				setGalleryPer(galleryPermission === 'granted');
+			}
+        })()
+    },[])
+    const pickImage = async ()=>{
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes:ImagePicker.MediaTypeOptions.All,
+            allowsEditing:true,
+            aspect:[4,3],
+            quality:1
+        })
+        if(!result.canceled)
+        {
+            setProfilePic(result.assets[0].uri)
+            setChanged(true)
+        }
+    }
+    const updateData= async ()=>{
         console.log(id)
         if(fName==="" || fName.trim()==="")
         {
             Alert.alert("Please fill First Name")
             return
         }
-        fetch("http://localhost:3000/api/users/updateProfile",{
+        if(hasChanged)
+        {
+            const base64 = await FileSystem.readAsStringAsync(profilePic, {
+				encoding: FileSystem.EncodingType.Base64,
+			});
+            setProfilePic(base64)
+        }
+        fetch(WEB+"/api/users/updateProfile",{
             method:"PATCH",
             headers:{
                 'Content-Type':'application/json'
@@ -28,7 +63,7 @@ const EditProfile = (props) => {
                 firstName:fName,
                 lastName:lName,
                 bio:bio,
-                profilePhoto:""
+                profilePhoto:profilePic
             })
         }).then(res=>res.json())
         .then(data=>{
@@ -64,9 +99,12 @@ const EditProfile = (props) => {
             </View>
             <View style={styles.main}>
                 <View style={styles.profile_img}>
-                    <Image style={styles.pofile} source={require('../../../images/ProfileImages/profile8.jpg')}/>
-                    <Pressable style={styles.selectPic}>
-                        <Ionicons name="images" size={24}  color="#F5F6FA" />
+                    <Image style={styles.pofile} source={{uri:profilePic}}/>
+                    <Pressable 
+                        onPress={()=>pickImage()}
+                        style={styles.selectPic}
+                    >
+                        <Ionicons name="images" size={24}  color={Color.lightColor}/>
                     </Pressable>
                 </View>
                 <View style={styles.detailsView}>

@@ -1,7 +1,7 @@
 import { WEB } from "../../../var.js";
 const scrapAPI = WEB + "/api/scrapbooks";
 
-const createScrapbook = (
+const createScrapbook = async (
   userId,
   name,
   caption,

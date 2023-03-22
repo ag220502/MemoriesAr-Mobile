@@ -6,20 +6,17 @@ import FontAwesome from "@expo/vector-icons/FontAwesome"
 const {width,height} = Dimensions.get('window')
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Color from '../../../ColourThemes/theme1';
-const ViewScrap = ({navigation}) => {
+import {checkSavedScrapbook,saveScrapbook,deleteSavedScrapbook} from "../../fetchData/scrapbooks.js"
+import {addLike,checkLike,unLike} from "../../fetchData/scrapbookUtils.js"
+
+const ViewScrap = ({navigation,route}) => {
+	const {scrapId,userId} = route.params
 	const [image,setImage] = useState(null)
-	const [name,setName] = useState('Scrapbook Title')
+	const [name,setName] = useState('A Fresh Start')
 	const [liked,setLiked] = React.useState(false)
 	const [saved,setSaved] = React.useState(false)
-	const [description,setDescription] = useState('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum')
-	const dat = [
-		{
-			id:0,
-			title:'Scrapbook Name',
-			image:'',
-			description:'Scrapbook Description',
-		}
-	]
+	const [description,setDescription] = useState('Collection of my adventures from hiking through the Rocky Mountains to surfing in Hawaii')
+
 	const [data,setData] = React.useState([2,2,2,2,2])
 	const [currentIndex,setCurrentIndex]=useState(0)
 	return (
@@ -75,7 +72,7 @@ const ViewScrap = ({navigation}) => {
 							key={index}
 							>
 								<Pressable
-									style={{width:'95%',height:'90%',backgroundColor:'green',borderRadius:10}}
+									style={{width:'95%',height:'90%',backgroundColor:Color.darkColor,borderRadius:10}}
 								>
 									<View style={{width:'85%',height:'10%',marginTop:20,alignSelf:'center',borderRadius:10}}>
 										<Text style={styles.scrapTitle}>{name}</Text>
@@ -103,7 +100,7 @@ const ViewScrap = ({navigation}) => {
 							<View style={{width:width,height:height*0.65,justifyContent:'center',alignItems:'center'}}>
 								<Pressable
 									disabled={true}
-									style={{width:'95%',height:'90%',backgroundColor:'green',borderRadius:10,flexDirection:(index%2==0)?'column':'column-reverse'}}
+									style={{width:'95%',height:'90%',backgroundColor:Color.darkColor,borderRadius:10,flexDirection:(index%2==0)?'column':'column-reverse'}}
 								>
 									<View style={styles.imgObject}>
 										<Image
@@ -163,8 +160,8 @@ const ViewScrap = ({navigation}) => {
 									size={30} 
 									color={Color.darkColor}
 									onPress={async ()=>{
-										const res = await unlikePost(userId,postId)
-										const liked = await checkLiked(postId,userId)
+										const res = await unLike(scrapId,userId)
+										const liked = await checkLike(scrapId,userId)
 										setLiked(liked)
 										}
 									}
@@ -175,8 +172,8 @@ const ViewScrap = ({navigation}) => {
 									size={30} 
 									color={Color.textMidColor}
 									onPress={async ()=>{
-										const res = await likePost(userId,postId)
-										const liked = await checkLiked(postId,userId)
+										const res = await addLike(scrapId,userId)
+										const liked = await checkLike(scrapId,userId)
 										setLiked(liked)
 
 									}}
@@ -186,7 +183,7 @@ const ViewScrap = ({navigation}) => {
 						</Pressable>
 						<Pressable 
 							style={styles.postOpt}
-							onPress={()=>{navigation.navigate("Comments",{postId:postId,userId:userId})}}
+							onPress={()=>{navigation.navigate("CommentScrap",{scrapId:route.params.scrapId,userId:userId})}}
 						>
 							<FontAwesome 
 								name="commenting" 
@@ -204,8 +201,8 @@ const ViewScrap = ({navigation}) => {
 										size={24} 
 										color={Color.darkColor}
 										onPress={async ()=>{
-											const res = await unsavePost(userId,postId)
-											const saved = await checkSaved(postId,userId)
+											const res = await deleteSavedScrapbook(userId,scrapId)
+											const saved = await checkSavedScrapbook(userId,scrapId)
 											setSaved(saved)
 										}}
 									/>
@@ -215,8 +212,8 @@ const ViewScrap = ({navigation}) => {
 										size={24} 
 										color={Color.textMidColor}
 										onPress={async ()=>{
-											const res = await savePost(userId,postId)
-											const saved = await checkSaved(postId,userId)
+											const res = await saveScrapbook(userId,scrapId)
+											const saved = await checkSavedScrapbook(userId,scrapId)
 											setSaved(saved)
 										}}
 									/>

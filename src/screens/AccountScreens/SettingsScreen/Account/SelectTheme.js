@@ -16,7 +16,6 @@ const SelectTheme = ({navigation,route}) => {
     if(!themes.length)
     {
         getAllThemes().then((data)=>{
-            console.log(data)
             setThemes(data)
             getUserTheme(route.params.userId).then((data)=>{
                 setCurTheme(data[0].themeId)

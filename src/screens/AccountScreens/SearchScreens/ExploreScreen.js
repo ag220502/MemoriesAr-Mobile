@@ -9,6 +9,45 @@ import { FontAwesome } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar'
 import { recentSearch, searchUser,suggetUser,createRecentSearch,deleteSearch } from '../../fetchData/searchData.js'
 import { sendRequest,checkUser } from '../../fetchData/requestData.js'
+
+function Users({item,key}){
+	return(
+		<View style={styles.suggUser} key={key}>
+			{
+				item.profilePhoto == null || item.profilePhoto==""
+				? 
+				<Image source={require("../../../images/ProfileImages/default.png")} style={styles.suggProfileImg}/>
+				:
+				<Image source={{uri:item.profilePhoto}} style={styles.suggProfileImg}/>
+			}
+			<Text style={styles.usrText}>{item.firstName}</Text>
+			<View style={styles.btnMainView}>
+				<Pressable 
+					style={styles.btnView}
+					onPress={async ()=>{
+						sendRequest(route.params.userId,item.id).then((data)=>{
+							if(data == 'Request Sent Successfully')
+							{
+								Alert.alert("Request Sent Successfully")
+							}
+						})
+					}}
+				>
+					<Text style={styles.btnText}> Add Firend </Text>
+				</Pressable>
+				<Pressable 
+					style={styles.btnView}
+					onPress={()=>{
+						navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.id,backTo:'ExploreScreen'})
+					}}
+				>
+					<Text style={styles.btnText}> Profile </Text>
+				</Pressable>
+			</View>
+		</View>	
+	)
+}
+
 const ExploreScreen = ({navigation,route}) => 
 {
     const [isFocus,setFocus] = useState(false)
@@ -28,18 +67,22 @@ const ExploreScreen = ({navigation,route}) =>
 		if(!recent.length)
 		{
 			const recData = await recentSearch(route.params.userId)
-			setRecent(recData)
-			
+			if(recData==="No Recent Searches")
+			{
+				setRecent([])
+			}
+			else
+			{
+				setRecent(recData)
+			}	
 		}
 		if(!suggUser.length)
 		{
 			const sugdata = await suggetUser(route.params.userId)
-			console.log(sugdata)
 			if(sugdata.length)
 			{
 				setSuggUser(sugdata)
 			}
-			// setSuggUser(sugdata)
 		}
 	}
 	useEffect(() => {
@@ -50,7 +93,6 @@ const ExploreScreen = ({navigation,route}) =>
 			setLoading(false)
 		}
 	}, [])
-	
 	
 	if(loading)
 	{
@@ -115,6 +157,7 @@ const ExploreScreen = ({navigation,route}) =>
 
 								{
 								searchedUser.map((item,index)=>{
+									console.log(item)
 									return(
 										<Pressable 
 											style={[styles.userDetails,{flexDirection:'row',width:'100%',marginVertical:20}]} 
@@ -145,89 +188,69 @@ const ExploreScreen = ({navigation,route}) =>
 					</>
 					:
 					<View>
-						<ScrollView style={styles.dataView}>
+						<ScrollView style={styles.dataView} showsHorizontalScrollIndicator={false}>
 							<Text style={[styles.viewHead]}>Recent Searches</Text>
-							<ScrollView horizontal={true} style={styles.recentSearchView}>
-								{
-									recent.length == 0 ? <Text style={{alignSelf:'center',paddingVertical:10}}>No Recent Searches</Text>:
-									recent.map((item,index)=>{
-										return(
-											<Pressable 
-												style={styles.userDetails} 
-												key={index}
-												onPress={()=>{
-													navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.userId,backTo:'ExploreScreen'})
-												}}
-											>
-												<Pressable 
-													style={{position:'absolute',top:0,right:2,backgroundColor:Color.darkColor,zIndex:10,borderRadius:10}}
-													onPress={async ()=>{
-														const res = await deleteSearch(route.params.userId,item.searchedUserId)
-														if(res=="Search Deleted Successfully")
-														{
-															const recData = await recentSearch(route.params.userId)
-															setRecent(recData)
-														}
-													}}
+							{
+								recent.length == 0 || recent==undefined 
+								? 
+								<Text style={{alignSelf:'center',textAlign:'center',paddingVertical:20,fontWeight:'700',fontSize:16}}>No Recent Searches</Text>
+								:
+									<ScrollView horizontal={true}  showsHorizontalScrollIndicator={false} style={styles.recentSearchView}>
+										{
+											recent.map((item,index)=>{
+												return(
+													<Pressable 
+														style={styles.userDetails} 
+														key={index}
+														onPress={()=>{
+															navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.userId,backTo:'ExploreScreen'})
+														}}
 													>
-													<Entypo name="cross" size={20} color={Color.lightColor}
-													
-													/>
-												</Pressable>
-												{
-													item.profilePhoto == null || item.profilePhoto==""
-													?
-													<Image source={require("../../../images/ProfileImages/default.png")} style={styles.profile_img}/>
-													:
-													<Image source={{uri:item.profilePhoto}} style={styles.profile_img}/>
-												}
-												<Text style={[{alignSelf:'center',paddingVertical:5}]}>{item.firstName}</Text>
-											</Pressable>	
-										)
-									})
-								}
-							</ScrollView>
+														<Pressable 
+															style={{position:'absolute',top:0,right:2,backgroundColor:Color.darkColor,zIndex:10,borderRadius:10}}
+															onPress={async ()=>{
+																const res = await deleteSearch(route.params.userId,item.searchedUserId)
+																if(res=="Search Deleted Successfully")
+																{
+																	const recData = await recentSearch(route.params.userId)
+																	setRecent(recData)
+																}
+															}}
+															>
+															<Entypo name="cross" size={20} color={Color.lightColor}
+															
+															/>
+														</Pressable>
+														{
+															item.profilePhoto == null || item.profilePhoto==""
+															?
+															<Image source={require("../../../images/ProfileImages/default.png")} style={styles.profile_img}/>
+															:
+															<Image source={{uri:item.profilePhoto}} style={styles.profile_img}/>
+														}
+														<Text style={[{alignSelf:'center',paddingVertical:5}]}>{item.firstName}</Text>
+													</Pressable>	
+												)
+											})
+										}
+									</ScrollView>
+							}
+
+							
 							<Text style={styles.viewHead}>Suggested Users</Text>
-							<ScrollView style={styles.suggView} horizontal={true}>
+							<ScrollView style={styles.suggView} showsHorizontalScrollIndicator={false} horizontal={true}>
 								{
 									suggUser.length == 0 ? <Text style={{alignSelf:'center',paddingVertical:10}}>No Suggested Users</Text>:
-									suggUser.map( (item,index)=>{
-										return(
-											<View style={styles.suggUser} key={index}>
-												{
-													item.profilePhoto == null || item.profilePhoto==""
-													? 
-													<Image source={require("../../../images/ProfileImages/default.png")} style={styles.suggProfileImg}/>
-													:
-													<Image source={{uri:item.profilePhoto}} style={styles.suggProfileImg}/>
-												}
-												<Text style={styles.usrText}>{item.firstName}</Text>
-												<View style={styles.btnMainView}>
-													<Pressable 
-														style={styles.btnView}
-														onPress={async ()=>{
-															sendRequest(route.params.userId,item.id).then((data)=>{
-																if(data == 'Request Sent Successfully')
-																{
-																	Alert.alert("Request Sent Successfully")
-																}
-															})
-														}}
-													>
-														<Text style={styles.btnText}> Add Firend </Text>
-													</Pressable>
-													<Pressable 
-														style={styles.btnView}
-														onPress={()=>{
-															navigation.navigate('OtherUserProfileScreen',{logged:route.params.userId,userId:item.id,backTo:'ExploreScreen'})
-														}}
-													>
-														<Text style={styles.btnText}> Profile </Text>
-													</Pressable>
-												</View>
-											</View>	
-										)
-									})
+									<FlatList
+										data={suggUser}
+										keyExtractor={(item,index)=>index.toString()}
+										renderItem={({item,index})=>{
+											<Users
+												item={item}
+											/>
+										}}
+
+									/>
 								}
 								
 							</ScrollView>

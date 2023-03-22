@@ -225,7 +225,11 @@ const deleteScrapbook = async (scrapId) => {
         "Content-Type": "application/json",
     },
     });
-    return element;
+    
+    const data = await element.json();
+    console.log(data);
+    return data;
+
 };
 
 const deleteAllUserScrapbooks = async (userId) => {
@@ -299,6 +303,7 @@ const saveScrapbook = async (userId, scrapId) => {
     }),
   });
   const data = await response.json();
+  
   return data;
 };
 
@@ -309,8 +314,7 @@ const getSavedScrapbooks = async (userId) => {
 };
 
 const deleteSavedScrapbook = async (userId, scrapId) => {
-  const element = document.querySelector("#delete-request-async-await .status");
-  await fetch(`${scrapUtils}/deleteSavedScrapbook`, {
+  const res = await fetch(`${scrapUtils}/deleteSavedScrapbook`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -320,7 +324,8 @@ const deleteSavedScrapbook = async (userId, scrapId) => {
       scrapId: scrapId,
     }),
   });
-  return (element.innerHTML = "Delete successful");
+  const data = await res.json();
+  return data;
 };
 
 const checkSavedScrapbook = async (userId, scrapId) => {

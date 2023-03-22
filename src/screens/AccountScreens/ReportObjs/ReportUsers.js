@@ -53,7 +53,7 @@ const ReportUsers = ({navigation,route}) => {
                                 <View key={index}>
                                     <Pressable
                                         onPress={()=>{
-                                            Alert.alert("Report Post","Are you sure you want to report this post?",[{
+                                            Alert.alert("Report User","Are you sure you want to report this user?",[{
                                                text:"Yes",
                                                onPress:async ()=>{
                                                     const res = await reportAccount(route.params.userId,route.params.reportedId,item.name)

@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import {getTemplatesByCategory,getAllCategories} from "../../fetchData/scrapbooks.js"
 
-function Temp({id}){
+function Temp({id,navigation,route}){
     const [data,setData] = useState(null)
     const [loading,setLoading] = useState(false)
     const [getData,setGetData] = useState(false)
@@ -27,23 +27,23 @@ function Temp({id}){
     }
     return (
         <View style={styles.subListView}>
-            {/* <FlatList
-                data={item.subSettings}
+            <FlatList
+                data={data}
                 renderItem={({ item }) => {
                     return (
                             <Pressable 
                                 onPress={()=>{
                                     navigation.navigate('CoverPage',{
-                                        templateId:item.id,
+                                        templateId:item.templateId,
                                         userId:route.params.userId
                                     })}}
                                 style={styles.subListTextView}>
                                 
-                                <Text style={styles.subListText}>{item.name}</Text>
+                                <Text style={styles.subListText}>{item.templateName}</Text>
                                     <Entypo name="chevron-right" size={24} color={Color.blackColor} />
                             </Pressable>
                         )}}
-            />         */}
+            />        
         </View>)
 }
 const SelectTemplate = ({navigation,route}) => {
@@ -98,7 +98,7 @@ const SelectTemplate = ({navigation,route}) => {
                                 </Pressable>
                                 <View>
                                 {   index === curIndex ?
-                                     <Temp id={item.categoryId}/>         
+                                     <Temp id={item.categoryId} route={route} navigation={navigation}/>         
                                      : null
                                 }                                    
                                 </View>

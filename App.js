@@ -4,7 +4,6 @@ import React,{useState} from 	'react';
 import { AuthProvider } from './src/screens/context/AuthContext.js';
 import AppNav from './src/screens/navigation/AppNav.js';
 import ViewInAr from './src/screens/AccountScreens/ViewScreens/ViewInAr.js';
-import PostsMap from './src/screens/AccountScreens/MapScreens/PostsMap.js';
 export default function App() {
 	const [connection,setConnection] = useState(false)
 	const checkConnection = () => {
@@ -25,7 +24,7 @@ export default function App() {
 	}
 	checkConnection()
 	return (
-		// <PostsMap/>
+		// <ViewInAr/>
 		
 		<AuthProvider>
 			{

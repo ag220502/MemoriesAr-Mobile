@@ -1,4 +1,4 @@
-import { Pressable, ScrollView,  StyleSheet, Text, View, Image } from 'react-native'
+import { Pressable, ScrollView,  StyleSheet, Text, View, Image, } from 'react-native'
 import React,{useEffect, useState} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import Post from '../../../components/ProfilePost'; 
@@ -9,8 +9,10 @@ import BottomNavBar from './../../../components/BottomNavBar.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getProfileData,getNumFriends,getNumPosts,getUserPosts } from '../../fetchData/profileData.js';
 import { StatusBar } from 'expo-status-bar';
+import {getAllUserScrapbooks} from '../../fetchData/scrapbooks.js';
 
 const ProfileScreen = ({navigation,route}) => {
+	const [scrapData,setScrapData] = useState([]);
 	const [id,setId] = useState(route.params.userId)
 	const [fname,setFName] = useState('')
 	const [lname,setLName] = useState('')
@@ -27,13 +29,17 @@ const ProfileScreen = ({navigation,route}) => {
 			setFName(data.firstName)
 			setLName(data.lastName)
 			setBio(data.bio)
-			console.log("Profile is"+data.profilePhoto)
 			setProfilePic(data.profilePhoto)
 			
 		});
 	}
 	
-	
+	if(!scrapData.length)
+	{
+		getAllUserScrapbooks(id).then((data)=>{
+			setScrapData(data)
+		})
+	}
 	if(!frNum)
 	{
 		getNumFriends(id).then((data)=>{
@@ -101,7 +107,8 @@ const ProfileScreen = ({navigation,route}) => {
 				userId:id,
 				fname:fname,
 				lname:lname,
-				bio:bio
+				bio:bio,
+				profilePic:profilePic
 			})}}>
 				<Text style={styles.btnText}>Edit Profile</Text>
 			</Pressable>
@@ -122,11 +129,18 @@ const ProfileScreen = ({navigation,route}) => {
 			</View>
 			<ScrollView style={styles.postsView}>
 			{
-				showPosts ? <Post data={userPosts}/> : <Scrapbooks/>
+				showPosts ? <Post navigation={navigation} data={userPosts} userId={id}/> 
+				: 
+				<Scrapbooks
+					navigation={navigation}
+					userId={id}
+					data={scrapData}
+
+				/>
 			}
 			</ScrollView>
 		</View>
-		<BottomNavBar navigation={navigation}/>
+		<BottomNavBar navigation={navigation} userId={route.params.userId}/>
 		</View>
 	</View>
 	)

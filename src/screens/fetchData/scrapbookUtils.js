@@ -35,14 +35,11 @@ const deleteComment = async (commentId, userId, scrapId) =>{
 }
 
 const getComments = async (scrapId) =>{
-    const response = await fetch(WEB+"/api/scrapUtils/getComments", {
+    const response = await fetch(WEB+"/api/scrapUtils/getComments/"+scrapId, {
         method : "GET",
         headers: {
             "Content-Type" : "application/json",
-        },
-        body: JSON.stringify({
-            scrapId : scrapId
-        }),
+        }
     });
     const data = await response.json();
     return data;
@@ -76,6 +73,7 @@ const getScrapLikes = async (scrapId) =>{
         }),
     });
     const data = await response.json();
+    
     return data;
 }
 
@@ -109,15 +107,11 @@ const unLike = async (scrapId, userId) =>{
 }
 
 const checkLike = async (scrapId, userId) =>{
-    const response = await fetch(WEB+"/api/scrapUtils/checkLike", {
+    const response = await fetch(WEB+"/api/scrapUtils/checkLike/"+scrapId+"/"+userId, {
         method : "GET",
         headers: {
             "Content-Type" : "application/json",
-        },
-        body: JSON.stringify({
-            userId : userId,
-            scrapId : scrapId
-        }),
+        }
     });
     const data = await response.json();
     return data;

@@ -76,36 +76,6 @@ const PostsMap = ({navigation,route}) => {
                     <Text style={styles.filterText}>Other Users</Text>
                 </Pressable>
             </ScrollView>
-            {
-                showFr
-                ?
-                <ScrollView horizontal style={styles.userDisplay}>
-                    {frData.map((val,i)=>{
-                        return(
-                            <View style={styles.frView}>
-                                <Image source={require("../../../images/ProfileImages/default.png")} style={{width:50,height:50,borderRadius:50}}/>
-                                <Text style={{textAlign:'center'}}>{val}</Text>
-                            </View>
-                        )
-                    })}
-
-                    {/* <FlatList
-                        data={frData}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({item})=>{
-                            return(
-                                <View style={styles.frView}>
-                                    <Image source={require("../../../images/ProfileImages/default.png")} style={{width:50,height:50,borderRadius:50}}/>
-                                    <Text style={{textAlign:'center'}}>{item}</Text>
-                                </View>
-                            )
-                        }}
-
-                    /> */}
-                </ScrollView>
-                :null
-            }
             <MapView
                 region={mapRegion}
                 style={style.container}>
@@ -152,7 +122,7 @@ const PostsMap = ({navigation,route}) => {
                     }
             </MapView>
            
-            <BottomNavBar navigation={navigation} />
+            <BottomNavBar navigation={navigation}  userId={route.params.userId}/>
         </View>
     )
 }

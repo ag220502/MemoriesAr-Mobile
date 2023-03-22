@@ -36,19 +36,19 @@ const MainScreen = ({navigation}) => {
 					<StatusBar barStyle="dark"/>
 					<TopNavBar navigation={navigation} userId={id}/>
 					<View style={{width:'100%',marginTop:50,height:70,backgroundColor:Color.lightColor,flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}}>
-						<Pressable style={styles.postBtn}
+						<Pressable style={[styles.postBtn,{backgroundColor:show==1?Color.lightColor:Color.darkColor,borderWidth:show==1?1:0}]}
 							onPress={()=>{
 								setShow(0)
 							}}
 						>
-							<Text style={styles.btnText}>Memories</Text>
+							<Text style={[styles.btnText,{color:show==1?Color.darkColor:Color.lightColor}]}>Memories</Text>
 						</Pressable>
-						<Pressable style={styles.postBtn}
+					<Pressable style={[styles.postBtn,{backgroundColor:show==0?Color.lightColor:Color.darkColor,borderColor:show==0?Color.darkColor:null,borderWidth:show==0?1:0}]}
 							onPress={()=>{
 								setShow(1)
 							}}
 						>
-							<Text style={styles.btnText}>Scrapbooks</Text>
+							<Text style={[styles.btnText,{color:show==0?Color.darkColor:Color.lightColor}]}>Scrapbooks</Text>
 						</Pressable>
 					</View>
 					{

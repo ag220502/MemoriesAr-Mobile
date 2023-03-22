@@ -10,8 +10,10 @@ import Color from '../../../ColourThemes/theme1';
 import { sendRequest,checkRequest,declineRequest } from '../../fetchData/requestData.js';
 import {blockUser} from '../../fetchData/block.js'
 import { FontAwesome5 } from '@expo/vector-icons';
+import {getAllUserScrapbooks} from '../../fetchData/scrapbooks.js';
 
 const OtherUserProfileScreen = ({navigation,route}) => {
+	const [scrapData,setScrapData] = useState([]);
 	const [showPosts,setShowPosts] = useState(true);
 	const [loggedUserId,setLoggedUserId] = useState(route.params.logged);
 	const [profileUserId,setProfileUserId] = useState(route.params.userId);
@@ -50,6 +52,9 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 		})
 		getNumFriends(profileUserId).then((data)=>{
 			setNumFriends(data)
+		})
+		getAllUserScrapbooks(profileUserId).then((data)=>{
+			setScrapData(data)
 		})
 		getUserPosts(profileUserId).then((data)=>{
 			setUserPosts(data)
@@ -291,7 +296,14 @@ const OtherUserProfileScreen = ({navigation,route}) => {
 								</View>
 								<View style={styles.postsView}>
 								{
-									showPosts ? <Post data={userPosts}/> : <Scrapbooks/>
+									showPosts ? 
+									<Post navigation={navigation} userId={loggedUserId} data={userPosts}/> 
+									: 
+									<Scrapbooks
+										navigation={navigation}
+										userId={id}
+										data={scrapData}
+									/>
 								}
 								</View>
 							</>

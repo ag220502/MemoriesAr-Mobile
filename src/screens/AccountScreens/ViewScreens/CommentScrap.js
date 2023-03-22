@@ -5,26 +5,28 @@ import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
 import Color from '../../../ColourThemes/theme1.js';
 import { FontAwesome } from '@expo/vector-icons';  
-import { getAllComments,createComment } from '../../fetchData/createComment.js';
+import {getComments,addComment} from "../../fetchData/scrapbookUtils.js"
 
 const CommentScrap = ({navigation,route}) => {
     const [newComment,setNewComment] = React.useState("")
     const [comment,setComment] = React.useState([])
-    if(!comment.length)
+    const [loadData,setLoadData] = React.useState(false)
+
+    if(!loadData)
     {
-        getAllComments(route.params.postId).then((data)=>{
-            if(data!=="No comments found")
+        getComments(route.params.scrapId).then((data)=>{
+            if(data.length!==0)
             {
                 setComment(data)
-            } 
+            }
+            setLoadData(true)
         })
     }
-
     return (
     <View style={style.container}>
         <StatusBar style="light"/>
         <View style={[style.downMain,{justifyContent:'space-between',flexDirection:'row',alignItems:'center'}]}>
-            <Pressable style={styles.btnView} onPress={()=>{navigation.navigate("MainScreen")}}>
+            <Pressable style={styles.btnView} onPress={()=>{navigation.goBack()}}>
                 <Entypo name="chevron-left" size={24} color="black" />
             </Pressable>
             <View style={styles.headView}>
@@ -39,10 +41,11 @@ const CommentScrap = ({navigation,route}) => {
             <View style={{marginTop:40}}>
                 <FlatList
                     data={comment}
+                    keyExtractor={(item)=>item.commentId}
                     renderItem={
                         (element)=>{
                             return(
-                                <View style={styles.comment}>
+                                <View style={styles.comment} >
                                     <View style={styles.commentUser}>
                                         {
                                             element.item.profilePhoto==="" || element.item.profilePhoto===null?
@@ -67,7 +70,6 @@ const CommentScrap = ({navigation,route}) => {
                             )
                         }
                     }
-                    keyExtractor={(item)=>item.commentId}
                 />  
             </View>
             
@@ -86,8 +88,8 @@ const CommentScrap = ({navigation,route}) => {
                             Alert.alert("Please enter a comment")
                             return
                         }
-                        createComment(route.params.postId,route.params.userId,newComment).then((data)=>{
-                            getAllComments(route.params.postId).then((data)=>{
+                        addComment(route.params.scrapId, route.params.userId, newComment).then((data)=>{
+                            getComments(route.params.scrapId).then((data)=>{
                                 setComment(data)
                             })
                             setNewComment("")

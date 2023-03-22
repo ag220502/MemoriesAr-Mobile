@@ -43,9 +43,12 @@ const SavedMemories = ({navigation,route}) => {
 			{
 				post.map((data,index)=>{
 				return(
-					<View style={styles.post} key={index}>
+					<Pressable style={styles.post} key={index} onPress={()=>{navigation.navigate("ViewPost",{
+						postId:data.postId,
+						userId:route.params.userId
+					})}}>
 						<Image source={{uri:data.photo}} style={styles.pic}/>
-					</View>
+					</Pressable>
 				)
 				})
 			} 
