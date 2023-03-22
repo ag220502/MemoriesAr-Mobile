@@ -10,8 +10,6 @@ const createPost = async (
   postImage,
   tag
 ) => {
-  console.log("Creating Post");
-  console.log("Image in func is " + postImage);
   const response = await fetch(WEB + "/api/posts/create", {
     method: "POST",
     headers: {
@@ -28,12 +26,23 @@ const createPost = async (
       tag: tag,
     }),
   });
-
-  console.log("Response is ");
-  console.log(response);
   const data = await response.json();
-  // console.log(data)
   return data;
 };
 
-module.exports = { createPost };
+const deletePost = async (postId,userId) => {
+  const response = await fetch(WEB + "/api/posts/delete/"+userId+"/"+postId, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    }
+  });
+  const data = await response.json();
+  return data;
+};
+
+
+
+
+module.exports = { createPost,deletePost };

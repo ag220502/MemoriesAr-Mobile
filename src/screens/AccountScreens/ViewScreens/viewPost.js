@@ -8,13 +8,14 @@ import FontAwesome from "@expo/vector-icons/FontAwesome"
 import { Entypo } from '@expo/vector-icons';
 import {likePost,unlikePost} from "../../../screens/fetchData/likePost.js"
 import {savePost,unsavePost} from "../../../screens/fetchData/savePost.js"
+import {getAddress} from "../../fetchData/Geocoding.js"
 
 const ViewPost =  ({navigation,route}) => {
 	const {postId,userId} = route.params
 	const [postInfo,setPostInfo] = React.useState([])
 	const [liked,setLiked] = React.useState(false)
 	const [saved,setSaved] = React.useState(false)
-
+	const [loc,setLoc] = React.useState()
 	const height = Dimensions.get('window').height * 0.4
 	const width = Dimensions.get('window').width * 0.9
 	const profWidth = width * 0.5
@@ -23,13 +24,15 @@ const ViewPost =  ({navigation,route}) => {
 	const getData = async () => {
 		setLoading(true)
 		const data = await viewPostById(postId)
-		console.log(data[0])
+		
 		setPostInfo(data[0])
 		
 		setLiked(await checkLiked(postId,userId))
-		console.log(liked)
 		setSaved(await checkSaved(postId,userId))
+		const helo = await getAddress(data[0].lattitude,data[0].longitude)
+		setLoc(helo[0].local_names.en+", "+helo[0].country)
 		setLoading(false)
+
 	}
 	if(!loadData)
 	{
@@ -68,7 +71,14 @@ const ViewPost =  ({navigation,route}) => {
 							Go Back
 						</Text>
 					</Pressable>
-					<Pressable style={styles.btnView}>
+					<Pressable 
+						style={styles.btnView}
+						onPress={
+							()=>{
+								navigation.navigate("ViewInAr",{image:postInfo.photo})
+							}
+						}
+					>
 						<Text style={styles.viewBtn}>
 							View In AR
 						</Text>
@@ -202,30 +212,30 @@ const ViewPost =  ({navigation,route}) => {
 							}
 						</Pressable>
 					</View>
-					<View>
-						<Text style={{fontSize:17,fontWeight:'600',marginHorizontal:20}}>
+					<View style={{borderTopColor:Color.midColor,borderTopWidth:0.3,width:'90%',alignSelf:'center'}}>
+						<Text style={{fontSize:18,fontWeight:'600',marginTop:15}}>
 							Caption
 						</Text>
-						<Text style={{fontSize:15,fontWeight:'400',marginHorizontal:20,marginTop:10}}>
+						<Text style={{fontSize:16,fontWeight:'400',marginTop:10}}>
 							{postInfo.caption}
 						</Text>
 					</View>
-					<View style={{flexDirection:'row',alignItems:'center'}}>
-						<Text style={{fontSize:17,fontWeight:'600',marginHorizontal:20,marginTop:10}}>
+					<View style={{alignItems:'flex-start'}}>
+						<Text style={{fontSize:18,fontWeight:'600',marginHorizontal:20,marginTop:20}}>
 							Content Type
 						</Text>
-						<Text style={{width:70,fontSize:15,fontWeight:'400',marginHorizontal:20,marginTop:10,padding:5,borderRadius:5,borderWidth:1,borderColor:Color.darkColor}}>
+						<Text style={{fontSize:16,fontWeight:'400',marginHorizontal:20,marginTop:10,padding:5,borderRadius:5,borderWidth:1,borderColor:Color.darkColor}}>
 							{
 								postInfo.flag=="0" ? "Fictional" : "Opinion"
 							}
 						</Text>
 					</View>
-					<View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',marginTop:15}}>
-						<Text style={{fontSize:17,fontWeight:'600',marginHorizontal:20,alignItems:'center'}}>
+					<View style={{display:'flex',flexDirection:'column',justifyContent:'flex-start',alignItems:'flex-start',marginTop:20}}>
+						<Text style={{fontSize:18,fontWeight:'600',marginHorizontal:20,alignItems:'center'}}>
 							Location
 						</Text>
-						<Text style={{fontSize:17,fontWeight:'400',marginHorizontal:20,alignItems:'center',marginTop:10}}>
-							{postInfo.caption}
+						<Text style={{fontSize:16,fontWeight:'400',marginHorizontal:20,paddingVertical:5,alignItems:'center'}}>
+							{loc}
 						</Text>
 					</View>
 				</ScrollView>

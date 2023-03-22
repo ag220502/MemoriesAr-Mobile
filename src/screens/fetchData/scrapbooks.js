@@ -4,21 +4,21 @@ const scrapAPI = WEB + "/api/scrapbooks";
 const scrapUtils = WEB + "/api/scrapUtils";
 
 // templates 
-const createTemplate = async(templateName, templateDescription, categoryId) => {
-    const response = await fetch(WEB+"/api/scrapbooks/createTemplate/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            templateName : templateName,
-            templateDescription : templateDescription,
-            categoryId : categoryId
-        }),
-    });
-    const data = await response.json();
-    return data;
-}
+// const createTemplate = async(templateName, templateDescription, categoryId) => {
+//     const response = await fetch(WEB+"/api/scrapbooks/createTemplate/", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//             templateName : templateName,
+//             templateDescription : templateDescription,
+//             categoryId : categoryId
+//         }),
+//     });
+//     const data = await response.json();
+//     return data;
+// }
 
 const getTemplateById = async(templateId) => {
     const response = await fetch(WEB+"/api/scrapbooks/getTemplateById/"+templateId, {
@@ -42,48 +42,59 @@ const getAllTemplates = async() => {
     return data;
 }
 
-const updateTemplate = async(templateId, templateName, templateDescription, categoryId) => {
-    const response = await fetch(WEB+"/api/scrapbooks/updateTemplate/"+templateId, {
-        method: "PATCH",
+const getTemplatesByCategory = async(categoryId) => {
+    const response = await fetch(WEB+"/api/scrapbooks/getTemplatesByCategory/"+categoryId, {
+        method: "GET",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            templateName : templateName,
-            templateDescription : templateDescription,
-            categoryId : categoryId
-        }),
     });
     const data = await response.json();
     return data;
 }
+// comment out for now
+// const updateTemplate = async(templateId, templateName, templateDescription, categoryId) => {
+//     const response = await fetch(WEB+"/api/scrapbooks/updateTemplate/"+templateId, {
+//         method: "PATCH",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//             templateName : templateName,
+//             templateDescription : templateDescription,
+//             categoryId : categoryId
+//         }),
+//     });
+//     const data = await response.json();
+//     return data;
+// }
 
-const deleteTemplate = async (templateId) => {
-    const response = await fetch(WEB+"/api/scrapbooks/deleteTemplate/" + templateId, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    const data = await response.json();
-    return data;
-}
+// const deleteTemplate = async (templateId) => {
+//     const response = await fetch(WEB+"/api/scrapbooks/deleteTemplate/" + templateId, {
+//         method: "DELETE",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     });
+//     const data = await response.json();
+//     return data;
+// }
 
 // categories
 
-const createCategory = async(categoryName) => {
-    const response = await fetch(WEB+"/api/scrapbooks/createCategory/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            categoryName : categoryName
-        }),
-    });
-    const data = await response.json();
-    return data;
-}
+// const createCategory = async(categoryName) => {
+//     const response = await fetch(WEB+"/api/scrapbooks/createCategory/", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//             categoryName : categoryName
+//         }),
+//     });
+//     const data = await response.json();
+//     return data;
+// }
 
 const getCategory = async(categoryId) => {
     const response = await fetch(WEB+"/api/scrapbooks/getCategory/"+categoryId, {
@@ -107,30 +118,30 @@ const getAllCategories = async() => {
     return data;
 }
 
-const updateCategory = async(categoryId, categoryName) => {
-    const response = await fetch(WEB+"/api/scrapbooks/updateCategory/"+categoryId, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            categoryName : categoryName
-        }),
-    });
-    const data = await response.json();
-    return data;
-}
+// const updateCategory = async(categoryId, categoryName) => {
+//     const response = await fetch(WEB+"/api/scrapbooks/updateCategory/"+categoryId, {
+//         method: "PATCH",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//             categoryName : categoryName
+//         }),
+//     });
+//     const data = await response.json();
+//     return data;
+// }
 
-const deleteCategory = async(categoryId) => {
-    const response = await fetch(WEB+"/api/scrapbooks/deleteCategory/"+categoryId, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    const data = await response.json();
-    return data;
-}
+// const deleteCategory = async(categoryId) => {
+//     const response = await fetch(WEB+"/api/scrapbooks/deleteCategory/"+categoryId, {
+//         method: "DELETE",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     });
+//     const data = await response.json();
+//     return data;
+// }
 
 // scrapbooks
 const createScrapbook = async (
@@ -208,28 +219,33 @@ const getAllUserScrapbooks = async (userId) => {
 };
 
 const deleteScrapbook = async (scrapId) => {
-  const element = document.querySelector("#delete-request-async-await .status");
-  await fetch(`${scrapAPI}/deleteScrapbook/${scrapId}`, {
+  const element = await fetch(`${scrapAPI}/deleteScrapbook/${scrapId}`, {
     method: "DELETE",
     headers: {
-      "Content-Type": "application/json",
+        "Content-Type": "application/json",
     },
-  });
-  return (element.innerHTML = "Delete successful");
+    });
+    
+    const data = await element.json();
+    console.log(data);
+    return data;
+
 };
 
 const deleteAllUserScrapbooks = async (userId) => {
-  const element = document.querySelector("#delete-request-async-await .status");
-  await fetch(`${scrapAPI}/deleteAllScrapbooks/${userId}`, {
+  const element = await fetch (`${scrapAPI}/deleteAllUserScrapbooks/${userId}`, {
     method: "DELETE",
     headers: {
-      "Content-Type": "application/json",
+        "Content-Type": "application/json",
     },
-  });
-  return (element.innerHTML = "Delete successful");
+    });
+    return element;
 };
 
+
 // scrapUtils
+// dislikes
+
 const addDislike = async (scrapId, userId, time) => {
   const response = await fetch(`${scrapUtils}/addDislike`, {
     method: "POST",
@@ -273,6 +289,8 @@ const unDislike = async (scrapId, userId) => {
   return (element.innerHTML = "Delete successful");
 };
 
+// saved scrapbooks
+
 const saveScrapbook = async (userId, scrapId) => {
   const response = await fetch(`${scrapUtils}/saveScrapbook`, {
     method: "POST",
@@ -285,6 +303,7 @@ const saveScrapbook = async (userId, scrapId) => {
     }),
   });
   const data = await response.json();
+  
   return data;
 };
 
@@ -295,8 +314,7 @@ const getSavedScrapbooks = async (userId) => {
 };
 
 const deleteSavedScrapbook = async (userId, scrapId) => {
-  const element = document.querySelector("#delete-request-async-await .status");
-  await fetch(`${scrapUtils}/deleteSavedScrapbook`, {
+  const res = await fetch(`${scrapUtils}/deleteSavedScrapbook`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -306,7 +324,8 @@ const deleteSavedScrapbook = async (userId, scrapId) => {
       scrapId: scrapId,
     }),
   });
-  return (element.innerHTML = "Delete successful");
+  const data = await res.json();
+  return data;
 };
 
 const checkSavedScrapbook = async (userId, scrapId) => {
@@ -316,6 +335,8 @@ const checkSavedScrapbook = async (userId, scrapId) => {
   const data = await response.json();
   return data;
 };
+
+//report scrapbooks
 
 const reportScrapbook = async (userId, scrapId, reason) => {
   const response = await fetch(`${scrapUtils}/reportScrapbook`, {
@@ -332,16 +353,11 @@ const reportScrapbook = async (userId, scrapId, reason) => {
 };
 
 module.exports = {
-  createTemplate, 
   getTemplateById, 
-  getAllTemplates, 
-  updateTemplate,
-  deleteTemplate,
-  createCategory, 
+  getAllTemplates,
+  getTemplatesByCategory, 
   getCategory, 
   getAllCategories, 
-  updateCategory, 
-  deleteCategory,
   createScrapbook,
   updateScrapbook,
   getScrapbook,

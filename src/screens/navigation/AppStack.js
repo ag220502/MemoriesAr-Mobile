@@ -8,6 +8,11 @@ import Comments from '../AccountScreens/ViewScreens/Comments.js';
 import FriendRequest from '../AccountScreens/Request/FriendRequest.js';
 import ReportPost from '../AccountScreens/ReportObjs/ReportPost.js';
 import ReportUsers from '../AccountScreens/ReportObjs/ReportUsers.js';
+import ViewInAr from '../AccountScreens/ViewScreens/ViewInAr.js';
+import ReportScrap from '../AccountScreens/ReportObjs/ReportScrap.js';
+import ViewScrap from '../AccountScreens/ViewScreens/ViewScrap.js';
+import CommentScrap from '../AccountScreens/ViewScreens/CommentScrap.js';
+
 
 //Create Post Screens
 import CreateScreen from '../AccountScreens/CreateScreens/CreateScreen.js';
@@ -61,6 +66,22 @@ const AppStack = () => {
             <Stack.Screen 
                 name="ViewPost"
                 component={ViewPost}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="ViewInAr"
+                component={ViewInAr}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="ViewScrap"
+                component={ViewScrap}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="CommentScrap"
+                component={CommentScrap}
+                options={{headerShown:false}} />
+            <Stack.Screen 
+                name="ReportScrap"
+                component={ReportScrap}
                 options={{headerShown:false}} />
             <Stack.Screen 
                 name="Comments"

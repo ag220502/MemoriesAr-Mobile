@@ -3,6 +3,7 @@ import React from 'react'
 import logo from '../images/HomeImages/logo.png' 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Color from '../ColourThemes/theme1';
+import { AntDesign } from '@expo/vector-icons';
 
 const TopNavBar = ({navigation,userId}) => {
     
@@ -17,7 +18,7 @@ const TopNavBar = ({navigation,userId}) => {
         <Pressable 
             onPress={()=>navigation.navigate("FriendRequest",{userId:userId})}
             >
-            <Ionicons name="notifications-outline" size={32} color="black" style={{paddingRight:10}}/>
+                <AntDesign name="addusergroup" size={32} color={Color.darkColor} style={{paddingRight:10}} />
         </Pressable>
         <Pressable 
             onPress={()=>navigation.navigate("ChatScreen")}

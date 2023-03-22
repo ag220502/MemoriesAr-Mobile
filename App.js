@@ -3,8 +3,7 @@ import NetInfo from "@react-native-community/netinfo";
 import React,{useState} from 	'react';
 import { AuthProvider } from './src/screens/context/AuthContext.js';
 import AppNav from './src/screens/navigation/AppNav.js';
-import ViewScrap from './src/screens/AccountScreens/ViewScreens/ViewScrap.js';
-import CoverPage from './src/screens/AccountScreens/CreateScreens/CoverPage.js';
+import ViewInAr from './src/screens/AccountScreens/ViewScreens/ViewInAr.js';
 export default function App() {
 	const [connection,setConnection] = useState(false)
 	const checkConnection = () => {
@@ -19,17 +18,14 @@ export default function App() {
 			}
 		});
 	}
-
 	if(!connection)
 	{
 		checkConnection()
 	}
 	checkConnection()
 	return (
-		// <CoverPage/>
-		// <ChangeVisibility/>
-		// <BottomModal/>
-		// <Comments/>
+		// <ViewInAr/>
+		
 		<AuthProvider>
 			{
 				connection ? 

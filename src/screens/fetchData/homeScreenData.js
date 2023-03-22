@@ -19,6 +19,23 @@ const getHomeFeed = async (id) => {
     return response
 }
 
+const getHomeScrap = async (id) => {
+    // const [liked, setLiked] = useState(false);
+    const array = [];
+    const response = await fetch(WEB+'/api/scrapbooks/userFeed/'+id,
+    {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            },
+    })
+    const data = await response.json()
+    console.log(data)
+    
+    return data
+}
+
 const getAllData = async (id) => {
     const arr = await getHomeFeed(id)
     const array = []
@@ -45,4 +62,4 @@ const getAllData = async (id) => {
 }
 
 
-module.exports = {getHomeFeed,getAllData}
+module.exports = {getHomeFeed,getAllData,getHomeScrap}

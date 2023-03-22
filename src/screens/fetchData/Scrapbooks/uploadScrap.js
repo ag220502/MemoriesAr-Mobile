@@ -1,4 +1,4 @@
-import { WEB } from "../../../var.js";
+import { WEB } from "../../../../var.js";
 const scrapAPI = WEB + "/api/scrapbooks";
 
 const createScrapbook = async (
@@ -11,6 +11,7 @@ const createScrapbook = async (
   coverPhoto,
   templateId
 ) => {
+
   return fetch(`${scrapAPI}/createScrapbook`, {
     method: "POST",
     headers: {

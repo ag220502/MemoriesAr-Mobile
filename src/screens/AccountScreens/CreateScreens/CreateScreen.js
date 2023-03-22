@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,StatusBar, Pressable, TextInput, ScrollView,Image } from 'react-native'
+import { StyleSheet, Text, View,StatusBar, Pressable, TextInput, ScrollView,Image, Alert } from 'react-native'
 import React,{useState,useEffect} from 'react'
 import BottomNavBar from '../../../components/BottomNavBar.js'
 import { Entypo } from '@expo/vector-icons';
@@ -11,8 +11,9 @@ import { StackActions } from '@react-navigation/native';
 import {createPost} from '../../fetchData/createPost.js';
 import { getProfileData } from '../../fetchData/profileData.js';
 import * as FileSystem from 'expo-file-system';
+import * as Location from 'expo-location';
 
-const CreateScreen = ({navigation,route,location}) => {
+const CreateScreen = ({navigation,location,route}) => {
 	
 	const [data,setData] = useState('')
 	const [profile,setProfile] = useState('')
@@ -21,10 +22,17 @@ const CreateScreen = ({navigation,route,location}) => {
     const [image,setImage] = useState('')
 	const [caption,setCaption] = useState('')
 	const [postLocation,setPostLocation] = useState('')
-	const [lattitude,setLattitude] = useState(25.2048)
-	const [longitude,setLongitude] = useState(55.2708)
-	const [postType,setPostType] = useState(1)
+	const [lattitude,setLattitude] = useState(25.2047)
+	const [longitude,setLongitude] = useState(55.2707)
+	const [postType,setPostType] = useState(0)
 	const [taggedUsers,setTaggedUsers] = useState([])
+	const [mapRegion, setMapRegion] = useState(null)
+
+	if(location)
+	{
+		setLattitude(location.latitude)
+		setLongitude(location.longitude)
+	}
 	if(!data)
 	{
 		getProfileData(route.params.userId).then((data)=>{
@@ -38,7 +46,6 @@ const CreateScreen = ({navigation,route,location}) => {
             if(!hasGalleryPer)
 			{
 				const galleryPermission = await ImagePicker.requestCameraPermissionsAsync()
-				console.log("Asking Permission")
 				setGalleryPer(galleryPermission === 'granted');
 			}
         })()
@@ -56,22 +63,52 @@ const CreateScreen = ({navigation,route,location}) => {
             setImage(result.assets[0].uri)
         }
     }
+	const getLocation=async()=>{
+		let { status } = await Location.requestForegroundPermissionsAsync();
+		if (status !== 'granted') {
+			setErrorMsg('Permission to access location was denied');
+			return;
+		}
+		let location = await Location.getCurrentPositionAsync({enableHighAccuracy:true});
+		setLattitude(location.coords.latitude)
+		setLongitude(location.coords.longitude)
+	}
+	getLocation();
+	useEffect(()=>{
+		getLocation()
+	},[])
 
 	const createNew = async ()=>{
-		console.log("Creating New Post")
+		if(!image)
+		{
+			Alert.alert("Please upload an image")
+			return
+		}
+		if(!caption || caption.trim() == "")
+		{
+			Alert.alert("Please enter a caption")
+			return
+		}
 		if (image) {
 			const base64 = await FileSystem.readAsStringAsync(image, {
 				encoding: FileSystem.EncodingType.Base64,
 			});
 			const result = await createPost(route.params.userId,caption,lattitude,longitude,postType,base64,taggedUsers)
-			console.log("Result is "+result)
-			// Convert the image to a base64-encoded string
-			// RNImageToBase64(response.uri)
-			//   	.then(async (base64String) => {
-					// 
-			//   	})
+			if(result=="Post was created successfully.")
+			{
+				Alert.alert("Post Created","Post was created successfully.",[{
+					text:"OK",
+					onPress:()=>navigation.dispatch(
+						StackActions.replace('MainScreen',{userId:route.params.userId})
+					)
+				}])
+			}
+			else
+			{
+				Alert.alert("Post was not created")
+
+			}
 		}
-		
 	}
 
 	return (
@@ -127,16 +164,16 @@ const CreateScreen = ({navigation,route,location}) => {
 						<MaterialIcons name="add-photo-alternate" size={32} color="black" />
 						{image? <Text style={styles.postOptionText}>Image Uploaded</Text> : <Text style={styles.postOptionText}>Upload Photo Or Video</Text>}
 					</Pressable>
-					<Pressable 
+					{/* <Pressable 
 						style={styles.option}
 						onPress={
 							()=>navigation.dispatch(
-								StackActions.replace('AddLocation')
+								StackActions.replace('AddLocation',{userId:route.params.userId})
 							)}
 					>
 						<MaterialIcons name="add-location-alt" size={32} color="black" />
 						<Text style={styles.postOptionText}>Add Location</Text>
-					</Pressable>
+					</Pressable> */}
 					<Pressable style={styles.option}>
 						<FontAwesome name="user-plus" size={28} color="black" />
 						<Text style={styles.postOptionText}>Tag People</Text>
@@ -144,20 +181,43 @@ const CreateScreen = ({navigation,route,location}) => {
 					<View style={styles.postType}>
 						<Text style={styles.contentHead}>Select Content Type</Text>
 						<View style={styles.typeOptions}>
-							<Pressable style={styles.typeOption}>
-								<Text style={styles.typeText}>Fictional</Text>
-							</Pressable>
-							<Pressable 
-								style={styles.typeOption}
-							>
-								<Text style={styles.typeText}>Opinion</Text>
-							</Pressable>
+							{
+								postType === 1 ? 
+								<>
+									<Pressable style={styles.typeOption}
+									onPress={()=>setPostType(0)}>
+										<Text style={styles.typeText}>Fictional</Text>
+									</Pressable>
+									<Pressable 
+										style={[styles.typeOption,{backgroundColor:Color.darkColor}]}
+										onPress={()=>setPostType(1)}
+									>
+										<Text style={[styles.typeText,{color:Color.lightColor}]}>Opinion</Text>
+									</Pressable>
+									
+								</>
+							:
+								<>
+									<Pressable style={[styles.typeOption,{backgroundColor:Color.darkColor}]}
+									onPress={()=>setPostType(0)}>
+										<Text style={[styles.typeText,{color:Color.lightColor}]}>Fictional</Text>
+									</Pressable>
+									<Pressable 
+										style={[styles.typeOption]}
+										onPress={()=>setPostType(1)}
+									>
+										<Text style={[styles.typeText]}>Opinion</Text>
+									</Pressable>
+									
+								</>
+							}
+							
+							
 							
 						</View>
 					</View>
 				</View>
 			</ScrollView>
-			{/* <BottomNavBar navigation={navigation} userId={route.params.userId}/> */}
 		</View>
 	)
 }

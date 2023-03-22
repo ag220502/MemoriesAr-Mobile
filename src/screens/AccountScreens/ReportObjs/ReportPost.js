@@ -10,13 +10,10 @@ const ReportPost = ({navigation,route}) => {
 
     const data = [
         {
-            name:"I Don't Like This Post",
+            name:"This Memory Is Inappropriate",
         },
         {
-            name:"This Post Is Inappropriate",
-        },
-        {
-            name:"This Post Is Spam",
+            name:"This Memory Is Spam",
         },
         {
             name:"Nudity or Sexual Activity",
@@ -79,11 +76,11 @@ const ReportPost = ({navigation,route}) => {
                                         style={styles.nameBtn}
                                     >
                                         <Text style={styles.name}>{item.name}</Text>
-                                        <Text>
+                                        {/* <Text>
                                         {
                                             <Entypo name="chevron-right" size={24} color={Color.blackColor} style={{fontWeight:'100'}} />
                                         }
-                                        </Text>
+                                        </Text> */}
                                     </Pressable>
                                 </View>
                             )
