@@ -1,7 +1,7 @@
 import { WEB } from "../../../var.js";
 const scrapAPI = WEB + "/api/scrapbooks";
 
-const createScrapbook = (
+const createScrapbook = async (
   userId,
   name,
   caption,
@@ -11,7 +11,7 @@ const createScrapbook = (
   coverPhoto,
   templateId
 ) => {
-  return fetch(`${scrapAPI}/createScrapbook/${userId}`, {
+  return fetch(`${scrapAPI}/createScrapbook`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -30,7 +30,7 @@ const createScrapbook = (
   }).then((response) => response.json());
 };
 
-const uploadImages = (imagesArray) => {
+const uploadImages1 = async (imagesArray) => {
   imagesArray.forEach((imageObj) => {
     const { scrapId, image, photoText, textHeading } = imageObj;
     fetch(`${scrapAPI}/uploadImage`, {
@@ -48,6 +48,19 @@ const uploadImages = (imagesArray) => {
     }).then((response) => response.json());
   });
   return true;
+};
+
+const uploadImages = async (imagesArray) => {
+  return fetch(`${scrapAPI}/uploadImage`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      imagesArray,
+    }),
+  }).then((response) => response.json());
 };
 
 module.exports = { createScrapbook, uploadImages };
