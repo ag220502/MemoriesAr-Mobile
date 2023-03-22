@@ -34,7 +34,7 @@ const createScrapbook = async (
 const uploadImages1 = async (imagesArray) => {
   imagesArray.forEach((imageObj) => {
     const { scrapId, image, photoText, textHeading } = imageObj;
-    fetch(`${scrapAPI}/uploadImage`, {
+    fetch(`${scrapAPI}/addImage`, {
       method: "POST",
       headers: {
         Accept: "application/json",

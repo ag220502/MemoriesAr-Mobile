@@ -5,6 +5,7 @@ const {width,height} = Dimensions.get('window')
 import { PinchGestureHandler } from 'react-native-gesture-handler';
 import ImageZoom from 'react-native-image-pan-zoom';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Color from '../../../ColourThemes/theme1';
 const ViewInAr = ({navigation,route}) => {
 	const [hasCameraPermission, setHasCameraPermission] = useState(null);
 	const [camera, setCamera] = useState(null);
@@ -48,12 +49,23 @@ const ViewInAr = ({navigation,route}) => {
                        imageWidth={200}
 					   panToMove={true}
                        imageHeight={200}
-					   
 					   >
-                <Image style={{width:200, height:200, resizeMode:'contain'}}
-                       source={require("../../../images/HomeImages/post6.jpg")}/>
-            </ImageZoom>
+						<Image style={{width:200, height:200, resizeMode:'contain'}}
+							source={require("../../../images/HomeImages/post6.jpg")}/>
+					</ImageZoom>
 				</Camera>
+				<View>
+					<Pressable 
+						onPress={()=>{
+							navigation.goBack()
+						}}
+
+					style={{alignSelf:'center',justifyContent:'center',alignItems:'center',backgroundColor:Color.darkColor,borderRadius:10,marginVertical:10}}>
+						<Text style={{color:Color.lightColor,fontSize:17,fontWeight:'600',padding:10}}>Go Back</Text>
+					</Pressable>
+
+						
+				</View>
 			</View>
 			
 		</GestureHandlerRootView>
