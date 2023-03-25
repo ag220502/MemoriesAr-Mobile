@@ -20,7 +20,7 @@ const PersonalInformation = ({navigation,route}) => {
 	{
 		try
         {
-            await fetch ('http://localhost:3000/api/users/personal/'+id,{
+            await fetch ({WEB}+'/api/users/personal/'+id,{
 				headers: {
 					'Accept': 'application/json',
 					'Content-Type': 'application/json'

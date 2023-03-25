@@ -7,9 +7,10 @@ import ImageZoom from 'react-native-image-pan-zoom';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Color from '../../../ColourThemes/theme1';
 const ViewInAr = ({navigation,route}) => {
+	
 	const [hasCameraPermission, setHasCameraPermission] = useState(null);
 	const [camera, setCamera] = useState(null);
-	const [image, setImage] = useState(null);
+	const [image, setImage] = useState(route.params.image);
 	const [type, setType] = useState(Camera.Constants.Type.back);
 	const [zoom, setZoom] = useState(0);
 	useEffect(() => {
@@ -51,7 +52,7 @@ const ViewInAr = ({navigation,route}) => {
                        imageHeight={200}
 					   >
 						<Image style={{width:200, height:200, resizeMode:'contain'}}
-							source={require("../../../images/HomeImages/post6.jpg")}/>
+							source={image?{uri:image}:require("../../../images/HomeImages/post6.jpg")}/>
 					</ImageZoom>
 				</Camera>
 				<View>
